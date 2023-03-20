@@ -12,10 +12,13 @@
     "test:twitter": "jest -- src/shabudule"
   },
   "dependencies": {
+    "@prisma/client": "4.11.0",
+    "@yarnpkg/pnpify": "^4.0.0-rc.40",
     "axios": "^1.3.4",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "io-ts": "^2.2.20",
+    "io-ts-extra": "^0.11.6",
     "pg": "^8.10.0",
     "prisma": "^4.11.0",
     "ts-node": "^10.9.1",

@@ -1,0 +1,91 @@
+model User {
+  id            Int           @id @default(autoincrement())
+  name          String
+  profileImage  String?
+  coverImage    String?
+  tel           String?
+  bio           String?
+  loginUserName String
+  loginPassword String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  Party         Party[]
+  PartyMember   PartyMember[]
+}
+
+model Party {
+  id             Int           @id @default(autoincrement())
+  createByUserId User          @relation(fields: [userId], references: [id])
+  userId         Int
+  startDateTime  DateTime
+  endDateTime    DateTime
+  partyDetail    String?
+  memberQuantity Int
+  status         String        @default("open")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  PartyMember    PartyMember[]
+}
+
+model PartyMember {
+  id        Int      @id @default(autoincrement())
+  party     Party    @relation(fields: [partyId], references: [id])
+  partyId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  status    String   @default("request")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ShabuShop {
+  id              Int               @id @default(autoincrement())
+  name            String
+  shopImage       String
+  tel             String
+  shopDetail      String
+  shopPromotion   String?
+  shopMenu        String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  ShabuShopBranch ShabuShopBranch[]
+  PromotionByShop PromotionByShop[]
+}
+
+model ShabuShopBranch {
+  id                 Int              @id @default(autoincrement())
+  shabuShop          ShabuShop        @relation(fields: [shabuShopId], references: [id])
+  shabuShopId        Int
+  branchName         String
+  googleMapLocation  String
+  availableTimeStart DateTime
+  availableTimeEnd   DateTime
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  ShabuShopTable     ShabuShopTable[]
+}
+
+model ShabuShopTable {
+  id                Int             @id @default(autoincrement())
+  branch            ShabuShopBranch @relation(fields: [shabuShopBranchId], references: [id])
+  shabuShopBranchId Int
+  setPerDesk        Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model PromotionByShop {
+  id          Int       @id @default(autoincrement())
+  image       String
+  shabuShop   ShabuShop @relation(fields: [shabuShopId], references: [id])
+  shabuShopId Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model PromoteJoinedShop {
+  id        Int      @id @default(autoincrement())
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
