@@ -89,6 +89,14 @@ Prisma.NullTypes = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 function makeEnum(x) { return x; }
 
+exports.Prisma.LoginScalarFieldEnum = makeEnum({
+  id: 'id',
+  loginUserName: 'loginUserName',
+  loginPassword: 'loginPassword',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+});
+
 exports.Prisma.PartyMemberScalarFieldEnum = makeEnum({
   id: 'id',
   partyId: 'partyId',
@@ -100,19 +108,14 @@ exports.Prisma.PartyMemberScalarFieldEnum = makeEnum({
 
 exports.Prisma.PartyScalarFieldEnum = makeEnum({
   id: 'id',
+  name: 'name',
   userId: 'userId',
+  shabuShopTableId: 'shabuShopTableId',
   startDateTime: 'startDateTime',
   endDateTime: 'endDateTime',
   partyDetail: 'partyDetail',
-  memberQuantity: 'memberQuantity',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-});
-
-exports.Prisma.PromoteJoinedShopScalarFieldEnum = makeEnum({
-  id: 'id',
-  image: 'image',
+  active: 'active',
+  type: 'type',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -135,8 +138,10 @@ exports.Prisma.ShabuShopBranchScalarFieldEnum = makeEnum({
   shabuShopId: 'shabuShopId',
   branchName: 'branchName',
   googleMapLocation: 'googleMapLocation',
-  availableTimeStart: 'availableTimeStart',
-  availableTimeEnd: 'availableTimeEnd',
+  tel: 'tel',
+  shopDetail: 'shopDetail',
+  openTime: 'openTime',
+  closeTime: 'closeTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -145,10 +150,6 @@ exports.Prisma.ShabuShopScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
   shopImage: 'shopImage',
-  tel: 'tel',
-  shopDetail: 'shopDetail',
-  shopPromotion: 'shopPromotion',
-  shopMenu: 'shopMenu',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -156,7 +157,7 @@ exports.Prisma.ShabuShopScalarFieldEnum = makeEnum({
 exports.Prisma.ShabuShopTableScalarFieldEnum = makeEnum({
   id: 'id',
   shabuShopBranchId: 'shabuShopBranchId',
-  setPerDesk: 'setPerDesk',
+  seatPerDesk: 'seatPerDesk',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -180,8 +181,7 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   coverImage: 'coverImage',
   tel: 'tel',
   bio: 'bio',
-  loginUserName: 'loginUserName',
-  loginPassword: 'loginPassword',
+  loginId: 'loginId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -189,13 +189,13 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   User: 'User',
+  Login: 'Login',
   Party: 'Party',
   PartyMember: 'PartyMember',
   ShabuShop: 'ShabuShop',
   ShabuShopBranch: 'ShabuShopBranch',
   ShabuShopTable: 'ShabuShopTable',
-  PromotionByShop: 'PromotionByShop',
-  PromoteJoinedShop: 'PromoteJoinedShop'
+  PromotionByShop: 'PromotionByShop'
 });
 
 /**

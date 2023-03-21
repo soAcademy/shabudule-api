@@ -10,32 +10,44 @@ generator client {
 }
 
 model User {
-  id            Int           @id @default(autoincrement())
-  name          String
-  profileImage  String?
-  coverImage    String?
-  tel           String?
-  bio           String?
-  loginUserName String
+  id           Int           @id @default(autoincrement())
+  name         String
+  profileImage String?
+  coverImage   String?
+  tel          String?
+  bio          String?
+  login        Login         @relation(fields: [loginId], references: [id])
+  loginId      Int           @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  parties      Party[]
+  partyMembers PartyMember[]
+}
+
+model Login {
+  id            Int      @id @default(autoincrement())
+  loginUserName String   @unique
   loginPassword String
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  Party         Party[]
-  PartyMember   PartyMember[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User?
 }
 
 model Party {
-  id             Int           @id @default(autoincrement())
-  createByUserId User          @relation(fields: [userId], references: [id])
-  userId         Int
-  startDateTime  DateTime
-  endDateTime    DateTime
-  partyDetail    String?
-  memberQuantity Int
-  status         String        @default("open")
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  PartyMember    PartyMember[]
+  id               Int            @id @default(autoincrement())
+  name             String
+  createByUserId   User           @relation(fields: [userId], references: [id])
+  userId           Int
+  table            ShabuShopTable @relation(fields: [shabuShopTableId], references: [id])
+  shabuShopTableId Int
+  startDateTime    DateTime
+  endDateTime      DateTime
+  partyDetail      String?
+  active           Boolean        @default(true)
+  type             String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  partyMembers     PartyMember[]
 }
 
 model PartyMember {
@@ -50,39 +62,38 @@ model PartyMember {
 }
 
 model ShabuShop {
-  id              Int               @id @default(autoincrement())
-  name            String
-  shopImage       String
-  tel             String
-  shopDetail      String
-  shopPromotion   String?
-  shopMenu        String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  ShabuShopBranch ShabuShopBranch[]
-  PromotionByShop PromotionByShop[]
+  id               Int               @id @default(autoincrement())
+  name             String            @unique
+  shopImage        String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  shabuShopBranchs ShabuShopBranch[]
+  promotionByShops PromotionByShop[]
 }
 
 model ShabuShopBranch {
-  id                 Int              @id @default(autoincrement())
-  shabuShop          ShabuShop        @relation(fields: [shabuShopId], references: [id])
-  shabuShopId        Int
-  branchName         String
-  googleMapLocation  String
-  availableTimeStart DateTime
-  availableTimeEnd   DateTime
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
-  ShabuShopTable     ShabuShopTable[]
+  id                Int              @id @default(autoincrement())
+  shabuShop         ShabuShop        @relation(fields: [shabuShopId], references: [id])
+  shabuShopId       Int
+  branchName        String
+  googleMapLocation String
+  tel               String
+  shopDetail        String
+  openTime          Int
+  closeTime         Int
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  shabuShopTables   ShabuShopTable[]
 }
 
 model ShabuShopTable {
   id                Int             @id @default(autoincrement())
   branch            ShabuShopBranch @relation(fields: [shabuShopBranchId], references: [id])
   shabuShopBranchId Int
-  setPerDesk        Int
+  seatPerDesk       Int
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
+  parties           Party[]
 }
 
 model PromotionByShop {
@@ -92,11 +103,4 @@ model PromotionByShop {
   shabuShopId Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-}
-
-model PromoteJoinedShop {
-  id        Int      @id @default(autoincrement())
-  image     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
