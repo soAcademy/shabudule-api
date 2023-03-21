@@ -7,6 +7,8 @@ import {
   createShabuShopTableShabudule,
   createUserShabudule,
   getBranchShabudule,
+  getMyJoinedPartyShabudule,
+  getMyPartyShabudule,
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
@@ -189,9 +191,25 @@ describe("Shabudule", () => {
   //   console.log("updatePartyMemberStatusShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getPartyShabudule", async () => {
-    const result = await getPartyShabudule();
-    console.log("getPartyShabudule", result);
+  // test("getPartyShabudule", async () => {
+  //   const result = await getPartyShabudule();
+  //   console.log("getPartyShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("getMyPartyShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //   };
+  //   const result = await getMyPartyShabudule(data);
+  //   console.log("getPartyShabudule", JSON.stringify(result));
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  test("getMyJoinedPartyShabudule", async () => {
+    const data = {
+      userId: 2,
+    };
+    const result = await getMyJoinedPartyShabudule(data);
+    console.log("getMyJoinedPartyShabudule", result);
     // expect(result.name === data.name).toBe(true);
   });
 });

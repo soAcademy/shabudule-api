@@ -1,3 +1,4 @@
+import { parseArgs } from "util";
 import { PrismaClient } from "../../prisma/client";
 import {
   IAddPartyMemberShabudule,
@@ -8,6 +9,8 @@ import {
   ICreateShabuShopTableShabudule,
   ICreateUserShabudule,
   IGetBranchShabudule,
+  IGetMyJoinedPartyShabudule,
+  IGetMyPartyShabudule,
   IRegisterUserShabudule,
   IUpdatePartyMemberStatusShabudule,
   IUpdatePasswordShabudule,
@@ -181,11 +184,46 @@ export const getPartyShabudule = async () => {
     where: {
       active: true,
       startDateTime: {
-        gt: currentTime, // Filter for parties occurring after current time
+        gt: currentTime,
       },
     },
     orderBy: {
-      startDateTime: "asc", // Order parties by start time in ascending order
+      startDateTime: "asc",
+    },
+  });
+  return activeParties;
+};
+
+export const getMyPartyShabudule = async (args: IGetMyPartyShabudule) => {
+  const currentTime = new Date();
+  const activeParties = await prisma.party.findMany({
+    where: {
+      userId: args.userId,
+      active: true,
+      startDateTime: {
+        gt: currentTime,
+      },
+    },
+    include: { partyMembers: true },
+    orderBy: {
+      startDateTime: "asc",
+    },
+  });
+  return activeParties;
+};
+
+export const getMyJoinedPartyShabudule = async (
+  args: IGetMyJoinedPartyShabudule
+) => {
+  const currentTime = new Date();
+  const activeParties = await prisma.party.findMany({
+    where: {
+      partyMembers: { some: { userId: args.userId } },
+      NOT: { userId: args.userId },
+    },
+    include: { partyMembers: true },
+    orderBy: {
+      startDateTime: "asc",
     },
   });
   return activeParties;
