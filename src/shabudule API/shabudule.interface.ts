@@ -157,3 +157,17 @@ export const updatePartyMemberStatusShabuduleCodec = t.type({
 
 export interface IUpdatePartyMemberStatusShabudule
   extends t.TypeOf<typeof updatePartyMemberStatusShabuduleCodec> {}
+
+export const getMyPartyShabuduleCodec = t.type({
+  userId: t.number,
+});
+
+export interface IGetMyPartyShabudule
+  extends t.TypeOf<typeof getMyPartyShabuduleCodec> {}
+
+export const getMyJoinedPartyShabuduleCodec = t.type({
+  userId: t.number,
+});
+
+export interface IGetMyJoinedPartyShabudule
+  extends t.TypeOf<typeof getMyJoinedPartyShabuduleCodec> {}
