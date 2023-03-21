@@ -190,3 +190,19 @@ export const getPartyShabudule = async () => {
   });
   return activeParties;
 };
+
+// export const getTimeSlotEachShopBranchShabudule = async () => {
+//   const currentTime = new Date();
+//   const activeParties = await prisma.party.findMany({
+//     where: {
+//       active: true,
+//       startDateTime: {
+//         gt: currentTime, // Filter for parties occurring after current time
+//       },
+//     },
+//     orderBy: {
+//       startDateTime: "asc", // Order parties by start time in ascending order
+//     },
+//   });
+//   return activeParties;
+// };

@@ -189,9 +189,9 @@ describe("Shabudule", () => {
   //   console.log("updatePartyMemberStatusShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getPartyShabudule", async () => {
-    const result = await getPartyShabudule();
-    console.log("getPartyShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
+  // test("getPartyShabudule", async () => {
+  //   const result = await getPartyShabudule();
+  //   console.log("getPartyShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
 });
