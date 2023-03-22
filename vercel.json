@@ -1,6 +1,6 @@
 {
   "version": 2,
   "name": "Shabudule",
-  "builds": [{ "src": "main.ts", "use": "@now/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "main.ts" }]
+  "builds": [{ "src": "./main.ts", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/" }]
 }
