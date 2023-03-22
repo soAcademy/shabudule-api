@@ -8,13 +8,20 @@ import {
   createShabuShopTableShabuduleCodec,
   createUserShabuduleCodec,
   getBranchShabuduleCodec,
+  getMyJoinedPartyShabuduleCodec,
+  getMyPartyShabuduleCodec,
   registerUserShabuduleCodec,
   updatePartyMemberStatusShabuduleCodec,
+  updatePartyShabuduleCodec,
   updatePasswordShabuduleCodec,
   updatePromotionShabuduleCodec,
   updateShabuShopBranchShabuduleCodec,
   updateShabuShopShabuduleCodec,
-  updateUserProfileShabuduleCodec,
+  updateUserBioShabuduleCodec,
+  updateUserCoverImageShabuduleCodec,
+  updateUserNameShabuduleCodec,
+  updateUserProfileImageShabuduleCodec,
+  updateUserTelShabuduleCodec,
 } from "./shabudule.interface";
 import {
   addPartyMemberShabudule,
@@ -25,16 +32,23 @@ import {
   createShabuShopTableShabudule,
   createUserShabudule,
   getBranchShabudule,
+  getMyJoinedPartyShabudule,
+  getMyPartyShabudule,
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
   registerUserShabudule,
   updatePartyMemberStatusShabudule,
+  updatePartyShabudule,
   updatePasswordShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
-  updateUserProfileShabudule,
+  updateUserBioShabudule,
+  updateUserCoverImageShabudule,
+  updateUserNameShabudule,
+  updateUserProfileImageShabudule,
+  updateUserTelShabudule,
 } from "./shabudule.resolver";
 
 export const registerUserShabuduleHandler = async (
@@ -217,24 +231,6 @@ export const updatePartyMemberStatusShabuduleHandler = async (
   }
 };
 
-export const updateUserProfileShabuduleHandler = async (
-  req: Request,
-  res: Response
-) => {
-  const args = req?.body;
-
-  if (updateUserProfileShabuduleCodec.decode(args)._tag === "Right") {
-    try {
-      const result = await updateUserProfileShabudule(args);
-      res.status(200).json(result);
-    } catch (e) {
-      res.status(500).json({ error: String(e) });
-    }
-  } else {
-    res.status(500).json({ error: "Error invalid codec" });
-  }
-};
-
 export const updateShabuShopShabuduleHandler = async (
   req: Request,
   res: Response
@@ -289,6 +285,24 @@ export const updatePromotionShabuduleHandler = async (
   }
 };
 
+export const updatePartyShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updatePartyShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updatePartyShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
 export const getPromotionShabuduleHandler = async (
   req: Request,
   res: Response
@@ -334,5 +348,128 @@ export const getPartyShabuduleHandler = async (req: Request, res: Response) => {
     return res.status(200).send(response);
   } catch (e) {
     return res.status(500).send(e);
+  }
+};
+
+export const getMyPartyShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (getMyPartyShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await getMyPartyShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const updateUserNameShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updateUserNameShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updateUserNameShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const updateUserProfileImageShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updateUserProfileImageShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updateUserProfileImageShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+export const updateUserCoverImageShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updateUserCoverImageShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updateUserCoverImageShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+export const updateUserTelShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updateUserTelShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updateUserTelShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+export const updateUserBioShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updateUserBioShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updateUserBioShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const getMyJoinedPartyShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (getMyJoinedPartyShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await getMyJoinedPartyShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
   }
 };

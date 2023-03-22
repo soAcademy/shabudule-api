@@ -14,11 +14,16 @@ import {
   getShopShabudule,
   registerUserShabudule,
   updatePartyMemberStatusShabudule,
+  updatePartyShabudule,
   updatePasswordShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
-  updateUserProfileShabudule,
+  updateUserBioShabudule,
+  updateUserCoverImageShabudule,
+  updateUserNameShabudule,
+  updateUserProfileImageShabudule,
+  updateUserTelShabudule,
 } from "./shabudule.resolver";
 
 describe("Shabudule", () => {
@@ -120,19 +125,6 @@ describe("Shabudule", () => {
   //   console.log("updatePasswordShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updateUserProfileShabudule", async () => {
-  //   const data = {
-  //     userId: 1,
-  //     name: "name1-1",
-  //     profileImage: "profileImage1-1",
-  //     coverImage: "coverImage1-1",
-  //     tel: "tel1-1",
-  //     bio: "bio1-1",
-  //   };
-  //   const result = await updateUserProfileShabudule(data);
-  //   console.log("updateUserProfileShabudule", result);
-  // expect(result.name === data.name).toBe(true);
-  // });
   // test("updateShabuShopShabudule", async () => {
   //   const data = {
   //     shopId: 1,
@@ -204,12 +196,66 @@ describe("Shabudule", () => {
   //   console.log("getPartyShabudule", JSON.stringify(result));
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getMyJoinedPartyShabudule", async () => {
+  // test("getMyJoinedPartyShabudule", async () => {
+  //   const data = {
+  //     userId: 2,
+  //   };
+  //   const result = await getMyJoinedPartyShabudule(data);
+  //   console.log("getMyJoinedPartyShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updatePartyShabudule", async () => {
+  //   const data = {
+  //     partyId: 1,
+  //     partyDetail: "test1",
+  //   };
+  //   const result = await updatePartyShabudule(data);
+  //   console.log("updatePartyShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  test("updateUserNameShabudule", async () => {
     const data = {
-      userId: 2,
+      userId: 1,
+      name: "test1",
     };
-    const result = await getMyJoinedPartyShabudule(data);
-    console.log("getMyJoinedPartyShabudule", result);
+    const result = await updateUserNameShabudule(data);
+    console.log("updateUserNameShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
+  test("updateUserProfileImageShabudule", async () => {
+    const data = {
+      userId: 1,
+      profileImage: "test1",
+    };
+    const result = await updateUserProfileImageShabudule(data);
+    console.log("updateUserProfileImageShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
+  test("updateUserCoverImageShabudule", async () => {
+    const data = {
+      userId: 1,
+      coverImage: "test1",
+    };
+    const result = await updateUserCoverImageShabudule(data);
+    console.log("updateUserCoverImageShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
+  test("updateUserTelShabudule", async () => {
+    const data = {
+      userId: 1,
+      tel: "test1",
+    };
+    const result = await updateUserTelShabudule(data);
+    console.log("updateUserTelShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
+  test("updateUserBioShabudule", async () => {
+    const data = {
+      userId: 1,
+      bio: "test1",
+    };
+    const result = await updateUserBioShabudule(data);
+    console.log("updateUserBioShabudule", result);
     // expect(result.name === data.name).toBe(true);
   });
 });
