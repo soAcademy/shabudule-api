@@ -13,11 +13,16 @@ import {
   IGetMyPartyShabudule,
   IRegisterUserShabudule,
   IUpdatePartyMemberStatusShabudule,
+  IUpdatePartyShabudule,
   IUpdatePasswordShabudule,
   IUpdatePromotionShabudule,
   IUpdateShabuShopBranchShabuduleCodec,
   IUpdateShabuShopShabudule,
-  IUpdateUserProfileShabudule,
+  IUpdateUserBioShabudule,
+  IUpdateUserCoverImageShabudule,
+  IUpdateUserNameShabudule,
+  IUpdateUserProfileImageShabudule,
+  IUpdateUserTelShabudule,
 } from "./shabudule.interface";
 
 export const prisma = new PrismaClient();
@@ -123,15 +128,43 @@ export const updatePartyMemberStatusShabudule = (
     },
   });
 
-export const updateUserProfileShabudule = (args: IUpdateUserProfileShabudule) =>
+export const updateUserNameShabudule = (args: IUpdateUserNameShabudule) =>
   prisma.user.update({
     where: { id: args.userId },
     data: {
       name: args.name,
-      profileImage: args?.profileImage,
-      coverImage: args?.coverImage,
-      tel: args?.tel,
-      bio: args?.bio,
+    },
+  });
+export const updateUserProfileImageShabudule = (
+  args: IUpdateUserProfileImageShabudule
+) =>
+  prisma.user.update({
+    where: { id: args.userId },
+    data: {
+      profileImage: args.profileImage,
+    },
+  });
+export const updateUserCoverImageShabudule = (
+  args: IUpdateUserCoverImageShabudule
+) =>
+  prisma.user.update({
+    where: { id: args.userId },
+    data: {
+      coverImage: args.coverImage,
+    },
+  });
+export const updateUserTelShabudule = (args: IUpdateUserTelShabudule) =>
+  prisma.user.update({
+    where: { id: args.userId },
+    data: {
+      tel: args.tel,
+    },
+  });
+export const updateUserBioShabudule = (args: IUpdateUserBioShabudule) =>
+  prisma.user.update({
+    where: { id: args.userId },
+    data: {
+      bio: args.bio,
     },
   });
 
@@ -165,6 +198,14 @@ export const updatePromotionShabudule = (args: IUpdatePromotionShabudule) =>
     },
   });
 
+export const updatePartyShabudule = (args: IUpdatePartyShabudule) =>
+  prisma.party.update({
+    where: { id: args.partyId },
+    data: {
+      partyDetail: args.partyDetail,
+    },
+  });
+
 export const getPromotionShabudule = () => prisma.promotionByShop.findMany();
 
 export const getShopShabudule = () =>
@@ -186,6 +227,7 @@ export const getPartyShabudule = async () => {
       startDateTime: {
         gt: currentTime,
       },
+      type: "public",
     },
     orderBy: {
       startDateTime: "asc",
@@ -219,6 +261,10 @@ export const getMyJoinedPartyShabudule = async (
   const activeParties = await prisma.party.findMany({
     where: {
       partyMembers: { some: { userId: args.userId } },
+      active: true,
+      startDateTime: {
+        gt: currentTime,
+      },
       NOT: { userId: args.userId },
     },
     include: { partyMembers: true },

@@ -7,16 +7,23 @@ import {
   createShabuShopTableShabuduleHandler,
   createUserShabuduleHandler,
   getBranchShabuduleHandler,
+  getMyJoinedPartyShabuduleHandler,
+  getMyPartyShabuduleHandler,
   getPartyShabuduleHandler,
   getPromotionShabuduleHandler,
   getShopShabuduleHandler,
   registerUserShabuduleHandler,
   updatePartyMemberStatusShabuduleHandler,
+  updatePartyShabuduleHandler,
   updatePasswordShabuduleHandler,
   updatePromotionShabuduleHandler,
   updateShabuShopBranchShabuduleHandler,
   updateShabuShopShabuduleHandler,
-  updateUserProfileShabuduleHandler,
+  updateUserBioShabuduleHandler,
+  updateUserCoverImageShabuduleHandler,
+  updateUserNameShabuduleHandler,
+  updateUserProfileImageShabuduleHandler,
+  updateUserTelShabuduleHandler,
 } from "./shabudule API";
 
 export const AppRoutes = [
@@ -71,11 +78,6 @@ export const AppRoutes = [
     action: updatePartyMemberStatusShabuduleHandler,
   },
   {
-    path: "/function/updateUserProfileShabudule",
-    method: "post",
-    action: updateUserProfileShabuduleHandler,
-  },
-  {
     path: "/function/updateShabuShopShabudule",
     method: "post",
     action: updateShabuShopShabuduleHandler,
@@ -109,5 +111,45 @@ export const AppRoutes = [
     path: "/function/getPartyShabudule",
     method: "post",
     action: getPartyShabuduleHandler,
+  },
+  {
+    path: "/function/updatePartyShabudule",
+    method: "post",
+    action: updatePartyShabuduleHandler,
+  },
+  {
+    path: "/function/getMyPartyShabudule",
+    method: "post",
+    action: getMyPartyShabuduleHandler,
+  },
+  {
+    path: "/function/getMyJoinedPartyShabudule",
+    method: "post",
+    action: getMyJoinedPartyShabuduleHandler,
+  },
+  {
+    path: "/function/updateUserNameShabudule",
+    method: "post",
+    action: updateUserNameShabuduleHandler,
+  },
+  {
+    path: "/function/updateUserProfileImageShabudule",
+    method: "post",
+    action: updateUserProfileImageShabuduleHandler,
+  },
+  {
+    path: "/function/updateUserCoverImageShabudule",
+    method: "post",
+    action: updateUserCoverImageShabuduleHandler,
+  },
+  {
+    path: "/function/updateUserTelShabudule",
+    method: "post",
+    action: updateUserTelShabuduleHandler,
+  },
+  {
+    path: "/function/updateUserBioShabudule",
+    method: "post",
+    action: updateUserBioShabuduleHandler,
   },
 ];

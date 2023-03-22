@@ -95,17 +95,45 @@ export const updatePasswordShabuduleCodec = t.type({
 export interface IUpdatePasswordShabudule
   extends t.TypeOf<typeof updatePasswordShabuduleCodec> {}
 
-export const updateUserProfileShabuduleCodec = t.type({
+export const updateUserNameShabuduleCodec = t.type({
   userId: t.number,
   name: t.string,
-  profileImage: optional(t.string),
-  coverImage: optional(t.string),
-  tel: optional(t.string),
-  bio: optional(t.string),
 });
 
-export interface IUpdateUserProfileShabudule
-  extends t.TypeOf<typeof updateUserProfileShabuduleCodec> {}
+export interface IUpdateUserNameShabudule
+  extends t.TypeOf<typeof updateUserNameShabuduleCodec> {}
+
+export const updateUserProfileImageShabuduleCodec = t.type({
+  userId: t.number,
+  profileImage: t.string,
+});
+
+export interface IUpdateUserProfileImageShabudule
+  extends t.TypeOf<typeof updateUserProfileImageShabuduleCodec> {}
+
+export const updateUserCoverImageShabuduleCodec = t.type({
+  userId: t.number,
+  coverImage: t.string,
+});
+
+export interface IUpdateUserCoverImageShabudule
+  extends t.TypeOf<typeof updateUserCoverImageShabuduleCodec> {}
+
+export const updateUserTelShabuduleCodec = t.type({
+  userId: t.number,
+  tel: t.string,
+});
+
+export interface IUpdateUserTelShabudule
+  extends t.TypeOf<typeof updateUserTelShabuduleCodec> {}
+
+export const updateUserBioShabuduleCodec = t.type({
+  userId: t.number,
+  bio: t.string,
+});
+
+export interface IUpdateUserBioShabudule
+  extends t.TypeOf<typeof updateUserBioShabuduleCodec> {}
 
 export const updateShabuShopShabuduleCodec = t.type({
   shopId: t.number,
@@ -171,3 +199,11 @@ export const getMyJoinedPartyShabuduleCodec = t.type({
 
 export interface IGetMyJoinedPartyShabudule
   extends t.TypeOf<typeof getMyJoinedPartyShabuduleCodec> {}
+
+export const updatePartyShabuduleCodec = t.type({
+  partyId: t.number,
+  partyDetail: t.string,
+});
+
+export interface IUpdatePartyShabudule
+  extends t.TypeOf<typeof updatePartyShabuduleCodec> {}
