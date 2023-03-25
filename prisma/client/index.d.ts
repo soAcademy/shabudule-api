@@ -17,23 +17,11 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
 export type User = {
   id: number
   name: string
+  email: string
   profileImage: string | null
   coverImage: string | null
   tel: string | null
   bio: string | null
-  loginId: number
-  createdAt: Date
-  updatedAt: Date
-}
-
-/**
- * Model Login
- * 
- */
-export type Login = {
-  id: number
-  loginUserName: string
-  loginPassword: string
   createdAt: Date
   updatedAt: Date
 }
@@ -52,6 +40,7 @@ export type Party = {
   partyDetail: string | null
   active: boolean
   type: string
+  isFull: boolean
   createdAt: Date
   updatedAt: Date
 }
@@ -89,11 +78,13 @@ export type ShabuShopBranch = {
   id: number
   shabuShopId: number
   branchName: string
-  googleMapLocation: string
   tel: string
-  shopDetail: string
+  shopDetail: string | null
+  address: string
   openTime: number
   closeTime: number
+  latitude: number
+  longtitude: number
   createdAt: Date
   updatedAt: Date
 }
@@ -249,16 +240,6 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<GlobalReject>;
-
-  /**
-   * `prisma.login`: Exposes CRUD operations for the **Login** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Logins
-    * const logins = await prisma.login.findMany()
-    * ```
-    */
-  get login(): Prisma.LoginDelegate<GlobalReject>;
 
   /**
    * `prisma.party`: Exposes CRUD operations for the **Party** model.
@@ -789,7 +770,6 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Login: 'Login',
     Party: 'Party',
     PartyMember: 'PartyMember',
     ShabuShop: 'ShabuShop',
@@ -1194,22 +1174,20 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     id: number | null
-    loginId: number | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
-    loginId: number | null
   }
 
   export type UserMinAggregateOutputType = {
     id: number | null
     name: string | null
+    email: string | null
     profileImage: string | null
     coverImage: string | null
     tel: string | null
     bio: string | null
-    loginId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1217,11 +1195,11 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: number | null
     name: string | null
+    email: string | null
     profileImage: string | null
     coverImage: string | null
     tel: string | null
     bio: string | null
-    loginId: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1229,11 +1207,11 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     name: number
+    email: number
     profileImage: number
     coverImage: number
     tel: number
     bio: number
-    loginId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1242,22 +1220,20 @@ export namespace Prisma {
 
   export type UserAvgAggregateInputType = {
     id?: true
-    loginId?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
-    loginId?: true
   }
 
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     profileImage?: true
     coverImage?: true
     tel?: true
     bio?: true
-    loginId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1265,11 +1241,11 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     profileImage?: true
     coverImage?: true
     tel?: true
     bio?: true
-    loginId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1277,11 +1253,11 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     profileImage?: true
     coverImage?: true
     tel?: true
     bio?: true
-    loginId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1377,11 +1353,11 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: number
     name: string
+    email: string
     profileImage: string | null
     coverImage: string | null
     tel: string | null
     bio: string | null
-    loginId: number
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1408,14 +1384,13 @@ export namespace Prisma {
   export type UserSelect = {
     id?: boolean
     name?: boolean
+    email?: boolean
     profileImage?: boolean
     coverImage?: boolean
     tel?: boolean
     bio?: boolean
-    loginId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    login?: boolean | LoginArgs
     parties?: boolean | User$partiesArgs
     partyMembers?: boolean | User$partyMembersArgs
     _count?: boolean | UserCountOutputTypeArgs
@@ -1423,7 +1398,6 @@ export namespace Prisma {
 
 
   export type UserInclude = {
-    login?: boolean | LoginArgs
     parties?: boolean | User$partiesArgs
     partyMembers?: boolean | User$partyMembersArgs
     _count?: boolean | UserCountOutputTypeArgs
@@ -1436,7 +1410,6 @@ export namespace Prisma {
     S extends { include: any } & (UserArgs | UserFindManyArgs)
     ? User  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'login' ? LoginGetPayload<S['include'][P]> :
         P extends 'parties' ? Array < PartyGetPayload<S['include'][P]>>  :
         P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
@@ -1444,7 +1417,6 @@ export namespace Prisma {
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'login' ? LoginGetPayload<S['select'][P]> :
         P extends 'parties' ? Array < PartyGetPayload<S['select'][P]>>  :
         P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
@@ -1818,8 +1790,6 @@ export namespace Prisma {
     private _requestPromise?;
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    login<T extends LoginArgs= {}>(args?: Subset<T, LoginArgs>): Prisma__LoginClient<LoginGetPayload<T> | Null>;
 
     parties<T extends User$partiesArgs= {}>(args?: Subset<T, User$partiesArgs>): Prisma.PrismaPromise<Array<PartyGetPayload<T>>| Null>;
 
@@ -2239,971 +2209,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Login
-   */
-
-
-  export type AggregateLogin = {
-    _count: LoginCountAggregateOutputType | null
-    _avg: LoginAvgAggregateOutputType | null
-    _sum: LoginSumAggregateOutputType | null
-    _min: LoginMinAggregateOutputType | null
-    _max: LoginMaxAggregateOutputType | null
-  }
-
-  export type LoginAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type LoginSumAggregateOutputType = {
-    id: number | null
-  }
-
-  export type LoginMinAggregateOutputType = {
-    id: number | null
-    loginUserName: string | null
-    loginPassword: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type LoginMaxAggregateOutputType = {
-    id: number | null
-    loginUserName: string | null
-    loginPassword: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type LoginCountAggregateOutputType = {
-    id: number
-    loginUserName: number
-    loginPassword: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type LoginAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type LoginSumAggregateInputType = {
-    id?: true
-  }
-
-  export type LoginMinAggregateInputType = {
-    id?: true
-    loginUserName?: true
-    loginPassword?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type LoginMaxAggregateInputType = {
-    id?: true
-    loginUserName?: true
-    loginPassword?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type LoginCountAggregateInputType = {
-    id?: true
-    loginUserName?: true
-    loginPassword?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type LoginAggregateArgs = {
-    /**
-     * Filter which Login to aggregate.
-     */
-    where?: LoginWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Logins to fetch.
-     */
-    orderBy?: Enumerable<LoginOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: LoginWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Logins from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Logins.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Logins
-    **/
-    _count?: true | LoginCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: LoginAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: LoginSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: LoginMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: LoginMaxAggregateInputType
-  }
-
-  export type GetLoginAggregateType<T extends LoginAggregateArgs> = {
-        [P in keyof T & keyof AggregateLogin]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateLogin[P]>
-      : GetScalarType<T[P], AggregateLogin[P]>
-  }
-
-
-
-
-  export type LoginGroupByArgs = {
-    where?: LoginWhereInput
-    orderBy?: Enumerable<LoginOrderByWithAggregationInput>
-    by: LoginScalarFieldEnum[]
-    having?: LoginScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: LoginCountAggregateInputType | true
-    _avg?: LoginAvgAggregateInputType
-    _sum?: LoginSumAggregateInputType
-    _min?: LoginMinAggregateInputType
-    _max?: LoginMaxAggregateInputType
-  }
-
-
-  export type LoginGroupByOutputType = {
-    id: number
-    loginUserName: string
-    loginPassword: string
-    createdAt: Date
-    updatedAt: Date
-    _count: LoginCountAggregateOutputType | null
-    _avg: LoginAvgAggregateOutputType | null
-    _sum: LoginSumAggregateOutputType | null
-    _min: LoginMinAggregateOutputType | null
-    _max: LoginMaxAggregateOutputType | null
-  }
-
-  type GetLoginGroupByPayload<T extends LoginGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickArray<LoginGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof LoginGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], LoginGroupByOutputType[P]>
-            : GetScalarType<T[P], LoginGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type LoginSelect = {
-    id?: boolean
-    loginUserName?: boolean
-    loginPassword?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserArgs
-  }
-
-
-  export type LoginInclude = {
-    user?: boolean | UserArgs
-  }
-
-  export type LoginGetPayload<S extends boolean | null | undefined | LoginArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Login :
-    S extends undefined ? never :
-    S extends { include: any } & (LoginArgs | LoginFindManyArgs)
-    ? Login  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'user' ? UserGetPayload<S['include'][P]> | null :  never
-  } 
-    : S extends { select: any } & (LoginArgs | LoginFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'user' ? UserGetPayload<S['select'][P]> | null :  P extends keyof Login ? Login[P] : never
-  } 
-      : Login
-
-
-  type LoginCountArgs = 
-    Omit<LoginFindManyArgs, 'select' | 'include'> & {
-      select?: LoginCountAggregateInputType | true
-    }
-
-  export interface LoginDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one Login that matches the filter.
-     * @param {LoginFindUniqueArgs} args - Arguments to find a Login
-     * @example
-     * // Get one Login
-     * const login = await prisma.login.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends LoginFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, LoginFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Login'> extends True ? Prisma__LoginClient<LoginGetPayload<T>> : Prisma__LoginClient<LoginGetPayload<T> | null, null>
-
-    /**
-     * Find one Login that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {LoginFindUniqueOrThrowArgs} args - Arguments to find a Login
-     * @example
-     * // Get one Login
-     * const login = await prisma.login.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends LoginFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, LoginFindUniqueOrThrowArgs>
-    ): Prisma__LoginClient<LoginGetPayload<T>>
-
-    /**
-     * Find the first Login that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginFindFirstArgs} args - Arguments to find a Login
-     * @example
-     * // Get one Login
-     * const login = await prisma.login.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends LoginFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, LoginFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Login'> extends True ? Prisma__LoginClient<LoginGetPayload<T>> : Prisma__LoginClient<LoginGetPayload<T> | null, null>
-
-    /**
-     * Find the first Login that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginFindFirstOrThrowArgs} args - Arguments to find a Login
-     * @example
-     * // Get one Login
-     * const login = await prisma.login.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends LoginFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, LoginFindFirstOrThrowArgs>
-    ): Prisma__LoginClient<LoginGetPayload<T>>
-
-    /**
-     * Find zero or more Logins that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Logins
-     * const logins = await prisma.login.findMany()
-     * 
-     * // Get first 10 Logins
-     * const logins = await prisma.login.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const loginWithIdOnly = await prisma.login.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends LoginFindManyArgs>(
-      args?: SelectSubset<T, LoginFindManyArgs>
-    ): Prisma.PrismaPromise<Array<LoginGetPayload<T>>>
-
-    /**
-     * Create a Login.
-     * @param {LoginCreateArgs} args - Arguments to create a Login.
-     * @example
-     * // Create one Login
-     * const Login = await prisma.login.create({
-     *   data: {
-     *     // ... data to create a Login
-     *   }
-     * })
-     * 
-    **/
-    create<T extends LoginCreateArgs>(
-      args: SelectSubset<T, LoginCreateArgs>
-    ): Prisma__LoginClient<LoginGetPayload<T>>
-
-    /**
-     * Create many Logins.
-     *     @param {LoginCreateManyArgs} args - Arguments to create many Logins.
-     *     @example
-     *     // Create many Logins
-     *     const login = await prisma.login.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends LoginCreateManyArgs>(
-      args?: SelectSubset<T, LoginCreateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Login.
-     * @param {LoginDeleteArgs} args - Arguments to delete one Login.
-     * @example
-     * // Delete one Login
-     * const Login = await prisma.login.delete({
-     *   where: {
-     *     // ... filter to delete one Login
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends LoginDeleteArgs>(
-      args: SelectSubset<T, LoginDeleteArgs>
-    ): Prisma__LoginClient<LoginGetPayload<T>>
-
-    /**
-     * Update one Login.
-     * @param {LoginUpdateArgs} args - Arguments to update one Login.
-     * @example
-     * // Update one Login
-     * const login = await prisma.login.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends LoginUpdateArgs>(
-      args: SelectSubset<T, LoginUpdateArgs>
-    ): Prisma__LoginClient<LoginGetPayload<T>>
-
-    /**
-     * Delete zero or more Logins.
-     * @param {LoginDeleteManyArgs} args - Arguments to filter Logins to delete.
-     * @example
-     * // Delete a few Logins
-     * const { count } = await prisma.login.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends LoginDeleteManyArgs>(
-      args?: SelectSubset<T, LoginDeleteManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Logins.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Logins
-     * const login = await prisma.login.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends LoginUpdateManyArgs>(
-      args: SelectSubset<T, LoginUpdateManyArgs>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Login.
-     * @param {LoginUpsertArgs} args - Arguments to update or create a Login.
-     * @example
-     * // Update or create a Login
-     * const login = await prisma.login.upsert({
-     *   create: {
-     *     // ... data to create a Login
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Login we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends LoginUpsertArgs>(
-      args: SelectSubset<T, LoginUpsertArgs>
-    ): Prisma__LoginClient<LoginGetPayload<T>>
-
-    /**
-     * Count the number of Logins.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginCountArgs} args - Arguments to filter Logins to count.
-     * @example
-     * // Count the number of Logins
-     * const count = await prisma.login.count({
-     *   where: {
-     *     // ... the filter for the Logins we want to count
-     *   }
-     * })
-    **/
-    count<T extends LoginCountArgs>(
-      args?: Subset<T, LoginCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], LoginCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Login.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends LoginAggregateArgs>(args: Subset<T, LoginAggregateArgs>): Prisma.PrismaPromise<GetLoginAggregateType<T>>
-
-    /**
-     * Group by Login.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoginGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends LoginGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: LoginGroupByArgs['orderBy'] }
-        : { orderBy?: LoginGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, LoginGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoginGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Login.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__LoginClient<T, Null = never> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * Login base type for findUnique actions
-   */
-  export type LoginFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * Filter, which Login to fetch.
-     */
-    where: LoginWhereUniqueInput
-  }
-
-  /**
-   * Login findUnique
-   */
-  export interface LoginFindUniqueArgs extends LoginFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * Login findUniqueOrThrow
-   */
-  export type LoginFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * Filter, which Login to fetch.
-     */
-    where: LoginWhereUniqueInput
-  }
-
-
-  /**
-   * Login base type for findFirst actions
-   */
-  export type LoginFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * Filter, which Login to fetch.
-     */
-    where?: LoginWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Logins to fetch.
-     */
-    orderBy?: Enumerable<LoginOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Logins.
-     */
-    cursor?: LoginWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Logins from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Logins.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Logins.
-     */
-    distinct?: Enumerable<LoginScalarFieldEnum>
-  }
-
-  /**
-   * Login findFirst
-   */
-  export interface LoginFindFirstArgs extends LoginFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * Login findFirstOrThrow
-   */
-  export type LoginFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * Filter, which Login to fetch.
-     */
-    where?: LoginWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Logins to fetch.
-     */
-    orderBy?: Enumerable<LoginOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Logins.
-     */
-    cursor?: LoginWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Logins from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Logins.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Logins.
-     */
-    distinct?: Enumerable<LoginScalarFieldEnum>
-  }
-
-
-  /**
-   * Login findMany
-   */
-  export type LoginFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * Filter, which Logins to fetch.
-     */
-    where?: LoginWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Logins to fetch.
-     */
-    orderBy?: Enumerable<LoginOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Logins.
-     */
-    cursor?: LoginWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Logins from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Logins.
-     */
-    skip?: number
-    distinct?: Enumerable<LoginScalarFieldEnum>
-  }
-
-
-  /**
-   * Login create
-   */
-  export type LoginCreateArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * The data needed to create a Login.
-     */
-    data: XOR<LoginCreateInput, LoginUncheckedCreateInput>
-  }
-
-
-  /**
-   * Login createMany
-   */
-  export type LoginCreateManyArgs = {
-    /**
-     * The data used to create many Logins.
-     */
-    data: Enumerable<LoginCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * Login update
-   */
-  export type LoginUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * The data needed to update a Login.
-     */
-    data: XOR<LoginUpdateInput, LoginUncheckedUpdateInput>
-    /**
-     * Choose, which Login to update.
-     */
-    where: LoginWhereUniqueInput
-  }
-
-
-  /**
-   * Login updateMany
-   */
-  export type LoginUpdateManyArgs = {
-    /**
-     * The data used to update Logins.
-     */
-    data: XOR<LoginUpdateManyMutationInput, LoginUncheckedUpdateManyInput>
-    /**
-     * Filter which Logins to update
-     */
-    where?: LoginWhereInput
-  }
-
-
-  /**
-   * Login upsert
-   */
-  export type LoginUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * The filter to search for the Login to update in case it exists.
-     */
-    where: LoginWhereUniqueInput
-    /**
-     * In case the Login found by the `where` argument doesn't exist, create a new Login with this data.
-     */
-    create: XOR<LoginCreateInput, LoginUncheckedCreateInput>
-    /**
-     * In case the Login was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<LoginUpdateInput, LoginUncheckedUpdateInput>
-  }
-
-
-  /**
-   * Login delete
-   */
-  export type LoginDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-    /**
-     * Filter which Login to delete.
-     */
-    where: LoginWhereUniqueInput
-  }
-
-
-  /**
-   * Login deleteMany
-   */
-  export type LoginDeleteManyArgs = {
-    /**
-     * Filter which Logins to delete
-     */
-    where?: LoginWhereInput
-  }
-
-
-  /**
-   * Login without action
-   */
-  export type LoginArgs = {
-    /**
-     * Select specific fields to fetch from the Login
-     */
-    select?: LoginSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: LoginInclude | null
-  }
-
-
-
-  /**
    * Model Party
    */
 
@@ -3238,6 +2243,7 @@ export namespace Prisma {
     partyDetail: string | null
     active: boolean | null
     type: string | null
+    isFull: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3252,6 +2258,7 @@ export namespace Prisma {
     partyDetail: string | null
     active: boolean | null
     type: string | null
+    isFull: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3266,6 +2273,7 @@ export namespace Prisma {
     partyDetail: number
     active: number
     type: number
+    isFull: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3294,6 +2302,7 @@ export namespace Prisma {
     partyDetail?: true
     active?: true
     type?: true
+    isFull?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3308,6 +2317,7 @@ export namespace Prisma {
     partyDetail?: true
     active?: true
     type?: true
+    isFull?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3322,6 +2332,7 @@ export namespace Prisma {
     partyDetail?: true
     active?: true
     type?: true
+    isFull?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3424,6 +2435,7 @@ export namespace Prisma {
     partyDetail: string | null
     active: boolean
     type: string
+    isFull: boolean
     createdAt: Date
     updatedAt: Date
     _count: PartyCountAggregateOutputType | null
@@ -3457,6 +2469,7 @@ export namespace Prisma {
     partyDetail?: boolean
     active?: boolean
     type?: boolean
+    isFull?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     createByUserId?: boolean | UserArgs
@@ -6283,6 +5296,8 @@ export namespace Prisma {
     shabuShopId: number | null
     openTime: number | null
     closeTime: number | null
+    latitude: number | null
+    longtitude: number | null
   }
 
   export type ShabuShopBranchSumAggregateOutputType = {
@@ -6290,17 +5305,21 @@ export namespace Prisma {
     shabuShopId: number | null
     openTime: number | null
     closeTime: number | null
+    latitude: number | null
+    longtitude: number | null
   }
 
   export type ShabuShopBranchMinAggregateOutputType = {
     id: number | null
     shabuShopId: number | null
     branchName: string | null
-    googleMapLocation: string | null
     tel: string | null
     shopDetail: string | null
+    address: string | null
     openTime: number | null
     closeTime: number | null
+    latitude: number | null
+    longtitude: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6309,11 +5328,13 @@ export namespace Prisma {
     id: number | null
     shabuShopId: number | null
     branchName: string | null
-    googleMapLocation: string | null
     tel: string | null
     shopDetail: string | null
+    address: string | null
     openTime: number | null
     closeTime: number | null
+    latitude: number | null
+    longtitude: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6322,11 +5343,13 @@ export namespace Prisma {
     id: number
     shabuShopId: number
     branchName: number
-    googleMapLocation: number
     tel: number
     shopDetail: number
+    address: number
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6338,6 +5361,8 @@ export namespace Prisma {
     shabuShopId?: true
     openTime?: true
     closeTime?: true
+    latitude?: true
+    longtitude?: true
   }
 
   export type ShabuShopBranchSumAggregateInputType = {
@@ -6345,17 +5370,21 @@ export namespace Prisma {
     shabuShopId?: true
     openTime?: true
     closeTime?: true
+    latitude?: true
+    longtitude?: true
   }
 
   export type ShabuShopBranchMinAggregateInputType = {
     id?: true
     shabuShopId?: true
     branchName?: true
-    googleMapLocation?: true
     tel?: true
     shopDetail?: true
+    address?: true
     openTime?: true
     closeTime?: true
+    latitude?: true
+    longtitude?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6364,11 +5393,13 @@ export namespace Prisma {
     id?: true
     shabuShopId?: true
     branchName?: true
-    googleMapLocation?: true
     tel?: true
     shopDetail?: true
+    address?: true
     openTime?: true
     closeTime?: true
+    latitude?: true
+    longtitude?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6377,11 +5408,13 @@ export namespace Prisma {
     id?: true
     shabuShopId?: true
     branchName?: true
-    googleMapLocation?: true
     tel?: true
     shopDetail?: true
+    address?: true
     openTime?: true
     closeTime?: true
+    latitude?: true
+    longtitude?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6478,11 +5511,13 @@ export namespace Prisma {
     id: number
     shabuShopId: number
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt: Date
     updatedAt: Date
     _count: ShabuShopBranchCountAggregateOutputType | null
@@ -6510,11 +5545,13 @@ export namespace Prisma {
     id?: boolean
     shabuShopId?: boolean
     branchName?: boolean
-    googleMapLocation?: boolean
     tel?: boolean
     shopDetail?: boolean
+    address?: boolean
     openTime?: boolean
     closeTime?: boolean
+    latitude?: boolean
+    longtitude?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     shabuShop?: boolean | ShabuShopArgs
@@ -9293,17 +8330,6 @@ export namespace Prisma {
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-  export const LoginScalarFieldEnum: {
-    id: 'id',
-    loginUserName: 'loginUserName',
-    loginPassword: 'loginPassword',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type LoginScalarFieldEnum = (typeof LoginScalarFieldEnum)[keyof typeof LoginScalarFieldEnum]
-
-
   export const PartyMemberScalarFieldEnum: {
     id: 'id',
     partyId: 'partyId',
@@ -9326,6 +8352,7 @@ export namespace Prisma {
     partyDetail: 'partyDetail',
     active: 'active',
     type: 'type',
+    isFull: 'isFull',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9356,11 +8383,13 @@ export namespace Prisma {
     id: 'id',
     shabuShopId: 'shabuShopId',
     branchName: 'branchName',
-    googleMapLocation: 'googleMapLocation',
     tel: 'tel',
     shopDetail: 'shopDetail',
+    address: 'address',
     openTime: 'openTime',
     closeTime: 'closeTime',
+    latitude: 'latitude',
+    longtitude: 'longtitude',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9411,11 +8440,11 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    email: 'email',
     profileImage: 'profileImage',
     coverImage: 'coverImage',
     tel: 'tel',
     bio: 'bio',
-    loginId: 'loginId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9434,14 +8463,13 @@ export namespace Prisma {
     NOT?: Enumerable<UserWhereInput>
     id?: IntFilter | number
     name?: StringFilter | string
+    email?: StringFilter | string
     profileImage?: StringNullableFilter | string | null
     coverImage?: StringNullableFilter | string | null
     tel?: StringNullableFilter | string | null
     bio?: StringNullableFilter | string | null
-    loginId?: IntFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    login?: XOR<LoginRelationFilter, LoginWhereInput>
     parties?: PartyListRelationFilter
     partyMembers?: PartyMemberListRelationFilter
   }
@@ -9449,31 +8477,30 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
     bio?: SortOrder
-    loginId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    login?: LoginOrderByWithRelationInput
     parties?: PartyOrderByRelationAggregateInput
     partyMembers?: PartyMemberOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
     id?: number
-    loginId?: number
+    email?: string
   }
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
     bio?: SortOrder
-    loginId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -9489,61 +8516,11 @@ export namespace Prisma {
     NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     name?: StringWithAggregatesFilter | string
+    email?: StringWithAggregatesFilter | string
     profileImage?: StringNullableWithAggregatesFilter | string | null
     coverImage?: StringNullableWithAggregatesFilter | string | null
     tel?: StringNullableWithAggregatesFilter | string | null
     bio?: StringNullableWithAggregatesFilter | string | null
-    loginId?: IntWithAggregatesFilter | number
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
-  }
-
-  export type LoginWhereInput = {
-    AND?: Enumerable<LoginWhereInput>
-    OR?: Enumerable<LoginWhereInput>
-    NOT?: Enumerable<LoginWhereInput>
-    id?: IntFilter | number
-    loginUserName?: StringFilter | string
-    loginPassword?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    user?: XOR<UserRelationFilter, UserWhereInput> | null
-  }
-
-  export type LoginOrderByWithRelationInput = {
-    id?: SortOrder
-    loginUserName?: SortOrder
-    loginPassword?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-  }
-
-  export type LoginWhereUniqueInput = {
-    id?: number
-    loginUserName?: string
-  }
-
-  export type LoginOrderByWithAggregationInput = {
-    id?: SortOrder
-    loginUserName?: SortOrder
-    loginPassword?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: LoginCountOrderByAggregateInput
-    _avg?: LoginAvgOrderByAggregateInput
-    _max?: LoginMaxOrderByAggregateInput
-    _min?: LoginMinOrderByAggregateInput
-    _sum?: LoginSumOrderByAggregateInput
-  }
-
-  export type LoginScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<LoginScalarWhereWithAggregatesInput>
-    OR?: Enumerable<LoginScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<LoginScalarWhereWithAggregatesInput>
-    id?: IntWithAggregatesFilter | number
-    loginUserName?: StringWithAggregatesFilter | string
-    loginPassword?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -9561,6 +8538,7 @@ export namespace Prisma {
     partyDetail?: StringNullableFilter | string | null
     active?: BoolFilter | boolean
     type?: StringFilter | string
+    isFull?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     createByUserId?: XOR<UserRelationFilter, UserWhereInput>
@@ -9578,6 +8556,7 @@ export namespace Prisma {
     partyDetail?: SortOrder
     active?: SortOrder
     type?: SortOrder
+    isFull?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createByUserId?: UserOrderByWithRelationInput
@@ -9599,6 +8578,7 @@ export namespace Prisma {
     partyDetail?: SortOrder
     active?: SortOrder
     type?: SortOrder
+    isFull?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PartyCountOrderByAggregateInput
@@ -9621,6 +8601,7 @@ export namespace Prisma {
     partyDetail?: StringNullableWithAggregatesFilter | string | null
     active?: BoolWithAggregatesFilter | boolean
     type?: StringWithAggregatesFilter | string
+    isFull?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -9739,11 +8720,13 @@ export namespace Prisma {
     id?: IntFilter | number
     shabuShopId?: IntFilter | number
     branchName?: StringFilter | string
-    googleMapLocation?: StringFilter | string
     tel?: StringFilter | string
-    shopDetail?: StringFilter | string
+    shopDetail?: StringNullableFilter | string | null
+    address?: StringFilter | string
     openTime?: IntFilter | number
     closeTime?: IntFilter | number
+    latitude?: FloatFilter | number
+    longtitude?: FloatFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     shabuShop?: XOR<ShabuShopRelationFilter, ShabuShopWhereInput>
@@ -9754,11 +8737,13 @@ export namespace Prisma {
     id?: SortOrder
     shabuShopId?: SortOrder
     branchName?: SortOrder
-    googleMapLocation?: SortOrder
     tel?: SortOrder
     shopDetail?: SortOrder
+    address?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     shabuShop?: ShabuShopOrderByWithRelationInput
@@ -9773,11 +8758,13 @@ export namespace Prisma {
     id?: SortOrder
     shabuShopId?: SortOrder
     branchName?: SortOrder
-    googleMapLocation?: SortOrder
     tel?: SortOrder
     shopDetail?: SortOrder
+    address?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ShabuShopBranchCountOrderByAggregateInput
@@ -9794,11 +8781,13 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter | number
     shabuShopId?: IntWithAggregatesFilter | number
     branchName?: StringWithAggregatesFilter | string
-    googleMapLocation?: StringWithAggregatesFilter | string
     tel?: StringWithAggregatesFilter | string
-    shopDetail?: StringWithAggregatesFilter | string
+    shopDetail?: StringNullableWithAggregatesFilter | string | null
+    address?: StringWithAggregatesFilter | string
     openTime?: IntWithAggregatesFilter | number
     closeTime?: IntWithAggregatesFilter | number
+    latitude?: FloatWithAggregatesFilter | number
+    longtitude?: FloatWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -9905,13 +8894,13 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    login: LoginCreateNestedOneWithoutUserInput
     parties?: PartyCreateNestedManyWithoutCreateByUserIdInput
     partyMembers?: PartyMemberCreateNestedManyWithoutUserInput
   }
@@ -9919,11 +8908,11 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: number
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
-    loginId: number
     createdAt?: Date | string
     updatedAt?: Date | string
     parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserIdInput
@@ -9932,13 +8921,13 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    login?: LoginUpdateOneRequiredWithoutUserNestedInput
     parties?: PartyUpdateManyWithoutCreateByUserIdNestedInput
     partyMembers?: PartyMemberUpdateManyWithoutUserNestedInput
   }
@@ -9946,11 +8935,11 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    loginId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parties?: PartyUncheckedUpdateManyWithoutCreateByUserIdNestedInput
@@ -9960,17 +8949,18 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: number
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
-    loginId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9982,68 +8972,11 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    loginId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LoginCreateInput = {
-    loginUserName: string
-    loginPassword: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user?: UserCreateNestedOneWithoutLoginInput
-  }
-
-  export type LoginUncheckedCreateInput = {
-    id?: number
-    loginUserName: string
-    loginPassword: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user?: UserUncheckedCreateNestedOneWithoutLoginInput
-  }
-
-  export type LoginUpdateInput = {
-    loginUserName?: StringFieldUpdateOperationsInput | string
-    loginPassword?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneWithoutLoginNestedInput
-  }
-
-  export type LoginUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    loginUserName?: StringFieldUpdateOperationsInput | string
-    loginPassword?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUncheckedUpdateOneWithoutLoginNestedInput
-  }
-
-  export type LoginCreateManyInput = {
-    id?: number
-    loginUserName: string
-    loginPassword: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type LoginUpdateManyMutationInput = {
-    loginUserName?: StringFieldUpdateOperationsInput | string
-    loginPassword?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LoginUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    loginUserName?: StringFieldUpdateOperationsInput | string
-    loginPassword?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10055,6 +8988,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createByUserId: UserCreateNestedOneWithoutPartiesInput
@@ -10072,6 +9006,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutPartyInput
@@ -10084,6 +9019,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createByUserId?: UserUpdateOneRequiredWithoutPartiesNestedInput
@@ -10101,6 +9037,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partyMembers?: PartyMemberUncheckedUpdateManyWithoutPartyNestedInput
@@ -10116,6 +9053,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10127,6 +9065,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10141,6 +9080,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10266,11 +9206,13 @@ export namespace Prisma {
 
   export type ShabuShopBranchCreateInput = {
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShop: ShabuShopCreateNestedOneWithoutShabuShopBranchsInput
@@ -10281,11 +9223,13 @@ export namespace Prisma {
     id?: number
     shabuShopId: number
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShopTables?: ShabuShopTableUncheckedCreateNestedManyWithoutBranchInput
@@ -10293,11 +9237,13 @@ export namespace Prisma {
 
   export type ShabuShopBranchUpdateInput = {
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShop?: ShabuShopUpdateOneRequiredWithoutShabuShopBranchsNestedInput
@@ -10308,11 +9254,13 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shabuShopId?: IntFieldUpdateOperationsInput | number
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShopTables?: ShabuShopTableUncheckedUpdateManyWithoutBranchNestedInput
@@ -10322,22 +9270,26 @@ export namespace Prisma {
     id?: number
     shabuShopId: number
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ShabuShopBranchUpdateManyMutationInput = {
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10346,11 +9298,13 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shabuShopId?: IntFieldUpdateOperationsInput | number
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10515,11 +9469,6 @@ export namespace Prisma {
     not?: NestedDateTimeFilter | Date | string
   }
 
-  export type LoginRelationFilter = {
-    is?: LoginWhereInput
-    isNot?: LoginWhereInput
-  }
-
   export type PartyListRelationFilter = {
     every?: PartyWhereInput
     some?: PartyWhereInput
@@ -10543,28 +9492,27 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
     bio?: SortOrder
-    loginId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
-    loginId?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
     bio?: SortOrder
-    loginId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10572,18 +9520,17 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
     bio?: SortOrder
-    loginId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
-    loginId?: SortOrder
   }
 
   export type IntWithAggregatesFilter = {
@@ -10652,46 +9599,14 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type UserRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
-  export type LoginCountOrderByAggregateInput = {
-    id?: SortOrder
-    loginUserName?: SortOrder
-    loginPassword?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type LoginAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type LoginMaxOrderByAggregateInput = {
-    id?: SortOrder
-    loginUserName?: SortOrder
-    loginPassword?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type LoginMinOrderByAggregateInput = {
-    id?: SortOrder
-    loginUserName?: SortOrder
-    loginPassword?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type LoginSumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type BoolFilter = {
     equals?: boolean
     not?: NestedBoolFilter | boolean
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type ShabuShopTableRelationFilter = {
@@ -10709,6 +9624,7 @@ export namespace Prisma {
     partyDetail?: SortOrder
     active?: SortOrder
     type?: SortOrder
+    isFull?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10729,6 +9645,7 @@ export namespace Prisma {
     partyDetail?: SortOrder
     active?: SortOrder
     type?: SortOrder
+    isFull?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10743,6 +9660,7 @@ export namespace Prisma {
     partyDetail?: SortOrder
     active?: SortOrder
     type?: SortOrder
+    isFull?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10857,6 +9775,17 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type FloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
   export type ShabuShopRelationFilter = {
     is?: ShabuShopWhereInput
     isNot?: ShabuShopWhereInput
@@ -10876,11 +9805,13 @@ export namespace Prisma {
     id?: SortOrder
     shabuShopId?: SortOrder
     branchName?: SortOrder
-    googleMapLocation?: SortOrder
     tel?: SortOrder
     shopDetail?: SortOrder
+    address?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10890,17 +9821,21 @@ export namespace Prisma {
     shabuShopId?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
   }
 
   export type ShabuShopBranchMaxOrderByAggregateInput = {
     id?: SortOrder
     shabuShopId?: SortOrder
     branchName?: SortOrder
-    googleMapLocation?: SortOrder
     tel?: SortOrder
     shopDetail?: SortOrder
+    address?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10909,11 +9844,13 @@ export namespace Prisma {
     id?: SortOrder
     shabuShopId?: SortOrder
     branchName?: SortOrder
-    googleMapLocation?: SortOrder
     tel?: SortOrder
     shopDetail?: SortOrder
+    address?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10923,6 +9860,24 @@ export namespace Prisma {
     shabuShopId?: SortOrder
     openTime?: SortOrder
     closeTime?: SortOrder
+    latitude?: SortOrder
+    longtitude?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedFloatFilter
+    _min?: NestedFloatFilter
+    _max?: NestedFloatFilter
   }
 
   export type ShabuShopBranchRelationFilter = {
@@ -11000,12 +9955,6 @@ export namespace Prisma {
     shabuShopId?: SortOrder
   }
 
-  export type LoginCreateNestedOneWithoutUserInput = {
-    create?: XOR<LoginCreateWithoutUserInput, LoginUncheckedCreateWithoutUserInput>
-    connectOrCreate?: LoginCreateOrConnectWithoutUserInput
-    connect?: LoginWhereUniqueInput
-  }
-
   export type PartyCreateNestedManyWithoutCreateByUserIdInput = {
     create?: XOR<Enumerable<PartyCreateWithoutCreateByUserIdInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserIdInput>>
     connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserIdInput>
@@ -11044,14 +9993,6 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
-  }
-
-  export type LoginUpdateOneRequiredWithoutUserNestedInput = {
-    create?: XOR<LoginCreateWithoutUserInput, LoginUncheckedCreateWithoutUserInput>
-    connectOrCreate?: LoginCreateOrConnectWithoutUserInput
-    upsert?: LoginUpsertWithoutUserInput
-    connect?: LoginWhereUniqueInput
-    update?: XOR<LoginUpdateWithoutUserInput, LoginUncheckedUpdateWithoutUserInput>
   }
 
   export type PartyUpdateManyWithoutCreateByUserIdNestedInput = {
@@ -11116,38 +10057,6 @@ export namespace Prisma {
     update?: Enumerable<PartyMemberUpdateWithWhereUniqueWithoutUserInput>
     updateMany?: Enumerable<PartyMemberUpdateManyWithWhereWithoutUserInput>
     deleteMany?: Enumerable<PartyMemberScalarWhereInput>
-  }
-
-  export type UserCreateNestedOneWithoutLoginInput = {
-    create?: XOR<UserCreateWithoutLoginInput, UserUncheckedCreateWithoutLoginInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLoginInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserUncheckedCreateNestedOneWithoutLoginInput = {
-    create?: XOR<UserCreateWithoutLoginInput, UserUncheckedCreateWithoutLoginInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLoginInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type UserUpdateOneWithoutLoginNestedInput = {
-    create?: XOR<UserCreateWithoutLoginInput, UserUncheckedCreateWithoutLoginInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLoginInput
-    upsert?: UserUpsertWithoutLoginInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutLoginInput, UserUncheckedUpdateWithoutLoginInput>
-  }
-
-  export type UserUncheckedUpdateOneWithoutLoginNestedInput = {
-    create?: XOR<UserCreateWithoutLoginInput, UserUncheckedCreateWithoutLoginInput>
-    connectOrCreate?: UserCreateOrConnectWithoutLoginInput
-    upsert?: UserUpsertWithoutLoginInput
-    disconnect?: boolean
-    delete?: boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutLoginInput, UserUncheckedUpdateWithoutLoginInput>
   }
 
   export type UserCreateNestedOneWithoutPartiesInput = {
@@ -11354,6 +10263,14 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<ShabuShopTableCreateOrConnectWithoutBranchInput>
     createMany?: ShabuShopTableCreateManyBranchInputEnvelope
     connect?: Enumerable<ShabuShopTableWhereUniqueInput>
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type ShabuShopUpdateOneRequiredWithoutShabuShopBranchsNestedInput = {
@@ -11611,24 +10528,20 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
-  export type LoginCreateWithoutUserInput = {
-    loginUserName: string
-    loginPassword: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type LoginUncheckedCreateWithoutUserInput = {
-    id?: number
-    loginUserName: string
-    loginPassword: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type LoginCreateOrConnectWithoutUserInput = {
-    where: LoginWhereUniqueInput
-    create: XOR<LoginCreateWithoutUserInput, LoginUncheckedCreateWithoutUserInput>
+  export type NestedFloatWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedFloatFilter
+    _min?: NestedFloatFilter
+    _max?: NestedFloatFilter
   }
 
   export type PartyCreateWithoutCreateByUserIdInput = {
@@ -11638,6 +10551,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     table: ShabuShopTableCreateNestedOneWithoutPartiesInput
@@ -11653,6 +10567,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutPartyInput
@@ -11693,26 +10608,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type LoginUpsertWithoutUserInput = {
-    update: XOR<LoginUpdateWithoutUserInput, LoginUncheckedUpdateWithoutUserInput>
-    create: XOR<LoginCreateWithoutUserInput, LoginUncheckedCreateWithoutUserInput>
-  }
-
-  export type LoginUpdateWithoutUserInput = {
-    loginUserName?: StringFieldUpdateOperationsInput | string
-    loginPassword?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LoginUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    loginUserName?: StringFieldUpdateOperationsInput | string
-    loginPassword?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type PartyUpsertWithWhereUniqueWithoutCreateByUserIdInput = {
     where: PartyWhereUniqueInput
     update: XOR<PartyUpdateWithoutCreateByUserIdInput, PartyUncheckedUpdateWithoutCreateByUserIdInput>
@@ -11742,6 +10637,7 @@ export namespace Prisma {
     partyDetail?: StringNullableFilter | string | null
     active?: BoolFilter | boolean
     type?: StringFilter | string
+    isFull?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -11774,86 +10670,26 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
   }
 
-  export type UserCreateWithoutLoginInput = {
-    name: string
-    profileImage?: string | null
-    coverImage?: string | null
-    tel?: string | null
-    bio?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    parties?: PartyCreateNestedManyWithoutCreateByUserIdInput
-    partyMembers?: PartyMemberCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutLoginInput = {
-    id?: number
-    name: string
-    profileImage?: string | null
-    coverImage?: string | null
-    tel?: string | null
-    bio?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserIdInput
-    partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutLoginInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutLoginInput, UserUncheckedCreateWithoutLoginInput>
-  }
-
-  export type UserUpsertWithoutLoginInput = {
-    update: XOR<UserUpdateWithoutLoginInput, UserUncheckedUpdateWithoutLoginInput>
-    create: XOR<UserCreateWithoutLoginInput, UserUncheckedCreateWithoutLoginInput>
-  }
-
-  export type UserUpdateWithoutLoginInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    tel?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parties?: PartyUpdateManyWithoutCreateByUserIdNestedInput
-    partyMembers?: PartyMemberUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutLoginInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    tel?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parties?: PartyUncheckedUpdateManyWithoutCreateByUserIdNestedInput
-    partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserNestedInput
-  }
-
   export type UserCreateWithoutPartiesInput = {
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    login: LoginCreateNestedOneWithoutUserInput
     partyMembers?: PartyMemberCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPartiesInput = {
     id?: number
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
-    loginId: number
     createdAt?: Date | string
     updatedAt?: Date | string
     partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserInput
@@ -11916,24 +10752,24 @@ export namespace Prisma {
 
   export type UserUpdateWithoutPartiesInput = {
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    login?: LoginUpdateOneRequiredWithoutUserNestedInput
     partyMembers?: PartyMemberUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPartiesInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    loginId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -11982,6 +10818,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createByUserId: UserCreateNestedOneWithoutPartiesInput
@@ -11998,6 +10835,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12009,24 +10847,24 @@ export namespace Prisma {
 
   export type UserCreateWithoutPartyMembersInput = {
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    login: LoginCreateNestedOneWithoutUserInput
     parties?: PartyCreateNestedManyWithoutCreateByUserIdInput
   }
 
   export type UserUncheckedCreateWithoutPartyMembersInput = {
     id?: number
     name: string
+    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
-    loginId: number
     createdAt?: Date | string
     updatedAt?: Date | string
     parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserIdInput
@@ -12049,6 +10887,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createByUserId?: UserUpdateOneRequiredWithoutPartiesNestedInput
@@ -12065,6 +10904,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12076,24 +10916,24 @@ export namespace Prisma {
 
   export type UserUpdateWithoutPartyMembersInput = {
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    login?: LoginUpdateOneRequiredWithoutUserNestedInput
     parties?: PartyUpdateManyWithoutCreateByUserIdNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPartyMembersInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
-    loginId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parties?: PartyUncheckedUpdateManyWithoutCreateByUserIdNestedInput
@@ -12101,11 +10941,13 @@ export namespace Prisma {
 
   export type ShabuShopBranchCreateWithoutShabuShopInput = {
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShopTables?: ShabuShopTableCreateNestedManyWithoutBranchInput
@@ -12114,11 +10956,13 @@ export namespace Prisma {
   export type ShabuShopBranchUncheckedCreateWithoutShabuShopInput = {
     id?: number
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShopTables?: ShabuShopTableUncheckedCreateNestedManyWithoutBranchInput
@@ -12180,11 +11024,13 @@ export namespace Prisma {
     id?: IntFilter | number
     shabuShopId?: IntFilter | number
     branchName?: StringFilter | string
-    googleMapLocation?: StringFilter | string
     tel?: StringFilter | string
-    shopDetail?: StringFilter | string
+    shopDetail?: StringNullableFilter | string | null
+    address?: StringFilter | string
     openTime?: IntFilter | number
     closeTime?: IntFilter | number
+    latitude?: FloatFilter | number
+    longtitude?: FloatFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -12314,11 +11160,13 @@ export namespace Prisma {
 
   export type ShabuShopBranchCreateWithoutShabuShopTablesInput = {
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShop: ShabuShopCreateNestedOneWithoutShabuShopBranchsInput
@@ -12328,11 +11176,13 @@ export namespace Prisma {
     id?: number
     shabuShopId: number
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12349,6 +11199,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     createByUserId: UserCreateNestedOneWithoutPartiesInput
@@ -12364,6 +11215,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutPartyInput
@@ -12386,11 +11238,13 @@ export namespace Prisma {
 
   export type ShabuShopBranchUpdateWithoutShabuShopTablesInput = {
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShop?: ShabuShopUpdateOneRequiredWithoutShabuShopBranchsNestedInput
@@ -12400,11 +11254,13 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shabuShopId?: IntFieldUpdateOperationsInput | number
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12478,6 +11334,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12497,6 +11354,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     table?: ShabuShopTableUpdateOneRequiredWithoutPartiesNestedInput
@@ -12512,6 +11370,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partyMembers?: PartyMemberUncheckedUpdateManyWithoutPartyNestedInput
@@ -12526,6 +11385,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12579,11 +11439,13 @@ export namespace Prisma {
   export type ShabuShopBranchCreateManyShabuShopInput = {
     id?: number
     branchName: string
-    googleMapLocation: string
     tel: string
-    shopDetail: string
+    shopDetail?: string | null
+    address: string
     openTime: number
     closeTime: number
+    latitude: number
+    longtitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12597,11 +11459,13 @@ export namespace Prisma {
 
   export type ShabuShopBranchUpdateWithoutShabuShopInput = {
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShopTables?: ShabuShopTableUpdateManyWithoutBranchNestedInput
@@ -12610,11 +11474,13 @@ export namespace Prisma {
   export type ShabuShopBranchUncheckedUpdateWithoutShabuShopInput = {
     id?: IntFieldUpdateOperationsInput | number
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShopTables?: ShabuShopTableUncheckedUpdateManyWithoutBranchNestedInput
@@ -12623,11 +11489,13 @@ export namespace Prisma {
   export type ShabuShopBranchUncheckedUpdateManyWithoutShabuShopBranchsInput = {
     id?: IntFieldUpdateOperationsInput | number
     branchName?: StringFieldUpdateOperationsInput | string
-    googleMapLocation?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
-    shopDetail?: StringFieldUpdateOperationsInput | string
+    shopDetail?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
+    latitude?: FloatFieldUpdateOperationsInput | number
+    longtitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12690,6 +11558,7 @@ export namespace Prisma {
     partyDetail?: string | null
     active?: boolean
     type: string
+    isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12701,6 +11570,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createByUserId?: UserUpdateOneRequiredWithoutPartiesNestedInput
@@ -12716,6 +11586,7 @@ export namespace Prisma {
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
     active?: BoolFieldUpdateOperationsInput | boolean
     type?: StringFieldUpdateOperationsInput | string
+    isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     partyMembers?: PartyMemberUncheckedUpdateManyWithoutPartyNestedInput

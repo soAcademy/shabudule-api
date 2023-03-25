@@ -1,21 +1,13 @@
 import * as t from "io-ts";
 import { optional } from "io-ts-extra";
 
-export const registerUserShabuduleCodec = t.type({
-  loginUserName: t.string,
-  loginPassword: t.string,
-});
-
-export interface IRegisterUserShabudule
-  extends t.TypeOf<typeof registerUserShabuduleCodec> {}
-
 export const createUserShabuduleCodec = t.type({
   name: t.string,
   profileImage: optional(t.string),
   coverImage: optional(t.string),
+  email: t.string,
   tel: optional(t.string),
   bio: optional(t.string),
-  loginId: t.number,
 });
 
 export interface ICreateUserShabudule
@@ -54,11 +46,13 @@ export interface ICreateShabuShopShabudule
 export const createShabuShopBranchShabuduleCodec = t.type({
   shabuShopId: t.number,
   branchName: t.string,
-  googleMapLocation: t.string,
   tel: t.string,
-  shopDetail: t.string,
+  shopDetail: optional(t.string),
+  address: t.string,
   openTime: t.number,
   closeTime: t.number,
+  latitude: t.number,
+  longtitude: t.number,
 });
 
 export interface ICreateShabuShopBranchShabudule
@@ -79,21 +73,6 @@ export const createPromotionShabuduleCodec = t.type({
 
 export interface ICreatePromotionShabudule
   extends t.TypeOf<typeof createPromotionShabuduleCodec> {}
-
-export const createPromoteJoinShopShabuduleCodec = t.type({
-  image: t.string,
-});
-
-export interface ICreatePromoteJoinShopShabudule
-  extends t.TypeOf<typeof createPromoteJoinShopShabuduleCodec> {}
-
-export const updatePasswordShabuduleCodec = t.type({
-  userId: t.number,
-  loginPassword: t.string,
-});
-
-export interface IUpdatePasswordShabudule
-  extends t.TypeOf<typeof updatePasswordShabuduleCodec> {}
 
 export const updateUserNameShabuduleCodec = t.type({
   userId: t.number,
@@ -147,9 +126,13 @@ export interface IUpdateShabuShopShabudule
 export const updateShabuShopBranchShabuduleCodec = t.type({
   branchId: t.number,
   branchName: t.string,
-  googleMapLocation: t.string,
   tel: t.string,
   shopDetail: t.string,
+  address: t.string,
+  openTime: t.number,
+  closeTime: t.number,
+  latitude: t.number,
+  longtitude: t.number,
 });
 
 export interface IUpdateShabuShopBranchShabuduleCodec
@@ -207,3 +190,31 @@ export const updatePartyShabuduleCodec = t.type({
 
 export interface IUpdatePartyShabudule
   extends t.TypeOf<typeof updatePartyShabuduleCodec> {}
+
+export const updatePartyStatusShabudule = t.type({
+  partyId: t.number,
+});
+
+export interface IUpdatePartyStatusShabudule
+  extends t.TypeOf<typeof updatePartyStatusShabudule> {}
+
+export const deletePromotionShabuduleShabuduleCodec = t.type({
+  promotionId: t.number,
+});
+
+export interface IDeletePromotionShabudule
+  extends t.TypeOf<typeof deletePromotionShabuduleShabuduleCodec> {}
+
+export const checkIsFullShabuduleCodec = t.type({
+  partyId: t.number,
+});
+
+export interface ICheckIsFullShabudule
+  extends t.TypeOf<typeof checkIsFullShabuduleCodec> {}
+
+export const testShabuduleCodec = t.type({
+  branchId: t.number,
+  date: t.string,
+});
+
+export interface ITestShabudule extends t.TypeOf<typeof testShabuduleCodec> {}
