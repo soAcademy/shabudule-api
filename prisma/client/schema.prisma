@@ -12,25 +12,15 @@ generator client {
 model User {
   id           Int           @id @default(autoincrement())
   name         String
+  email        String        @unique
   profileImage String?
   coverImage   String?
   tel          String?
   bio          String?
-  login        Login         @relation(fields: [loginId], references: [id])
-  loginId      Int           @unique
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   parties      Party[]
   partyMembers PartyMember[]
-}
-
-model Login {
-  id            Int      @id @default(autoincrement())
-  loginUserName String   @unique
-  loginPassword String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  user          User?
 }
 
 model Party {
@@ -45,6 +35,7 @@ model Party {
   partyDetail      String?
   active           Boolean        @default(true)
   type             String
+  isFull           Boolean        @default(false)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   partyMembers     PartyMember[]
@@ -72,18 +63,20 @@ model ShabuShop {
 }
 
 model ShabuShopBranch {
-  id                Int              @id @default(autoincrement())
-  shabuShop         ShabuShop        @relation(fields: [shabuShopId], references: [id])
-  shabuShopId       Int
-  branchName        String
-  googleMapLocation String
-  tel               String
-  shopDetail        String
-  openTime          Int
-  closeTime         Int
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  shabuShopTables   ShabuShopTable[]
+  id              Int              @id @default(autoincrement())
+  shabuShop       ShabuShop        @relation(fields: [shabuShopId], references: [id])
+  shabuShopId     Int
+  branchName      String
+  tel             String
+  shopDetail      String?
+  address         String
+  openTime        Int
+  closeTime       Int
+  latitude        Float
+  longtitude      Float
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  shabuShopTables ShabuShopTable[]
 }
 
 model ShabuShopTable {

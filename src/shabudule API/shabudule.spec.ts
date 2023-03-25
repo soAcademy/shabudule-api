@@ -1,21 +1,22 @@
 import {
   addPartyMemberShabudule,
+  checkIsFullShabudule,
   createPartyShabudule,
   createPromotionShabudule,
   createShabuShopBranchShabudule,
   createShabuShopShabudule,
   createShabuShopTableShabudule,
   createUserShabudule,
+  deletePromotionShabudule,
   getBranchShabudule,
   getMyJoinedPartyShabudule,
   getMyPartyShabudule,
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
-  registerUserShabudule,
   updatePartyMemberStatusShabudule,
   updatePartyShabudule,
-  updatePasswordShabudule,
+  updatePartyStatusShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
@@ -27,23 +28,14 @@ import {
 } from "./shabudule.resolver";
 
 describe("Shabudule", () => {
-  // test("registerUserShabudule", async () => {
-  //   const data = {
-  //     loginUserName: "username4",
-  //     loginPassword: "password4",
-  //   };
-  //   const result = await registerUserShabudule(data);
-  //   console.log("registerUserShabudule", result);
-  //   // expect(result.name === data.name).toBe(true);
-  // });
   // test("createUserShabudule", async () => {
   //   const data = {
-  //     name: "name3",
-  //     profileImage: "aaaaaaa",
-  //     coverImage: "aaaaaaaaaaa",
-  //     tel: "111111111",
-  //     bio: "aaaaaaaaaaa",
-  //     loginId: 3,
+  //     name: "name5",
+  //     profileImage: "profileImage5",
+  //     coverImage: "coverImage5",
+  //     tel: "089-11111111",
+  //     bio: "bio5",
+  //     email: "email5@gmail.com",
   //   };
   //   const result = await createUserShabudule(data);
   //   console.log("createUserShabudule", result);
@@ -51,9 +43,9 @@ describe("Shabudule", () => {
   // });
   // test("createShabuShopShabudule", async () => {
   //   const data = {
-  //     name: "MK",
+  //     name: "MOMO Paradise",
   //     shopImage:
-  //       "https://www.mkrestaurant.com/public/assets/img/icon/logo__mk-2.png",
+  //       "https://www.mega-bangna.com/public/uploads/store/218aa2ce02f618d47a21a30426094651.jpg",
   //   };
   //   const result = await createShabuShopShabudule(data);
   //   console.log("createShabuShopShabudule", result);
@@ -61,13 +53,15 @@ describe("Shabudule", () => {
   // });
   // test("createShabuShopBranchShabudule", async () => {
   //   const data = {
-  //     shabuShopId: 2,
-  //     branchName: "Lotus Bangkae",
-  //     googleMapLocation: "aaaaaaaaaaa",
-  //     tel: "1111111111",
-  //     shopDetail: "aaaaaaaaaa",
+  //     shabuShopId: 1,
+  //     branchName: "บิ๊กซี เอ็กซ์ตร้า ลาดพร้าว",
+  //     tel: "02-222-2222",
+  //     shopDetail: "test",
+  //     address: "1691/2 ถ. พหลโยธิน แขวงจตุจักร เขตจตุจักร กรุงเทพมหานคร 10900",
   //     openTime: 11,
   //     closeTime: 21,
+  //     latitude: 13.7268226,
+  //     longtitude: 100.510294,
   //   };
   //   const result = await createShabuShopBranchShabudule(data);
   //   console.log("createShabuShopBranchShabudule", result);
@@ -75,8 +69,8 @@ describe("Shabudule", () => {
   // });
   // test("createShabuShopTableShabudule", async () => {
   //   const data = {
-  //     branchId: 5,
-  //     seatPerDesk: 4,
+  //     branchId: 3,
+  //     seatPerDesk: 2,
   //   };
   //   const result = await createShabuShopTableShabudule(data);
   //   console.log("createShabuShopTableShabudule", result);
@@ -86,7 +80,7 @@ describe("Shabudule", () => {
   //   const data = {
   //     image:
   //       "https://www.mo-mo-paradiseth.com/upload_file/restaurant/standard_pic_1.jpg",
-  //     shabuShopId: 1,
+  //     shabuShopId: 2,
   //   };
   //   const result = await createPromotionShabudule(data);
   //   console.log("createPromotionShabudule", result);
@@ -94,13 +88,13 @@ describe("Shabudule", () => {
   // });
   // test("createPartyShabudule", async () => {
   //   const data = {
-  //     name: "มากินชาบูกัน2",
-  //     userId: 3,
+  //     name: "มากินชาบูกัน1",
+  //     userId: 1,
   //     shabuShopTableId: 5,
-  //     startDateTime: "2023-03-22T18:00:00",
-  //     endDateTime: "2023-03-22T19:00:00",
-  //     partyDetail: "asdasdsdsssssssssssss",
-  //     type: "public",
+  //     startDateTime: "2023-03-28T17:00:00+07:00",
+  //     endDateTime: "2023-03-28T18:00:00+07:00",
+  //     partyDetail: "มากินชาบูกันนน",
+  //     type: "private",
   //   };
   //   const result = await createPartyShabudule(data);
   //   console.log("createPartyShabudule", result);
@@ -108,21 +102,12 @@ describe("Shabudule", () => {
   // });
   // test("addPartyMemberShabudule", async () => {
   //   const data = {
-  //     userId: 3,
+  //     userId: 4,
   //     partyId: 1,
   //     status: "accept",
   //   };
   //   const result = await addPartyMemberShabudule(data);
   //   console.log("addPartyMemberShabudule", result);
-  //   // expect(result.name === data.name).toBe(true);
-  // });
-  // test("updatePasswordShabudule", async () => {
-  //   const data = {
-  //     userId: 1,
-  //     loginPassword: "password1-1",
-  //   };
-  //   const result = await updatePasswordShabudule(data);
-  //   console.log("updatePasswordShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
   // test("updateShabuShopShabudule", async () => {
@@ -138,10 +123,14 @@ describe("Shabudule", () => {
   // test("updateShabuShopBranchShabudule", async () => {
   //   const data = {
   //     branchId: 1,
-  //     branchName: "MK2",
-  //     googleMapLocation: "profileImage1-1",
-  //     tel: "1111111",
-  //     shopDetail: "1111111",
+  //     branchName: "Lotus Bangkae",
+  //     tel: "1111111111",
+  //     shopDetail: "aaaaaaaaaa",
+  //     address: "aaaaaa",
+  //     openTime: 11,
+  //     closeTime: 21,
+  //     latitude: 100.6184404,
+  //     longtitude: 13.9889524,
   //   };
   //   const result = await updateShabuShopBranchShabudule(data);
   //   console.log("updateShabuShopBranchShabudule", result);
@@ -176,8 +165,8 @@ describe("Shabudule", () => {
   // });
   // test("updatePartyMemberStatusShabudule", async () => {
   //   const data = {
-  //     partyMemberId: 4,
-  //     status: "decline",
+  //     partyMemberId: 6,
+  //     status: "accept",
   //   };
   //   const result = await updatePartyMemberStatusShabudule(data);
   //   console.log("updatePartyMemberStatusShabudule", result);
@@ -213,49 +202,82 @@ describe("Shabudule", () => {
   //   console.log("updatePartyShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("updateUserNameShabudule", async () => {
-    const data = {
-      userId: 1,
-      name: "test1",
-    };
-    const result = await updateUserNameShabudule(data);
-    console.log("updateUserNameShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
-  test("updateUserProfileImageShabudule", async () => {
-    const data = {
-      userId: 1,
-      profileImage: "test1",
-    };
-    const result = await updateUserProfileImageShabudule(data);
-    console.log("updateUserProfileImageShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
-  test("updateUserCoverImageShabudule", async () => {
-    const data = {
-      userId: 1,
-      coverImage: "test1",
-    };
-    const result = await updateUserCoverImageShabudule(data);
-    console.log("updateUserCoverImageShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
-  test("updateUserTelShabudule", async () => {
-    const data = {
-      userId: 1,
-      tel: "test1",
-    };
-    const result = await updateUserTelShabudule(data);
-    console.log("updateUserTelShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
-  test("updateUserBioShabudule", async () => {
-    const data = {
-      userId: 1,
-      bio: "test1",
-    };
-    const result = await updateUserBioShabudule(data);
-    console.log("updateUserBioShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
+  // test("updateUserNameShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //     name: "test1",
+  //   };
+  //   const result = await updateUserNameShabudule(data);
+  //   console.log("updateUserNameShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updateUserProfileImageShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //     profileImage: "test1",
+  //   };
+  //   const result = await updateUserProfileImageShabudule(data);
+  //   console.log("updateUserProfileImageShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updateUserCoverImageShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //     coverImage: "test1",
+  //   };
+  //   const result = await updateUserCoverImageShabudule(data);
+  //   console.log("updateUserCoverImageShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updateUserTelShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //     tel: "test1",
+  //   };
+  //   const result = await updateUserTelShabudule(data);
+  //   console.log("updateUserTelShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updateUserBioShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //     bio: "test1",
+  //   };
+  //   const result = await updateUserBioShabudule(data);
+  //   console.log("updateUserBioShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updatePartyStatusShabudule", async () => {
+  //   const data = {
+  //     partyId: 1,
+  //   };
+  //   const result = await updatePartyStatusShabudule(data);
+  //   console.log("updatePartyStatusShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("deletePromotionShabudule", async () => {
+  //   const data = {
+  //     promotionId: 1,
+  //   };
+  //   const result = await deletePromotionShabudule(data);
+  //   console.log("deletePromotionShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("checkIsFullShabudule", async () => {
+  //   const data = {
+  //     partyId: 1,
+  //   };
+  //   const result = await checkIsFullShabudule(data);
+  //   console.log("checkIsFullShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("testShabudule", async () => {
+  //   const data = {
+  //     branchId: 2,
+  //     date: "2023-03-21T00:00:00+07:00",
+  //   };
+  //   const result = await testShabudule(data);
+  //   console.log("testShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
 });

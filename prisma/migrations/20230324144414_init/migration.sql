@@ -2,26 +2,15 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "profileImage" TEXT,
     "coverImage" TEXT,
     "tel" TEXT,
     "bio" TEXT,
-    "loginId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Login" (
-    "id" SERIAL NOT NULL,
-    "loginUserName" TEXT NOT NULL,
-    "loginPassword" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Login_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -35,6 +24,7 @@ CREATE TABLE "Party" (
     "partyDetail" TEXT,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "type" TEXT NOT NULL,
+    "isFull" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -71,9 +61,12 @@ CREATE TABLE "ShabuShopBranch" (
     "branchName" TEXT NOT NULL,
     "googleMapLocation" TEXT NOT NULL,
     "tel" TEXT NOT NULL,
-    "shopDetail" TEXT NOT NULL,
+    "shopDetail" TEXT,
+    "address" TEXT NOT NULL,
     "openTime" INTEGER NOT NULL,
     "closeTime" INTEGER NOT NULL,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -102,27 +95,11 @@ CREATE TABLE "PromotionByShop" (
     CONSTRAINT "PromotionByShop_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "PromoteJoinedShop" (
-    "id" SERIAL NOT NULL,
-    "image" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "PromoteJoinedShop_pkey" PRIMARY KEY ("id")
-);
-
 -- CreateIndex
-CREATE UNIQUE INDEX "User_loginId_key" ON "User"("loginId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Login_loginUserName_key" ON "Login"("loginUserName");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ShabuShop_name_key" ON "ShabuShop"("name");
-
--- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_loginId_fkey" FOREIGN KEY ("loginId") REFERENCES "Login"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Party" ADD CONSTRAINT "Party_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

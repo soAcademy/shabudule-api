@@ -10,10 +10,8 @@ import {
   getBranchShabuduleCodec,
   getMyJoinedPartyShabuduleCodec,
   getMyPartyShabuduleCodec,
-  registerUserShabuduleCodec,
   updatePartyMemberStatusShabuduleCodec,
   updatePartyShabuduleCodec,
-  updatePasswordShabuduleCodec,
   updatePromotionShabuduleCodec,
   updateShabuShopBranchShabuduleCodec,
   updateShabuShopShabuduleCodec,
@@ -37,10 +35,8 @@ import {
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
-  registerUserShabudule,
   updatePartyMemberStatusShabudule,
   updatePartyShabudule,
-  updatePasswordShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
@@ -50,24 +46,6 @@ import {
   updateUserProfileImageShabudule,
   updateUserTelShabudule,
 } from "./shabudule.resolver";
-
-export const registerUserShabuduleHandler = async (
-  req: Request,
-  res: Response
-) => {
-  const args = req?.body;
-
-  if (registerUserShabuduleCodec.decode(args)._tag === "Right") {
-    try {
-      const result = await registerUserShabudule(args);
-      res.status(200).json(result);
-    } catch (e) {
-      res.status(500).json({ error: String(e) });
-    }
-  } else {
-    res.status(500).json({ error: "Error invalid codec" });
-  }
-};
 
 export const createUserShabuduleHandler = async (
   req: Request,
@@ -186,24 +164,6 @@ export const createPromotionShabuduleHandler = async (
   if (createPromotionShabuduleCodec.decode(args)._tag === "Right") {
     try {
       const result = await createPromotionShabudule(args);
-      res.status(200).json(result);
-    } catch (e) {
-      res.status(500).json({ error: String(e) });
-    }
-  } else {
-    res.status(500).json({ error: "Error invalid codec" });
-  }
-};
-
-export const updatePasswordShabuduleHandler = async (
-  req: Request,
-  res: Response
-) => {
-  const args = req?.body;
-
-  if (updatePasswordShabuduleCodec.decode(args)._tag === "Right") {
-    try {
-      const result = await updatePasswordShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });

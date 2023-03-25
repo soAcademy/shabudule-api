@@ -89,14 +89,6 @@ Prisma.NullTypes = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 function makeEnum(x) { return x; }
 
-exports.Prisma.LoginScalarFieldEnum = makeEnum({
-  id: 'id',
-  loginUserName: 'loginUserName',
-  loginPassword: 'loginPassword',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-});
-
 exports.Prisma.PartyMemberScalarFieldEnum = makeEnum({
   id: 'id',
   partyId: 'partyId',
@@ -116,6 +108,7 @@ exports.Prisma.PartyScalarFieldEnum = makeEnum({
   partyDetail: 'partyDetail',
   active: 'active',
   type: 'type',
+  isFull: 'isFull',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -137,11 +130,13 @@ exports.Prisma.ShabuShopBranchScalarFieldEnum = makeEnum({
   id: 'id',
   shabuShopId: 'shabuShopId',
   branchName: 'branchName',
-  googleMapLocation: 'googleMapLocation',
   tel: 'tel',
   shopDetail: 'shopDetail',
+  address: 'address',
   openTime: 'openTime',
   closeTime: 'closeTime',
+  latitude: 'latitude',
+  longtitude: 'longtitude',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -177,11 +172,11 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
+  email: 'email',
   profileImage: 'profileImage',
   coverImage: 'coverImage',
   tel: 'tel',
   bio: 'bio',
-  loginId: 'loginId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -189,7 +184,6 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   User: 'User',
-  Login: 'Login',
   Party: 'Party',
   PartyMember: 'PartyMember',
   ShabuShop: 'ShabuShop',

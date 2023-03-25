@@ -12,10 +12,8 @@ import {
   getPartyShabuduleHandler,
   getPromotionShabuduleHandler,
   getShopShabuduleHandler,
-  registerUserShabuduleHandler,
   updatePartyMemberStatusShabuduleHandler,
   updatePartyShabuduleHandler,
-  updatePasswordShabuduleHandler,
   updatePromotionShabuduleHandler,
   updateShabuShopBranchShabuduleHandler,
   updateShabuShopShabuduleHandler,
@@ -27,11 +25,6 @@ import {
 } from "./shabudule API";
 
 export const AppRoutes = [
-  {
-    path: "/function/registerUserShabudule",
-    method: "post",
-    action: registerUserShabuduleHandler,
-  },
   {
     path: "/function/createUserShabudule",
     method: "post",
@@ -66,11 +59,6 @@ export const AppRoutes = [
     path: "/function/createPromotionShabudule",
     method: "post",
     action: createPromotionShabuduleHandler,
-  },
-  {
-    path: "/function/updatePasswordShabudule",
-    method: "post",
-    action: updatePasswordShabuduleHandler,
   },
   {
     path: "/function/updatePartyMemberStatusShabudule",

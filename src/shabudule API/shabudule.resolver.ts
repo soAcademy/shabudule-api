@@ -1,19 +1,24 @@
 import { PrismaClient } from "../../prisma/client";
+import dayjs from "dayjs";
+import "dayjs/locale/pt";
+import localeDe from "dayjs/locale/de";
 import {
   IAddPartyMemberShabudule,
+  ICheckIsFullShabudule,
   ICreatePartyShabudule,
   ICreatePromotionShabudule,
   ICreateShabuShopBranchShabudule,
   ICreateShabuShopShabudule,
   ICreateShabuShopTableShabudule,
   ICreateUserShabudule,
+  IDeletePromotionShabudule,
   IGetBranchShabudule,
   IGetMyJoinedPartyShabudule,
   IGetMyPartyShabudule,
-  IRegisterUserShabudule,
+  ITestShabudule,
   IUpdatePartyMemberStatusShabudule,
   IUpdatePartyShabudule,
-  IUpdatePasswordShabudule,
+  IUpdatePartyStatusShabudule,
   IUpdatePromotionShabudule,
   IUpdateShabuShopBranchShabuduleCodec,
   IUpdateShabuShopShabudule,
@@ -26,14 +31,6 @@ import {
 
 export const prisma = new PrismaClient();
 
-export const registerUserShabudule = (args: IRegisterUserShabudule) =>
-  prisma.login.create({
-    data: {
-      loginUserName: args.loginUserName,
-      loginPassword: args.loginPassword,
-    },
-  });
-
 export const createUserShabudule = (args: ICreateUserShabudule) =>
   prisma.user.create({
     data: {
@@ -42,7 +39,7 @@ export const createUserShabudule = (args: ICreateUserShabudule) =>
       coverImage: args?.coverImage,
       tel: args?.tel,
       bio: args?.bio,
-      login: { connect: { id: args.loginId } },
+      email: args.email,
     },
   });
 
@@ -83,11 +80,13 @@ export const createShabuShopBranchShabudule = (
     data: {
       shabuShop: { connect: { id: args.shabuShopId } },
       branchName: args.branchName,
-      googleMapLocation: args.googleMapLocation,
       tel: args.tel,
-      shopDetail: args.shopDetail,
+      shopDetail: args?.shopDetail,
+      address: args.address,
       openTime: args.openTime,
       closeTime: args.closeTime,
+      latitude: args.latitude,
+      longtitude: args.longtitude,
     },
   });
 
@@ -106,14 +105,6 @@ export const createPromotionShabudule = (args: ICreatePromotionShabudule) =>
     data: {
       image: args.image,
       shabuShop: { connect: { id: args.shabuShopId } },
-    },
-  });
-
-export const updatePasswordShabudule = (args: IUpdatePasswordShabudule) =>
-  prisma.login.update({
-    where: { id: args.userId },
-    data: {
-      loginPassword: args.loginPassword,
     },
   });
 
@@ -182,10 +173,14 @@ export const updateShabuShopBranchShabudule = (
   prisma.shabuShopBranch.update({
     where: { id: args.branchId },
     data: {
-      branchName: args?.branchName,
-      googleMapLocation: args?.googleMapLocation,
-      tel: args?.tel,
-      shopDetail: args?.shopDetail,
+      branchName: args.branchName,
+      tel: args.tel,
+      shopDetail: args.shopDetail,
+      address: args.address,
+      openTime: args.openTime,
+      closeTime: args.closeTime,
+      latitude: args.latitude,
+      longtitude: args.longtitude,
     },
   });
 
@@ -220,6 +215,7 @@ export const getBranchShabudule = (args: IGetBranchShabudule) =>
 
 export const getPartyShabudule = async () => {
   const currentTime = new Date();
+  console.log(currentTime);
   const activeParties = await prisma.party.findMany({
     where: {
       active: true,
@@ -228,6 +224,7 @@ export const getPartyShabudule = async () => {
       },
       type: "public",
     },
+    include: { table: true, partyMembers: true },
     orderBy: {
       startDateTime: "asc",
     },
@@ -245,7 +242,7 @@ export const getMyPartyShabudule = async (args: IGetMyPartyShabudule) => {
         gt: currentTime,
       },
     },
-    include: { partyMembers: true },
+    include: { table: true, partyMembers: true },
     orderBy: {
       startDateTime: "asc",
     },
@@ -266,10 +263,92 @@ export const getMyJoinedPartyShabudule = async (
       },
       NOT: { userId: args.userId },
     },
-    include: { partyMembers: true },
+    include: { table: true, partyMembers: true },
     orderBy: {
       startDateTime: "asc",
     },
   });
   return activeParties;
 };
+
+export const updatePartyStatusShabudule = (args: IUpdatePartyStatusShabudule) =>
+  prisma.party.update({
+    where: { id: args.partyId },
+    data: { active: false },
+  });
+
+export const deletePromotionShabudule = (args: IDeletePromotionShabudule) =>
+  prisma.promotionByShop.delete({
+    where: { id: args.promotionId },
+  });
+
+export const checkIsFullShabudule = async (args: ICheckIsFullShabudule) => {
+  const party = await prisma.party.findUnique({
+    where: { id: args.partyId },
+    include: {
+      partyMembers: true,
+      table: true,
+    },
+  });
+  console.log("party", party);
+
+  const acceptMember = party?.partyMembers.filter(
+    (r) => r.status === "accept"
+  )?.length;
+
+  console.log("acceptMember", acceptMember);
+
+  const seat = party?.table?.seatPerDesk;
+  console.log("seat", seat);
+
+  if (acceptMember === seat) {
+    const result = prisma.party.update({
+      where: { id: args.partyId },
+      data: { isFull: true },
+    });
+    return result;
+  }
+};
+
+// export const testShabudule = async (args: ITestShabudule) => {
+//   const result1 = await prisma.shabuShopBranch.findUnique({
+//     where: { id: args.branchId },
+//   });
+//   const openTime: any = result1?.openTime;
+//   const closeTime: any = result1?.closeTime;
+//   console.log("openTime", openTime);
+//   console.log("closeTime", closeTime);
+
+//   const arr: number[] = [];
+//   for (let i: any = openTime; i <= closeTime; i++) {
+//     arr.push(i);
+//   }
+//   console.log("arr", arr);
+
+//   // console.log("dayjs", dayjs());
+//   // console.log("dayjs", dayjs().format("DD/MM/YYYY"));
+//   // console.log("dayjs", dayjs().locale(localeDe).format());
+
+//   const inputDate = new Date(args.date);
+//   console.log("inputDate", inputDate);
+
+//   const startOfDay = new Date(
+//     Date.UTC(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate())
+//   );
+
+//   console.log("startOfDay", startOfDay);
+
+//   const parties = await prisma.party.findMany({
+//     where: {
+//       startDateTime: {
+//         gte: startOfDay,
+//       },
+//     },
+//   });
+
+//   console.log("parties", parties);
+
+// const result2 = await prisma.party.findMany({
+//   where: { startDateTime: {likes : new Date(args.date) },
+// });
+// };
