@@ -1,11 +1,13 @@
 import {
   addPartyMemberShabuduleHandler,
+  checkIsFullShabuduleHandler,
   createPartyShabuduleHandler,
   createPromotionShabuduleHandler,
   createShabuShopBranchShabuduleHandler,
   createShabuShopShabuduleHandler,
   createShabuShopTableShabuduleHandler,
   createUserShabuduleHandler,
+  deletePromotionShabuduleHandler,
   getBranchShabuduleHandler,
   getMyJoinedPartyShabuduleHandler,
   getMyPartyShabuduleHandler,
@@ -14,6 +16,7 @@ import {
   getShopShabuduleHandler,
   updatePartyMemberStatusShabuduleHandler,
   updatePartyShabuduleHandler,
+  updatePartyStatusShabuduleHandler,
   updatePromotionShabuduleHandler,
   updateShabuShopBranchShabuduleHandler,
   updateShabuShopShabuduleHandler,
@@ -139,5 +142,20 @@ export const AppRoutes = [
     path: "/function/updateUserBioShabudule",
     method: "post",
     action: updateUserBioShabuduleHandler,
+  },
+  {
+    path: "/function/updatePartyStatusShabudule",
+    method: "post",
+    action: updatePartyStatusShabuduleHandler,
+  },
+  {
+    path: "/function/deletePromotionShabudule",
+    method: "post",
+    action: deletePromotionShabuduleHandler,
+  },
+  {
+    path: "/function/checkIsFullShabudule",
+    method: "post",
+    action: checkIsFullShabuduleHandler,
   },
 ];
