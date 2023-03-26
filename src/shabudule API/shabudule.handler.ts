@@ -1,17 +1,20 @@
 import { Request, Response } from "express";
 import {
   addPartyMemberShabuduleCodec,
+  checkIsFullShabuduleCodec,
   createPartyShabuduleCodec,
   createPromotionShabuduleCodec,
   createShabuShopBranchShabuduleCodec,
   createShabuShopShabuduleCodec,
   createShabuShopTableShabuduleCodec,
   createUserShabuduleCodec,
+  deletePromotionShabuduleCodec,
   getBranchShabuduleCodec,
   getMyJoinedPartyShabuduleCodec,
   getMyPartyShabuduleCodec,
   updatePartyMemberStatusShabuduleCodec,
   updatePartyShabuduleCodec,
+  updatePartyStatusShabuduleCodec,
   updatePromotionShabuduleCodec,
   updateShabuShopBranchShabuduleCodec,
   updateShabuShopShabuduleCodec,
@@ -23,12 +26,14 @@ import {
 } from "./shabudule.interface";
 import {
   addPartyMemberShabudule,
+  checkIsFullShabudule,
   createPartyShabudule,
   createPromotionShabudule,
   createShabuShopBranchShabudule,
   createShabuShopShabudule,
   createShabuShopTableShabudule,
   createUserShabudule,
+  deletePromotionShabudule,
   getBranchShabudule,
   getMyJoinedPartyShabudule,
   getMyPartyShabudule,
@@ -37,6 +42,7 @@ import {
   getShopShabudule,
   updatePartyMemberStatusShabudule,
   updatePartyShabudule,
+  updatePartyStatusShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
@@ -425,6 +431,60 @@ export const getMyJoinedPartyShabuduleHandler = async (
   if (getMyJoinedPartyShabuduleCodec.decode(args)._tag === "Right") {
     try {
       const result = await getMyJoinedPartyShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const updatePartyStatusShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updatePartyStatusShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updatePartyStatusShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const deletePromotionShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (deletePromotionShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await deletePromotionShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const checkIsFullShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (checkIsFullShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await checkIsFullShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });

@@ -191,19 +191,19 @@ export const updatePartyShabuduleCodec = t.type({
 export interface IUpdatePartyShabudule
   extends t.TypeOf<typeof updatePartyShabuduleCodec> {}
 
-export const updatePartyStatusShabudule = t.type({
+export const updatePartyStatusShabuduleCodec = t.type({
   partyId: t.number,
 });
 
 export interface IUpdatePartyStatusShabudule
-  extends t.TypeOf<typeof updatePartyStatusShabudule> {}
+  extends t.TypeOf<typeof updatePartyStatusShabuduleCodec> {}
 
-export const deletePromotionShabuduleShabuduleCodec = t.type({
+export const deletePromotionShabuduleCodec = t.type({
   promotionId: t.number,
 });
 
 export interface IDeletePromotionShabudule
-  extends t.TypeOf<typeof deletePromotionShabuduleShabuduleCodec> {}
+  extends t.TypeOf<typeof deletePromotionShabuduleCodec> {}
 
 export const checkIsFullShabuduleCodec = t.type({
   partyId: t.number,
