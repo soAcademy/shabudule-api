@@ -224,7 +224,10 @@ export const getPartyShabudule = async () => {
       },
       type: "public",
     },
-    include: { table: true, partyMembers: true },
+    include: {
+      table: { include: { branch: { include: { shabuShop: true } } } },
+      partyMembers: true,
+    },
     orderBy: {
       startDateTime: "asc",
     },
@@ -310,45 +313,36 @@ export const checkIsFullShabudule = async (args: ICheckIsFullShabudule) => {
   }
 };
 
-// export const testShabudule = async (args: ITestShabudule) => {
-//   const result1 = await prisma.shabuShopBranch.findUnique({
-//     where: { id: args.branchId },
-//   });
-//   const openTime: any = result1?.openTime;
-//   const closeTime: any = result1?.closeTime;
-//   console.log("openTime", openTime);
-//   console.log("closeTime", closeTime);
+export const testShabudule = async (args: ITestShabudule) => {
+  const result1 = await prisma.shabuShopBranch.findUnique({
+    where: { id: args.branchId },
+  });
+  const openTime: any = result1?.openTime;
+  const closeTime: any = result1?.closeTime;
+  console.log("openTime", openTime);
+  console.log("closeTime", closeTime);
 
-//   const arr: number[] = [];
-//   for (let i: any = openTime; i <= closeTime; i++) {
-//     arr.push(i);
-//   }
-//   console.log("arr", arr);
+  const arr: number[] = [];
+  for (let i: any = openTime; i <= closeTime; i++) {
+    arr.push(i);
+  }
+  console.log("arr", arr);
 
-//   // console.log("dayjs", dayjs());
-//   // console.log("dayjs", dayjs().format("DD/MM/YYYY"));
-//   // console.log("dayjs", dayjs().locale(localeDe).format());
+  // console.log("dayjs", dayjs());
+  // console.log("dayjs", dayjs().format("DD/MM/YYYY"));
+  // console.log("dayjs", dayjs().locale(localeDe).format());
 
-//   const inputDate = new Date(args.date);
-//   console.log("inputDate", inputDate);
+  const inputDate = new Date("2023-03-28T17:00:00");
+  console.log("inputDate", inputDate);
 
-//   const startOfDay = new Date(
-//     Date.UTC(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate())
-//   );
+  // const partiesOnDate = await prisma.party.findMany({
+  //   where: {
+  //     AND: [
+  //       { startDateTime: { lte: inputDate } },
+  //       // { endDateTime: { gte: inputDate } },
+  //     ],
+  //   },
+  // });
 
-//   console.log("startOfDay", startOfDay);
-
-//   const parties = await prisma.party.findMany({
-//     where: {
-//       startDateTime: {
-//         gte: startOfDay,
-//       },
-//     },
-//   });
-
-//   console.log("parties", parties);
-
-// const result2 = await prisma.party.findMany({
-//   where: { startDateTime: {likes : new Date(args.date) },
-// });
-// };
+  // console.log("partiesOnDate", partiesOnDate);
+};
