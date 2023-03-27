@@ -8,6 +8,7 @@ import {
   createShabuShopTableShabuduleHandler,
   createUserShabuduleHandler,
   deletePromotionShabuduleHandler,
+  getAvailableSlotsShabuduleHandler,
   getBranchShabuduleHandler,
   getMyJoinedPartyShabuduleHandler,
   getMyPartyShabuduleHandler,
@@ -157,5 +158,10 @@ export const AppRoutes = [
     path: "/function/checkIsFullShabudule",
     method: "post",
     action: checkIsFullShabuduleHandler,
+  },
+  {
+    path: "/function/getAvailableSlotsShabudule",
+    method: "post",
+    action: getAvailableSlotsShabuduleHandler,
   },
 ];

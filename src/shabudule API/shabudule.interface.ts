@@ -212,9 +212,10 @@ export const checkIsFullShabuduleCodec = t.type({
 export interface ICheckIsFullShabudule
   extends t.TypeOf<typeof checkIsFullShabuduleCodec> {}
 
-export const testShabuduleCodec = t.type({
+export const getAvailableSlotsShabuduleCodec = t.type({
   branchId: t.number,
   date: t.string,
 });
 
-export interface ITestShabudule extends t.TypeOf<typeof testShabuduleCodec> {}
+export interface IGetAvailableSlotsShabudule
+  extends t.TypeOf<typeof getAvailableSlotsShabuduleCodec> {}

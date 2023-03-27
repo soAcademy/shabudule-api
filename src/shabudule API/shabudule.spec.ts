@@ -8,13 +8,13 @@ import {
   createShabuShopTableShabudule,
   createUserShabudule,
   deletePromotionShabudule,
+  getAvailableSlotsShabudule,
   getBranchShabudule,
   getMyJoinedPartyShabudule,
   getMyPartyShabudule,
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
-  testShabudule,
   updatePartyMemberStatusShabudule,
   updatePartyShabudule,
   updatePartyStatusShabudule,
@@ -173,11 +173,11 @@ describe("Shabudule", () => {
   //   console.log("updatePartyMemberStatusShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getPartyShabudule", async () => {
-    const result = await getPartyShabudule();
-    console.log("getPartyShabudule", JSON.stringify(result));
-    // expect(result.name === data.name).toBe(true);
-  });
+  // test("getPartyShabudule", async () => {
+  //   const result = await getPartyShabudule();
+  //   console.log("getPartyShabudule", JSON.stringify(result));
+  //   // expect(result.name === data.name).toBe(true);
+  // });
   // test("getMyPartyShabudule", async () => {
   //   const data = {
   //     userId: 1,
@@ -272,13 +272,13 @@ describe("Shabudule", () => {
   //   console.log("checkIsFullShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("testShabudule", async () => {
+  test("getAvailableSlotsShabudule", async () => {
     const data = {
       branchId: 2,
       date: "2023-03-29T00:00:00",
     };
-    const result = await testShabudule(data);
-    console.log("testShabudule", result);
+    const result = await getAvailableSlotsShabudule(data);
+    console.log("getAvailableSlotsShabudule", result);
     // expect(result.name === data.name).toBe(true);
   });
 });
