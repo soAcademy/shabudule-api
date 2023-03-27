@@ -12,10 +12,10 @@ import {
   ICreateShabuShopTableShabudule,
   ICreateUserShabudule,
   IDeletePromotionShabudule,
+  IGetAvailableSlotsShabudule,
   IGetBranchShabudule,
   IGetMyJoinedPartyShabudule,
   IGetMyPartyShabudule,
-  ITestShabudule,
   IUpdatePartyMemberStatusShabudule,
   IUpdatePartyShabudule,
   IUpdatePartyStatusShabudule,
@@ -313,36 +313,61 @@ export const checkIsFullShabudule = async (args: ICheckIsFullShabudule) => {
   }
 };
 
-export const testShabudule = async (args: ITestShabudule) => {
-  const result1 = await prisma.shabuShopBranch.findUnique({
-    where: { id: args.branchId },
-  });
-  const openTime: any = result1?.openTime;
-  const closeTime: any = result1?.closeTime;
-  console.log("openTime", openTime);
-  console.log("closeTime", closeTime);
-
-  const arr: number[] = [];
-  for (let i: any = openTime; i <= closeTime; i++) {
-    arr.push(i);
-  }
-  console.log("arr", arr);
-
-  // console.log("dayjs", dayjs());
-  // console.log("dayjs", dayjs().format("DD/MM/YYYY"));
-  // console.log("dayjs", dayjs().locale(localeDe).format());
-
-  const inputDate = new Date("2023-03-28T17:00:00");
+export const getAvailableSlotsShabudule = async (
+  args: IGetAvailableSlotsShabudule
+) => {
+  const inputDate = new Date(args.date);
   console.log("inputDate", inputDate);
 
-  // const partiesOnDate = await prisma.party.findMany({
-  //   where: {
-  //     AND: [
-  //       { startDateTime: { lte: inputDate } },
-  //       // { endDateTime: { gte: inputDate } },
-  //     ],
-  //   },
-  // });
+  const result1 = await prisma.shabuShopBranch.findMany({
+    where: {
+      id: args.branchId,
+      shabuShopTables: {
+        every: {
+          parties: {
+            every: {
+              // startDateTime: { lte: inputDate },
+            },
+          },
+        },
+      },
+    },
+    include: { shabuShopTables: { include: { parties: true } } },
+  });
+  const openTime: any = result1[0]?.openTime;
+  const closeTime: any = result1[0]?.closeTime;
+  const shabuShopTables = result1[0]?.shabuShopTables;
+  console.log("openTime", openTime);
+  console.log("closeTime", closeTime);
+  console.log("shabuShopTables", JSON.stringify(shabuShopTables));
+  console.log("result1", JSON.stringify(result1));
 
-  // console.log("partiesOnDate", partiesOnDate);
+  const availableSlotEachDesk = shabuShopTables?.map((r) => {
+    const alreadyBookStartTime = r.parties.map((i) =>
+      Number(i.startDateTime.toISOString().substr(11, 2))
+    );
+    console.log("alreadyBookStartTime", alreadyBookStartTime);
+
+    const arr: number[] = [];
+    for (let i: any = openTime; i <= closeTime; i++) {
+      arr.push(i);
+    }
+    console.log("arr", arr);
+
+    const filteredAvailableSlot = arr.filter(
+      (r) => !alreadyBookStartTime.includes(r)
+    );
+    console.log("filteredAvailableSlot", filteredAvailableSlot);
+
+    return {
+      tableId: r.id,
+      seatPerDesk: r.seatPerDesk,
+      availableSlot: filteredAvailableSlot,
+    };
+  });
+  return availableSlotEachDesk;
 };
+
+// console.log("dayjs", dayjs());
+// console.log("dayjs", dayjs().format("DD/MM/YYYY"));
+// console.log("dayjs", dayjs(args.date).locale(localeDe).format());

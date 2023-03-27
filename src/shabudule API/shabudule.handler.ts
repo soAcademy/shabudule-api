@@ -9,6 +9,7 @@ import {
   createShabuShopTableShabuduleCodec,
   createUserShabuduleCodec,
   deletePromotionShabuduleCodec,
+  getAvailableSlotsShabuduleCodec,
   getBranchShabuduleCodec,
   getMyJoinedPartyShabuduleCodec,
   getMyPartyShabuduleCodec,
@@ -34,6 +35,7 @@ import {
   createShabuShopTableShabudule,
   createUserShabudule,
   deletePromotionShabudule,
+  getAvailableSlotsShabudule,
   getBranchShabudule,
   getMyJoinedPartyShabudule,
   getMyPartyShabudule,
@@ -485,6 +487,24 @@ export const checkIsFullShabuduleHandler = async (
   if (checkIsFullShabuduleCodec.decode(args)._tag === "Right") {
     try {
       const result = await checkIsFullShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const getAvailableSlotsShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (getAvailableSlotsShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await getAvailableSlotsShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
