@@ -73,7 +73,7 @@ model ShabuShopBranch {
   openTime        Int
   closeTime       Int
   latitude        Float
-  longtitude      Float
+  longitude       Float
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   shabuShopTables ShabuShopTable[]
