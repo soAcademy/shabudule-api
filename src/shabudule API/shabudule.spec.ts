@@ -15,6 +15,7 @@ import {
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
+  getUserProfileShabudule,
   updatePartyMemberStatusShabudule,
   updatePartyShabudule,
   updatePartyStatusShabudule,
@@ -178,14 +179,14 @@ describe("Shabudule", () => {
   //   console.log("getPartyShabudule", JSON.stringify(result));
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getMyPartyShabudule", async () => {
-    const data = {
-      userId: 1,
-    };
-    const result = await getMyPartyShabudule(data);
-    console.log("getPartyShabudule", JSON.stringify(result));
-    // expect(result.name === data.name).toBe(true);
-  });
+  // test("getMyPartyShabudule", async () => {
+  //   const data = {
+  //     userId: 1,
+  //   };
+  //   const result = await getMyPartyShabudule(data);
+  //   console.log("getPartyShabudule", JSON.stringify(result));
+  //   // expect(result.name === data.name).toBe(true);
+  // });
   // test("getMyJoinedPartyShabudule", async () => {
   //   const data = {
   //     userId: 2,
@@ -281,4 +282,12 @@ describe("Shabudule", () => {
   //   console.log("getAvailableSlotsShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
+  test("getUserProfileShabudule", async () => {
+    const data = {
+      email: "email1@gmail.com",
+    };
+    const result = await getUserProfileShabudule(data);
+    console.log("getUserProfileShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
 });

@@ -219,3 +219,10 @@ export const getAvailableSlotsShabuduleCodec = t.type({
 
 export interface IGetAvailableSlotsShabudule
   extends t.TypeOf<typeof getAvailableSlotsShabuduleCodec> {}
+
+export const getUserProfileShabuduleCodec = t.type({
+  email: t.string,
+});
+
+export interface IGetUserProfileShabudule
+  extends t.TypeOf<typeof getUserProfileShabuduleCodec> {}

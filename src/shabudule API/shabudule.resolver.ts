@@ -16,6 +16,7 @@ import {
   IGetBranchShabudule,
   IGetMyJoinedPartyShabudule,
   IGetMyPartyShabudule,
+  IGetUserProfileShabudule,
   IUpdatePartyMemberStatusShabudule,
   IUpdatePartyShabudule,
   IUpdatePartyStatusShabudule,
@@ -213,6 +214,11 @@ export const getBranchShabudule = (args: IGetBranchShabudule) =>
     include: { shabuShop: true },
   });
 
+export const getUserProfileShabudule = (args: IGetUserProfileShabudule) =>
+  prisma.user.findUnique({
+    where: { email: args.email },
+  });
+
 export const getPartyShabudule = async () => {
   const currentTime = new Date();
   console.log(currentTime);
@@ -225,6 +231,7 @@ export const getPartyShabudule = async () => {
       type: "public",
     },
     include: {
+      createByUserId: true,
       table: { include: { branch: { include: { shabuShop: true } } } },
       partyMembers: { include: { user: true } },
     },
@@ -246,6 +253,7 @@ export const getMyPartyShabudule = async (args: IGetMyPartyShabudule) => {
       },
     },
     include: {
+      createByUserId: true,
       table: { include: { branch: { include: { shabuShop: true } } } },
       partyMembers: { include: { user: true } },
     },
@@ -270,6 +278,7 @@ export const getMyJoinedPartyShabudule = async (
       NOT: { userId: args.userId },
     },
     include: {
+      createByUserId: true,
       table: { include: { branch: { include: { shabuShop: true } } } },
       partyMembers: { include: { user: true } },
     },
