@@ -15,6 +15,7 @@ import {
   getPartyShabuduleHandler,
   getPromotionShabuduleHandler,
   getShopShabuduleHandler,
+  getUserProfileShabuduleHandler,
   updatePartyMemberStatusShabuduleHandler,
   updatePartyShabuduleHandler,
   updatePartyStatusShabuduleHandler,
@@ -163,5 +164,10 @@ export const AppRoutes = [
     path: "/function/getAvailableSlotsShabudule",
     method: "post",
     action: getAvailableSlotsShabuduleHandler,
+  },
+  {
+    path: "/function/getUserProfileShabudule",
+    method: "post",
+    action: getUserProfileShabuduleHandler,
   },
 ];
