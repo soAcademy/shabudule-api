@@ -1,11 +1,14 @@
 import express, { Application, Request, Response } from "express";
 import { AppRoutes } from "./routes";
 import cors from "cors";
+import * as admin from "firebase-admin";
+import { decodeToken } from "./middleware";
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(decodeToken);
 
 AppRoutes.forEach((route) => {
   app[route.method as keyof Application](

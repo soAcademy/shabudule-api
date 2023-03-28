@@ -178,14 +178,14 @@ describe("Shabudule", () => {
   //   console.log("getPartyShabudule", JSON.stringify(result));
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("getMyPartyShabudule", async () => {
-  //   const data = {
-  //     userId: 1,
-  //   };
-  //   const result = await getMyPartyShabudule(data);
-  //   console.log("getPartyShabudule", JSON.stringify(result));
-  //   // expect(result.name === data.name).toBe(true);
-  // });
+  test("getMyPartyShabudule", async () => {
+    const data = {
+      userId: 1,
+    };
+    const result = await getMyPartyShabudule(data);
+    console.log("getPartyShabudule", JSON.stringify(result));
+    // expect(result.name === data.name).toBe(true);
+  });
   // test("getMyJoinedPartyShabudule", async () => {
   //   const data = {
   //     userId: 2,
@@ -272,13 +272,13 @@ describe("Shabudule", () => {
   //   console.log("checkIsFullShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getAvailableSlotsShabudule", async () => {
-    const data = {
-      branchId: 2,
-      date: "2023-03-29T00:00:00",
-    };
-    const result = await getAvailableSlotsShabudule(data);
-    console.log("getAvailableSlotsShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
+  // test("getAvailableSlotsShabudule", async () => {
+  //   const data = {
+  //     branchId: 2,
+  //     date: "2023-03-29T00:00:00",
+  //   };
+  //   const result = await getAvailableSlotsShabudule(data);
+  //   console.log("getAvailableSlotsShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
 });

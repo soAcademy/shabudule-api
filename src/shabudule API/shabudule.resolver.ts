@@ -226,7 +226,7 @@ export const getPartyShabudule = async () => {
     },
     include: {
       table: { include: { branch: { include: { shabuShop: true } } } },
-      partyMembers: true,
+      partyMembers: { include: { user: true } },
     },
     orderBy: {
       startDateTime: "asc",
@@ -245,7 +245,10 @@ export const getMyPartyShabudule = async (args: IGetMyPartyShabudule) => {
         gt: currentTime,
       },
     },
-    include: { table: true, partyMembers: true },
+    include: {
+      table: { include: { branch: { include: { shabuShop: true } } } },
+      partyMembers: { include: { user: true } },
+    },
     orderBy: {
       startDateTime: "asc",
     },
@@ -266,7 +269,10 @@ export const getMyJoinedPartyShabudule = async (
       },
       NOT: { userId: args.userId },
     },
-    include: { table: true, partyMembers: true },
+    include: {
+      table: { include: { branch: { include: { shabuShop: true } } } },
+      partyMembers: { include: { user: true } },
+    },
     orderBy: {
       startDateTime: "asc",
     },
