@@ -1,53 +1,64 @@
 import {
-  addPartyMemberShabudule,
+  addPartyMemberAuthShabudule,
   checkIsFullShabudule,
-  createPartyShabudule,
+  createPartyAuthShabudule,
   createPromotionShabudule,
   createShabuShopBranchShabudule,
   createShabuShopShabudule,
   createShabuShopTableShabudule,
-  createUserShabudule,
+  createUserAuthShabudule,
+  createUserProfileAuthShabudule,
   deletePromotionShabudule,
   getAvailableSlotsShabudule,
   getBranchShabudule,
-  getMyJoinedPartyShabudule,
-  getMyPartyShabudule,
+  getMyJoinedPartyAuthShabudule,
+  getMyPartyAuthShabudule,
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
-  getUserProfileShabudule,
-  updatePartyMemberStatusShabudule,
-  updatePartyShabudule,
-  updatePartyStatusShabudule,
+  getUserProfileAuthShabudule,
+  updatePartyAuthShabudule,
+  updatePartyMemberStatusAuthShabudule,
+  updatePartyStatusAuthShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
-  updateUserBioShabudule,
-  updateUserCoverImageShabudule,
-  updateUserNameShabudule,
-  updateUserProfileImageShabudule,
-  updateUserTelShabudule,
+  updateUserBioAuthShabudule,
+  updateUserCoverImageAuthShabudule,
+  updateUserNameAuthShabudule,
+  updateUserProfileImageAuthShabudule,
+  updateUserTelAuthShabudule,
 } from "./shabudule.resolver";
 
 describe("Shabudule", () => {
-  // test("createUserShabudule", async () => {
+  // test("createUserAuthShabudule", async () => {
   //   const data = {
-  //     name: "name5",
-  //     profileImage: "profileImage5",
-  //     coverImage: "coverImage5",
-  //     tel: "089-11111111",
-  //     bio: "bio5",
-  //     email: "email5@gmail.com",
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDY0MjgyLCJ1c2VyX2lkIjoiOGRsZjFLWW10NVlubjBkcHJ5SE15aVk5dU9ZMiIsInN1YiI6IjhkbGYxS1ltdDVZbm4wZHByeUhNeWlZOXVPWTIiLCJpYXQiOjE2ODAwNjQyODIsImV4cCI6MTY4MDA2Nzg4MiwiZW1haWwiOiJlbWFpbDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ijkylGqTs8RE02zcxYRFFRZsrlOMuwpgW7ZSkBUyQ7uez8_E2mFuhQWXHcP6jypZkD7gNbWOZb7qjC91JZI3elGdict6XpE0bHwKhPyy_FSGhv4Xlv8MAyfB0iobeSEXc6_ShNGafxWubpmWCt0htrosb0U6I3_ijZ1LL6t_yM2ABxxvcwt-6_8Ff9ehLtBEI9ZJkRRT5JjR7EGzNDLJ7kv5-38Q9-lO8KHETmy4lEeRqZWnfap467lIpjf1I0j_DtFVP3P1k0HuX-j3iDm0z2-EX_kyv99HmYblK-aNQJUVrVp6SepqmRsZXgRM7onEbkFKZKEJN9DJEAzpoBae4g",
   //   };
-  //   const result = await createUserShabudule(data);
-  //   console.log("createUserShabudule", result);
+  //   const result = await createUserAuthShabudule(data);
+  //   console.log("createUserAuthShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("createUserProfileAuthShabudule", async () => {
+  //   const data = {
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDY0MjgyLCJ1c2VyX2lkIjoiOGRsZjFLWW10NVlubjBkcHJ5SE15aVk5dU9ZMiIsInN1YiI6IjhkbGYxS1ltdDVZbm4wZHByeUhNeWlZOXVPWTIiLCJpYXQiOjE2ODAwNjQyODIsImV4cCI6MTY4MDA2Nzg4MiwiZW1haWwiOiJlbWFpbDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ijkylGqTs8RE02zcxYRFFRZsrlOMuwpgW7ZSkBUyQ7uez8_E2mFuhQWXHcP6jypZkD7gNbWOZb7qjC91JZI3elGdict6XpE0bHwKhPyy_FSGhv4Xlv8MAyfB0iobeSEXc6_ShNGafxWubpmWCt0htrosb0U6I3_ijZ1LL6t_yM2ABxxvcwt-6_8Ff9ehLtBEI9ZJkRRT5JjR7EGzNDLJ7kv5-38Q9-lO8KHETmy4lEeRqZWnfap467lIpjf1I0j_DtFVP3P1k0HuX-j3iDm0z2-EX_kyv99HmYblK-aNQJUVrVp6SepqmRsZXgRM7onEbkFKZKEJN9DJEAzpoBae4g",
+  //     name: "name2",
+  //     profileImage: "profileImage2",
+  //     coverImage: "coverImage2",
+  //     tel: "089-1111111",
+  //     bio: "bio2",
+  //   };
+  //   const result = await createUserProfileAuthShabudule(data);
+  //   console.log("createUserProfileAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
   // test("createShabuShopShabudule", async () => {
   //   const data = {
-  //     name: "MOMO Paradise",
+  //     name: "Penguin Eat Shabu",
   //     shopImage:
-  //       "https://www.mega-bangna.com/public/uploads/store/218aa2ce02f618d47a21a30426094651.jpg",
+  //       "https://media-cdn.tripadvisor.com/media/photo-s/09/47/46/aa/penguin-eat-sha.jpg",
   //   };
   //   const result = await createShabuShopShabudule(data);
   //   console.log("createShabuShopShabudule", result);
@@ -55,15 +66,15 @@ describe("Shabudule", () => {
   // });
   // test("createShabuShopBranchShabudule", async () => {
   //   const data = {
-  //     shabuShopId: 1,
-  //     branchName: "บิ๊กซี เอ็กซ์ตร้า ลาดพร้าว",
+  //     shabuShopId: 4,
+  //     branchName: "Central RAMA 2",
   //     tel: "02-222-2222",
   //     shopDetail: "test",
   //     address: "1691/2 ถ. พหลโยธิน แขวงจตุจักร เขตจตุจักร กรุงเทพมหานคร 10900",
   //     openTime: 11,
   //     closeTime: 21,
   //     latitude: 13.7268226,
-  //     longtitude: 100.510294,
+  //     longitude: 100.510294,
   //   };
   //   const result = await createShabuShopBranchShabudule(data);
   //   console.log("createShabuShopBranchShabudule", result);
@@ -71,7 +82,7 @@ describe("Shabudule", () => {
   // });
   // test("createShabuShopTableShabudule", async () => {
   //   const data = {
-  //     branchId: 3,
+  //     branchId: 5,
   //     seatPerDesk: 2,
   //   };
   //   const result = await createShabuShopTableShabudule(data);
@@ -81,41 +92,43 @@ describe("Shabudule", () => {
   // test("createPromotionShabudule", async () => {
   //   const data = {
   //     image:
-  //       "https://www.mo-mo-paradiseth.com/upload_file/restaurant/standard_pic_1.jpg",
-  //     shabuShopId: 2,
+  //       "https://i0.wp.com/marketeeronline.co/wp-content/uploads/2018/01/Penguin-Eat-Shabu-WEB.jpg?fit=816%2C454&ssl=1",
+  //     shabuShopId: 4,
   //   };
   //   const result = await createPromotionShabudule(data);
   //   console.log("createPromotionShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("createPartyShabudule", async () => {
+  // test("createPartyAuthShabudule", async () => {
   //   const data = {
-  //     name: "มากินชาบูกัน1",
-  //     userId: 1,
-  //     shabuShopTableId: 5,
-  //     startDateTime: "2023-03-28T17:00:00+07:00",
-  //     endDateTime: "2023-03-28T18:00:00+07:00",
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
+  //     name: "มากินชาบูกัน2",
+  //     shabuShopTableId: 2,
+  //     startDateTime: "2023-04-01T18:00:00+07:00",
+  //     endDateTime: "2023-04-01T19:00:00+07:00",
   //     partyDetail: "มากินชาบูกันนน",
-  //     type: "private",
+  //     type: "public",
   //   };
-  //   const result = await createPartyShabudule(data);
-  //   console.log("createPartyShabudule", result);
+  //   const result = await createPartyAuthShabudule(data);
+  //   console.log("createPartyAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("addPartyMemberShabudule", async () => {
+  // test("addPartyMemberAuthShabudule", async () => {
   //   const data = {
-  //     userId: 4,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDY0MjgyLCJ1c2VyX2lkIjoiOGRsZjFLWW10NVlubjBkcHJ5SE15aVk5dU9ZMiIsInN1YiI6IjhkbGYxS1ltdDVZbm4wZHByeUhNeWlZOXVPWTIiLCJpYXQiOjE2ODAwNjQyODIsImV4cCI6MTY4MDA2Nzg4MiwiZW1haWwiOiJlbWFpbDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ijkylGqTs8RE02zcxYRFFRZsrlOMuwpgW7ZSkBUyQ7uez8_E2mFuhQWXHcP6jypZkD7gNbWOZb7qjC91JZI3elGdict6XpE0bHwKhPyy_FSGhv4Xlv8MAyfB0iobeSEXc6_ShNGafxWubpmWCt0htrosb0U6I3_ijZ1LL6t_yM2ABxxvcwt-6_8Ff9ehLtBEI9ZJkRRT5JjR7EGzNDLJ7kv5-38Q9-lO8KHETmy4lEeRqZWnfap467lIpjf1I0j_DtFVP3P1k0HuX-j3iDm0z2-EX_kyv99HmYblK-aNQJUVrVp6SepqmRsZXgRM7onEbkFKZKEJN9DJEAzpoBae4g",
   //     partyId: 1,
-  //     status: "accept",
+  //     status: "request",
   //   };
-  //   const result = await addPartyMemberShabudule(data);
-  //   console.log("addPartyMemberShabudule", result);
+  //   const result = await addPartyMemberAuthShabudule(data);
+  //   console.log("addPartyMemberAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
   // test("updateShabuShopShabudule", async () => {
   //   const data = {
   //     shopId: 1,
-  //     name: "MK2",
+  //     name: "MOMO Paradisev2",
   //     shopImage: "profileImage1-1",
   //   };
   //   const result = await updateShabuShopShabudule(data);
@@ -132,7 +145,7 @@ describe("Shabudule", () => {
   //     openTime: 11,
   //     closeTime: 21,
   //     latitude: 100.6184404,
-  //     longtitude: 13.9889524,
+  //     longitude: 13.9889524,
   //   };
   //   const result = await updateShabuShopBranchShabudule(data);
   //   console.log("updateShabuShopBranchShabudule", result);
@@ -162,16 +175,27 @@ describe("Shabudule", () => {
   //     branchId: 1,
   //   };
   //   const result = await getBranchShabudule(data);
-  //   console.log("getShopShabudule", result);
+  //   console.log("getBranchShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updatePartyMemberStatusShabudule", async () => {
+  // test("getUserProfileAuthShabudule", async () => {
   //   const data = {
-  //     partyMemberId: 6,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
+  //   };
+  //   const result = await getUserProfileAuthShabudule(data);
+  //   console.log("getUserProfileAuthShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  // test("updatePartyMemberStatusAuthShabudule", async () => {
+  //   const data = {
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
+  //     partyMemberId: 1,
   //     status: "accept",
   //   };
-  //   const result = await updatePartyMemberStatusShabudule(data);
-  //   console.log("updatePartyMemberStatusShabudule", result);
+  //   const result = await updatePartyMemberStatusAuthShabudule(data);
+  //   console.log("updatePartyMemberStatusAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
   // test("getPartyShabudule", async () => {
@@ -179,82 +203,93 @@ describe("Shabudule", () => {
   //   console.log("getPartyShabudule", JSON.stringify(result));
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("getMyPartyShabudule", async () => {
+  // test("getMyPartyAuthShabudule", async () => {
   //   const data = {
-  //     userId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //   };
-  //   const result = await getMyPartyShabudule(data);
-  //   console.log("getPartyShabudule", JSON.stringify(result));
+  //   const result = await getMyPartyAuthShabudule(data);
+  //   console.log("getMyPartyAuthShabudule", JSON.stringify(result));
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("getMyJoinedPartyShabudule", async () => {
+  test("getMyJoinedPartyAuthShabudule", async () => {
+    const data = {
+      idToken:
+        "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDY0MjgyLCJ1c2VyX2lkIjoiOGRsZjFLWW10NVlubjBkcHJ5SE15aVk5dU9ZMiIsInN1YiI6IjhkbGYxS1ltdDVZbm4wZHByeUhNeWlZOXVPWTIiLCJpYXQiOjE2ODAwNjQyODIsImV4cCI6MTY4MDA2Nzg4MiwiZW1haWwiOiJlbWFpbDJAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ijkylGqTs8RE02zcxYRFFRZsrlOMuwpgW7ZSkBUyQ7uez8_E2mFuhQWXHcP6jypZkD7gNbWOZb7qjC91JZI3elGdict6XpE0bHwKhPyy_FSGhv4Xlv8MAyfB0iobeSEXc6_ShNGafxWubpmWCt0htrosb0U6I3_ijZ1LL6t_yM2ABxxvcwt-6_8Ff9ehLtBEI9ZJkRRT5JjR7EGzNDLJ7kv5-38Q9-lO8KHETmy4lEeRqZWnfap467lIpjf1I0j_DtFVP3P1k0HuX-j3iDm0z2-EX_kyv99HmYblK-aNQJUVrVp6SepqmRsZXgRM7onEbkFKZKEJN9DJEAzpoBae4g",
+    };
+    const result = await getMyJoinedPartyAuthShabudule(data);
+    console.log("getMyJoinedPartyAuthShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
+  // test("updatePartyAuthShabudule", async () => {
   //   const data = {
-  //     userId: 2,
-  //   };
-  //   const result = await getMyJoinedPartyShabudule(data);
-  //   console.log("getMyJoinedPartyShabudule", result);
-  //   // expect(result.name === data.name).toBe(true);
-  // });
-  // test("updatePartyShabudule", async () => {
-  //   const data = {
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //     partyId: 1,
   //     partyDetail: "test1",
   //   };
-  //   const result = await updatePartyShabudule(data);
-  //   console.log("updatePartyShabudule", result);
+  //   const result = await updatePartyAuthShabudule(data);
+  //   console.log("updatePartyAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updateUserNameShabudule", async () => {
+  // test("updateUserNameAuthShabudule", async () => {
   //   const data = {
-  //     userId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //     name: "test1",
   //   };
-  //   const result = await updateUserNameShabudule(data);
-  //   console.log("updateUserNameShabudule", result);
+  //   const result = await updateUserNameAuthShabudule(data);
+  //   console.log("updateUserNameAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updateUserProfileImageShabudule", async () => {
+  // test("updateUserProfileImageAuthShabudule", async () => {
   //   const data = {
-  //     userId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //     profileImage: "test1",
   //   };
-  //   const result = await updateUserProfileImageShabudule(data);
-  //   console.log("updateUserProfileImageShabudule", result);
+  //   const result = await updateUserProfileImageAuthShabudule(data);
+  //   console.log("updateUserProfileImageAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updateUserCoverImageShabudule", async () => {
+  // test("updateUserCoverImageAuthShabudule", async () => {
   //   const data = {
-  //     userId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //     coverImage: "test1",
   //   };
-  //   const result = await updateUserCoverImageShabudule(data);
-  //   console.log("updateUserCoverImageShabudule", result);
+  //   const result = await updateUserCoverImageAuthShabudule(data);
+  //   console.log("updateUserCoverImageAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updateUserTelShabudule", async () => {
+  // test("updateUserTelAuthShabudule", async () => {
   //   const data = {
-  //     userId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //     tel: "test1",
   //   };
-  //   const result = await updateUserTelShabudule(data);
-  //   console.log("updateUserTelShabudule", result);
+  //   const result = await updateUserTelAuthShabudule(data);
+  //   console.log("updateUserTelAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updateUserBioShabudule", async () => {
+  // test("updateUserBioAuthShabudule", async () => {
   //   const data = {
-  //     userId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
   //     bio: "test1",
   //   };
-  //   const result = await updateUserBioShabudule(data);
-  //   console.log("updateUserBioShabudule", result);
+  //   const result = await updateUserBioAuthShabudule(data);
+  //   console.log("updateUserBioAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("updatePartyStatusShabudule", async () => {
+  // test("updatePartyStatusAuthShabudule", async () => {
   //   const data = {
-  //     partyId: 1,
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDYwODk1LCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNjA4OTUsImV4cCI6MTY4MDA2NDQ5NSwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.VqduyiE0SxpCCgpUb4TXTrRtaTuD_h4E2zdAvS2UJGLq_qlpjdFnMIlkiv7VIh44pZ-c_EsOBR5Fgfu9UPIBp6dHQxvqur-gMUu9LsBTYuDFYQeM0lOZQ9rX9ayNzcDrKDAUO9TFv84ZHBA6tjOe1qK6hM6olYs9y9LAHYdKzZ3NppR5IhV9nCp38ZGihpTU4et7JvFXKRtHJpVSnOECJKDZh8371ramLuhsjcb3WKMxrn7EtHmd9D7IpqnkwilrcP-S1UA9H7l3rLzxOneWqVpVuFyY3gKgkgO7rpeCo4iQ3LWmRXD-oMeJQr8SnUAuO5xNDm-1fmNUO8JL6CZOqA",
+  //     partyId: 2,
   //   };
-  //   const result = await updatePartyStatusShabudule(data);
-  //   console.log("updatePartyStatusShabudule", result);
+  //   const result = await updatePartyStatusAuthShabudule(data);
+  //   console.log("updatePartyStatusAuthShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
   // test("deletePromotionShabudule", async () => {
@@ -282,12 +317,4 @@ describe("Shabudule", () => {
   //   console.log("getAvailableSlotsShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getUserProfileShabudule", async () => {
-    const data = {
-      email: "email1@gmail.com",
-    };
-    const result = await getUserProfileShabudule(data);
-    console.log("getUserProfileShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
 });

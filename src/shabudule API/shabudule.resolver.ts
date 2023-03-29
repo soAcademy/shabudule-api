@@ -3,68 +3,156 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt";
 import localeDe from "dayjs/locale/de";
 import {
-  IAddPartyMemberShabudule,
+  IAddPartyMemberAuthShabudule,
   ICheckIsFullShabudule,
-  ICreatePartyShabudule,
+  ICreatePartyAuthShabudule,
   ICreatePromotionShabudule,
   ICreateShabuShopBranchShabudule,
   ICreateShabuShopShabudule,
   ICreateShabuShopTableShabudule,
-  ICreateUserShabudule,
+  ICreateUserAuthShabudule,
+  ICreateUserProfileAuthShabudule,
   IDeletePromotionShabudule,
   IGetAvailableSlotsShabudule,
   IGetBranchShabudule,
-  IGetMyJoinedPartyShabudule,
-  IGetMyPartyShabudule,
-  IGetUserProfileShabudule,
-  IUpdatePartyMemberStatusShabudule,
-  IUpdatePartyShabudule,
-  IUpdatePartyStatusShabudule,
+  IGetMyJoinedPartyAuthShabudule,
+  IGetMyPartyAuthShabudule,
+  IGetUserProfileAuthShabudule,
+  IUpdatePartyAuthShabudule,
+  IUpdatePartyMemberStatusAuthShabudule,
+  IUpdatePartyStatusAuthShabudule,
   IUpdatePromotionShabudule,
   IUpdateShabuShopBranchShabuduleCodec,
   IUpdateShabuShopShabudule,
-  IUpdateUserBioShabudule,
-  IUpdateUserCoverImageShabudule,
-  IUpdateUserNameShabudule,
-  IUpdateUserProfileImageShabudule,
-  IUpdateUserTelShabudule,
+  IUpdateUserBioAuthShabudule,
+  IUpdateUserCoverImageAuthShabudule,
+  IUpdateUserNameAuthShabudule,
+  IUpdateUserProfileImageAuthShabudule,
+  IUpdateUserTelAuthShabudule,
 } from "./shabudule.interface";
+
+const admin = require("firebase-admin");
+const serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 export const prisma = new PrismaClient();
 
-export const createUserShabudule = (args: ICreateUserShabudule) =>
-  prisma.user.create({
-    data: {
-      name: args.name,
-      profileImage: args?.profileImage,
-      coverImage: args?.coverImage,
-      tel: args?.tel,
-      bio: args?.bio,
-      email: args.email,
-    },
-  });
+export const getUserProfileAuthShabudule = (
+  args: IGetUserProfileAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+      console.log(uid, email);
 
-export const createPartyShabudule = (args: ICreatePartyShabudule) =>
-  prisma.party.create({
-    data: {
-      name: args.name,
-      createByUserId: { connect: { id: args.userId } },
-      table: { connect: { id: args.shabuShopTableId } },
-      startDateTime: new Date(args.startDateTime),
-      endDateTime: new Date(args.endDateTime),
-      partyDetail: args?.partyDetail,
-      type: args.type,
-    },
-  });
+      return prisma.user.findMany({
+        where: { email: { email: email } },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
 
-export const addPartyMemberShabudule = (args: IAddPartyMemberShabudule) =>
-  prisma.partyMember.create({
-    data: {
-      party: { connect: { id: args.partyId } },
-      user: { connect: { id: args.userId } },
-      status: args.status ?? undefined,
-    },
-  });
+export const createUserAuthShabudule = (args: ICreateUserAuthShabudule) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.userFirebase.create({
+        data: {
+          email: email,
+          uid: uid,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const createUserProfileAuthShabudule = (
+  args: ICreateUserProfileAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.user.create({
+        data: {
+          name: args.name,
+          profileImage: args?.profileImage,
+          coverImage: args?.coverImage,
+          tel: args?.tel,
+          bio: args?.bio,
+          email: { connect: { email: email } },
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const createPartyAuthShabudule = (args: ICreatePartyAuthShabudule) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.party.create({
+        data: {
+          name: args.name,
+          createByUserFirebaseEmail: { connect: { email: email } },
+          table: { connect: { id: args.shabuShopTableId } },
+          startDateTime: new Date(args.startDateTime),
+          endDateTime: new Date(args.endDateTime),
+          partyDetail: args?.partyDetail,
+          type: args.type,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const addPartyMemberAuthShabudule = (
+  args: IAddPartyMemberAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.partyMember.create({
+        data: {
+          party: { connect: { id: args.partyId } },
+          userFirebase: { connect: { email: email } },
+          status: args.status ?? undefined,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
 
 export const createShabuShopShabudule = (args: ICreateShabuShopShabudule) =>
   prisma.shabuShop.create({
@@ -87,7 +175,7 @@ export const createShabuShopBranchShabudule = (
       openTime: args.openTime,
       closeTime: args.closeTime,
       latitude: args.latitude,
-      longtitude: args.longtitude,
+      longitude: args.longitude,
     },
   });
 
@@ -109,55 +197,129 @@ export const createPromotionShabudule = (args: ICreatePromotionShabudule) =>
     },
   });
 
-export const updatePartyMemberStatusShabudule = (
-  args: IUpdatePartyMemberStatusShabudule
-) =>
-  prisma.partyMember.update({
-    where: { id: args.partyMemberId },
-    data: {
-      status: args.status,
-    },
-  });
+export const updatePartyMemberStatusAuthShabudule = (
+  args: IUpdatePartyMemberStatusAuthShabudule
+) => {
+  admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      return prisma.partyMember.update({
+        where: { id: args.partyMemberId },
+        data: {
+          status: args.status,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
 
-export const updateUserNameShabudule = (args: IUpdateUserNameShabudule) =>
-  prisma.user.update({
-    where: { id: args.userId },
-    data: {
-      name: args.name,
-    },
-  });
-export const updateUserProfileImageShabudule = (
-  args: IUpdateUserProfileImageShabudule
-) =>
-  prisma.user.update({
-    where: { id: args.userId },
-    data: {
-      profileImage: args.profileImage,
-    },
-  });
-export const updateUserCoverImageShabudule = (
-  args: IUpdateUserCoverImageShabudule
-) =>
-  prisma.user.update({
-    where: { id: args.userId },
-    data: {
-      coverImage: args.coverImage,
-    },
-  });
-export const updateUserTelShabudule = (args: IUpdateUserTelShabudule) =>
-  prisma.user.update({
-    where: { id: args.userId },
-    data: {
-      tel: args.tel,
-    },
-  });
-export const updateUserBioShabudule = (args: IUpdateUserBioShabudule) =>
-  prisma.user.update({
-    where: { id: args.userId },
-    data: {
-      bio: args.bio,
-    },
-  });
+export const updateUserNameAuthShabudule = (
+  args: IUpdateUserNameAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.user.update({
+        where: { userFirebaseEmail: email },
+        data: {
+          name: args.name,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const updateUserProfileImageAuthShabudule = (
+  args: IUpdateUserProfileImageAuthShabudule
+) => {
+  admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.user.update({
+        where: { userFirebaseEmail: email },
+        data: {
+          profileImage: args.profileImage,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const updateUserCoverImageAuthShabudule = (
+  args: IUpdateUserCoverImageAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+      return prisma.user.update({
+        where: { userFirebaseEmail: email },
+        data: {
+          coverImage: args.coverImage,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const updateUserTelAuthShabudule = (
+  args: IUpdateUserTelAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+      return prisma.user.update({
+        where: { userFirebaseEmail: email },
+        data: {
+          tel: args.tel,
+        },
+      });
+    });
+};
+
+export const updateUserBioAuthShabudule = (
+  args: IUpdateUserBioAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.user.update({
+        where: { userFirebaseEmail: email },
+        data: {
+          bio: args.bio,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
 
 export const updateShabuShopShabudule = (args: IUpdateShabuShopShabudule) =>
   prisma.shabuShop.update({
@@ -181,7 +343,7 @@ export const updateShabuShopBranchShabudule = (
       openTime: args.openTime,
       closeTime: args.closeTime,
       latitude: args.latitude,
-      longtitude: args.longtitude,
+      longitude: args.longitude,
     },
   });
 
@@ -193,13 +355,22 @@ export const updatePromotionShabudule = (args: IUpdatePromotionShabudule) =>
     },
   });
 
-export const updatePartyShabudule = (args: IUpdatePartyShabudule) =>
-  prisma.party.update({
-    where: { id: args.partyId },
-    data: {
-      partyDetail: args.partyDetail,
-    },
-  });
+export const updatePartyAuthShabudule = (args: IUpdatePartyAuthShabudule) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      return prisma.party.update({
+        where: { id: args.partyId },
+        data: {
+          partyDetail: args.partyDetail,
+        },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
 
 export const getPromotionShabudule = () => prisma.promotionByShop.findMany();
 
@@ -214,11 +385,6 @@ export const getBranchShabudule = (args: IGetBranchShabudule) =>
     include: { shabuShop: true },
   });
 
-export const getUserProfileShabudule = (args: IGetUserProfileShabudule) =>
-  prisma.user.findUnique({
-    where: { email: args.email },
-  });
-
 export const getPartyShabudule = async () => {
   const currentTime = new Date();
   console.log(currentTime);
@@ -231,9 +397,9 @@ export const getPartyShabudule = async () => {
       type: "public",
     },
     include: {
-      createByUserId: true,
+      createByUserFirebaseEmail: true,
       table: { include: { branch: { include: { shabuShop: true } } } },
-      partyMembers: { include: { user: true } },
+      partyMembers: { include: { userFirebase: true } },
     },
     orderBy: {
       startDateTime: "asc",
@@ -242,58 +408,95 @@ export const getPartyShabudule = async () => {
   return activeParties;
 };
 
-export const getMyPartyShabudule = async (args: IGetMyPartyShabudule) => {
-  const currentTime = new Date();
-  const activeParties = await prisma.party.findMany({
-    where: {
-      userId: args.userId,
-      active: true,
-      startDateTime: {
-        gt: currentTime,
-      },
-    },
-    include: {
-      createByUserId: true,
-      table: { include: { branch: { include: { shabuShop: true } } } },
-      partyMembers: { include: { user: true } },
-    },
-    orderBy: {
-      startDateTime: "asc",
-    },
-  });
-  return activeParties;
-};
-
-export const getMyJoinedPartyShabudule = async (
-  args: IGetMyJoinedPartyShabudule
+export const getMyPartyAuthShabudule = async (
+  args: IGetMyPartyAuthShabudule
 ) => {
-  const currentTime = new Date();
-  const activeParties = await prisma.party.findMany({
-    where: {
-      partyMembers: { some: { userId: args.userId } },
-      active: true,
-      startDateTime: {
-        gt: currentTime,
-      },
-      NOT: { userId: args.userId },
-    },
-    include: {
-      createByUserId: true,
-      table: { include: { branch: { include: { shabuShop: true } } } },
-      partyMembers: { include: { user: true } },
-    },
-    orderBy: {
-      startDateTime: "asc",
-    },
-  });
-  return activeParties;
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      const currentTime = new Date();
+      const activeParties = prisma.party.findMany({
+        where: {
+          userFirebaseEmail: email,
+          active: true,
+          startDateTime: {
+            gt: currentTime,
+          },
+        },
+        include: {
+          createByUserFirebaseEmail: true,
+          table: { include: { branch: { include: { shabuShop: true } } } },
+          partyMembers: { include: { userFirebase: true } },
+        },
+        orderBy: {
+          startDateTime: "asc",
+        },
+      });
+      return activeParties;
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
 };
 
-export const updatePartyStatusShabudule = (args: IUpdatePartyStatusShabudule) =>
-  prisma.party.update({
-    where: { id: args.partyId },
-    data: { active: false },
-  });
+export const getMyJoinedPartyAuthShabudule = async (
+  args: IGetMyJoinedPartyAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+      const currentTime = new Date();
+      const activeParties = prisma.party.findMany({
+        where: {
+          partyMembers: { some: { userFirebaseEmail: email } },
+          active: true,
+          startDateTime: {
+            gt: currentTime,
+          },
+          NOT: { userFirebaseEmail: email },
+        },
+        include: {
+          createByUserFirebaseEmail: true,
+          table: { include: { branch: { include: { shabuShop: true } } } },
+          partyMembers: { include: { userFirebase: true } },
+        },
+        orderBy: {
+          startDateTime: "asc",
+        },
+      });
+      return activeParties;
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
+
+export const updatePartyStatusAuthShabudule = (
+  args: IUpdatePartyStatusAuthShabudule
+) => {
+  admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then((decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
+
+      return prisma.party.update({
+        where: { id: args.partyId },
+        data: { active: false },
+      });
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
 
 export const deletePromotionShabudule = (args: IDeletePromotionShabudule) =>
   prisma.promotionByShop.delete({
@@ -323,6 +526,12 @@ export const checkIsFullShabudule = async (args: ICheckIsFullShabudule) => {
     const result = prisma.party.update({
       where: { id: args.partyId },
       data: { isFull: true },
+    });
+    return result;
+  } else {
+    const result = prisma.party.update({
+      where: { id: args.partyId },
+      data: { isFull: false },
     });
     return result;
   }

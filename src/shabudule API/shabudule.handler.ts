@@ -1,71 +1,73 @@
 import { Request, Response } from "express";
 import {
-  addPartyMemberShabuduleCodec,
+  addPartyMemberAuthShabuduleCodec,
   checkIsFullShabuduleCodec,
-  createPartyShabuduleCodec,
+  createPartyAuthShabuduleCodec,
   createPromotionShabuduleCodec,
   createShabuShopBranchShabuduleCodec,
   createShabuShopShabuduleCodec,
   createShabuShopTableShabuduleCodec,
-  createUserShabuduleCodec,
+  createUserAuthShabuduleCodec,
+  createUserProfileAuthShabuduleCodec,
   deletePromotionShabuduleCodec,
   getAvailableSlotsShabuduleCodec,
   getBranchShabuduleCodec,
-  getMyJoinedPartyShabuduleCodec,
-  getMyPartyShabuduleCodec,
-  getUserProfileShabuduleCodec,
-  updatePartyMemberStatusShabuduleCodec,
-  updatePartyShabuduleCodec,
-  updatePartyStatusShabuduleCodec,
+  getMyJoinedPartyAuthShabuduleCodec,
+  getMyPartyAuthShabuduleCodec,
+  getUserProfileAuthShabuduleCodec,
+  updatePartyAuthShabuduleCodec,
+  updatePartyMemberStatusAuthShabuduleCodec,
+  updatePartyStatusAuthShabuduleCodec,
   updatePromotionShabuduleCodec,
   updateShabuShopBranchShabuduleCodec,
   updateShabuShopShabuduleCodec,
-  updateUserBioShabuduleCodec,
-  updateUserCoverImageShabuduleCodec,
-  updateUserNameShabuduleCodec,
-  updateUserProfileImageShabuduleCodec,
-  updateUserTelShabuduleCodec,
+  updateUserBioAuthShabuduleCodec,
+  updateUserCoverImageAuthShabuduleCodec,
+  updateUserNameAuthShabuduleCodec,
+  updateUserProfileImageAuthShabuduleCodec,
+  updateUserTelAuthShabuduleCodec,
 } from "./shabudule.interface";
 import {
-  addPartyMemberShabudule,
+  addPartyMemberAuthShabudule,
   checkIsFullShabudule,
-  createPartyShabudule,
+  createPartyAuthShabudule,
   createPromotionShabudule,
   createShabuShopBranchShabudule,
   createShabuShopShabudule,
   createShabuShopTableShabudule,
-  createUserShabudule,
+  createUserAuthShabudule,
+  createUserProfileAuthShabudule,
   deletePromotionShabudule,
   getAvailableSlotsShabudule,
   getBranchShabudule,
-  getMyJoinedPartyShabudule,
-  getMyPartyShabudule,
+  getMyJoinedPartyAuthShabudule,
+  getMyPartyAuthShabudule,
   getPartyShabudule,
   getPromotionShabudule,
   getShopShabudule,
-  getUserProfileShabudule,
-  updatePartyMemberStatusShabudule,
-  updatePartyShabudule,
-  updatePartyStatusShabudule,
+  getUserProfileAuthShabudule,
+  updatePartyAuthShabudule,
+  updatePartyMemberStatusAuthShabudule,
+  updatePartyStatusAuthShabudule,
   updatePromotionShabudule,
   updateShabuShopBranchShabudule,
   updateShabuShopShabudule,
-  updateUserBioShabudule,
-  updateUserCoverImageShabudule,
-  updateUserNameShabudule,
-  updateUserProfileImageShabudule,
-  updateUserTelShabudule,
+  updateUserBioAuthShabudule,
+  updateUserCoverImageAuthShabudule,
+  updateUserNameAuthShabudule,
+  updateUserProfileImageAuthShabudule,
+  updateUserTelAuthShabudule,
 } from "./shabudule.resolver";
 
-export const createUserShabuduleHandler = async (
+export const createUserAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (createUserShabuduleCodec.decode(args)._tag === "Right") {
+  if (createUserAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await createUserShabudule(args);
+      const result = await createUserAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -75,15 +77,15 @@ export const createUserShabuduleHandler = async (
   }
 };
 
-export const createPartyShabuduleHandler = async (
+export const createUserProfileAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (createPartyShabuduleCodec.decode(args)._tag === "Right") {
+  if (createUserProfileAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await createPartyShabudule(args);
+      const result = await createUserProfileAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -93,15 +95,33 @@ export const createPartyShabuduleHandler = async (
   }
 };
 
-export const addPartyMemberShabuduleHandler = async (
+export const createPartyAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (addPartyMemberShabuduleCodec.decode(args)._tag === "Right") {
+  if (createPartyAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await addPartyMemberShabudule(args);
+      const result = await createPartyAuthShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const addPartyMemberAuthShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (addPartyMemberAuthShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await addPartyMemberAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -183,15 +203,15 @@ export const createPromotionShabuduleHandler = async (
   }
 };
 
-export const updatePartyMemberStatusShabuduleHandler = async (
+export const updatePartyMemberStatusAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updatePartyMemberStatusShabuduleCodec.decode(args)._tag === "Right") {
+  if (updatePartyMemberStatusAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updatePartyMemberStatusShabudule(args);
+      const result = await updatePartyMemberStatusAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -255,15 +275,15 @@ export const updatePromotionShabuduleHandler = async (
   }
 };
 
-export const updatePartyShabuduleHandler = async (
+export const updatePartyAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updatePartyShabuduleCodec.decode(args)._tag === "Right") {
+  if (updatePartyAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updatePartyShabudule(args);
+      const result = await updatePartyAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -321,15 +341,15 @@ export const getPartyShabuduleHandler = async (req: Request, res: Response) => {
   }
 };
 
-export const getMyPartyShabuduleHandler = async (
+export const getMyPartyAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (getMyPartyShabuduleCodec.decode(args)._tag === "Right") {
+  if (getMyPartyAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await getMyPartyShabudule(args);
+      const result = await getMyPartyAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -339,15 +359,15 @@ export const getMyPartyShabuduleHandler = async (
   }
 };
 
-export const updateUserNameShabuduleHandler = async (
+export const updateUserNameAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updateUserNameShabuduleCodec.decode(args)._tag === "Right") {
+  if (updateUserNameAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updateUserNameShabudule(args);
+      const result = await updateUserNameAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -357,15 +377,15 @@ export const updateUserNameShabuduleHandler = async (
   }
 };
 
-export const updateUserProfileImageShabuduleHandler = async (
+export const updateUserProfileImageAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updateUserProfileImageShabuduleCodec.decode(args)._tag === "Right") {
+  if (updateUserProfileImageAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updateUserProfileImageShabudule(args);
+      const result = await updateUserProfileImageAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -374,15 +394,15 @@ export const updateUserProfileImageShabuduleHandler = async (
     res.status(500).json({ error: "Error invalid codec" });
   }
 };
-export const updateUserCoverImageShabuduleHandler = async (
+export const updateUserCoverImageAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updateUserCoverImageShabuduleCodec.decode(args)._tag === "Right") {
+  if (updateUserCoverImageAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updateUserCoverImageShabudule(args);
+      const result = await updateUserCoverImageAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -391,15 +411,15 @@ export const updateUserCoverImageShabuduleHandler = async (
     res.status(500).json({ error: "Error invalid codec" });
   }
 };
-export const updateUserTelShabuduleHandler = async (
+export const updateUserTelAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updateUserTelShabuduleCodec.decode(args)._tag === "Right") {
+  if (updateUserTelAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updateUserTelShabudule(args);
+      const result = await updateUserTelAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -408,33 +428,15 @@ export const updateUserTelShabuduleHandler = async (
     res.status(500).json({ error: "Error invalid codec" });
   }
 };
-export const updateUserBioShabuduleHandler = async (
+export const updateUserBioAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updateUserBioShabuduleCodec.decode(args)._tag === "Right") {
+  if (updateUserBioAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updateUserBioShabudule(args);
-      res.status(200).json(result);
-    } catch (e) {
-      res.status(500).json({ error: String(e) });
-    }
-  } else {
-    res.status(500).json({ error: "Error invalid codec" });
-  }
-};
-
-export const getMyJoinedPartyShabuduleHandler = async (
-  req: Request,
-  res: Response
-) => {
-  const args = req?.body;
-
-  if (getMyJoinedPartyShabuduleCodec.decode(args)._tag === "Right") {
-    try {
-      const result = await getMyJoinedPartyShabudule(args);
+      const result = await updateUserBioAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -444,15 +446,33 @@ export const getMyJoinedPartyShabuduleHandler = async (
   }
 };
 
-export const updatePartyStatusShabuduleHandler = async (
+export const getMyJoinedPartyAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (updatePartyStatusShabuduleCodec.decode(args)._tag === "Right") {
+  if (getMyJoinedPartyAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await updatePartyStatusShabudule(args);
+      const result = await getMyJoinedPartyAuthShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const updatePartyStatusAuthShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (updatePartyStatusAuthShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await updatePartyStatusAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
@@ -516,15 +536,15 @@ export const getAvailableSlotsShabuduleHandler = async (
   }
 };
 
-export const getUserProfileShabuduleHandler = async (
+export const getUserProfileAuthShabuduleHandler = async (
   req: Request,
   res: Response
 ) => {
   const args = req?.body;
 
-  if (getUserProfileShabuduleCodec.decode(args)._tag === "Right") {
+  if (getUserProfileAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
-      const result = await getUserProfileShabudule(args);
+      const result = await getUserProfileAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });

@@ -1,8 +1,19 @@
 -- CreateTable
+CREATE TABLE "UserFirebase" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "uid" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "UserFirebase_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "userFirebaseEmail" TEXT NOT NULL,
     "profileImage" TEXT,
     "coverImage" TEXT,
     "tel" TEXT,
@@ -17,7 +28,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Party" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userFirebaseEmail" TEXT NOT NULL,
     "shabuShopTableId" INTEGER NOT NULL,
     "startDateTime" TIMESTAMP(3) NOT NULL,
     "endDateTime" TIMESTAMP(3) NOT NULL,
@@ -35,7 +46,7 @@ CREATE TABLE "Party" (
 CREATE TABLE "PartyMember" (
     "id" SERIAL NOT NULL,
     "partyId" INTEGER NOT NULL,
-    "userId" INTEGER NOT NULL,
+    "userFirebaseEmail" TEXT NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'request',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -59,7 +70,6 @@ CREATE TABLE "ShabuShopBranch" (
     "id" SERIAL NOT NULL,
     "shabuShopId" INTEGER NOT NULL,
     "branchName" TEXT NOT NULL,
-    "googleMapLocation" TEXT NOT NULL,
     "tel" TEXT NOT NULL,
     "shopDetail" TEXT,
     "address" TEXT NOT NULL,
@@ -96,13 +106,22 @@ CREATE TABLE "PromotionByShop" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "UserFirebase_email_key" ON "UserFirebase"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserFirebase_uid_key" ON "UserFirebase"("uid");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_userFirebaseEmail_key" ON "User"("userFirebaseEmail");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ShabuShop_name_key" ON "ShabuShop"("name");
 
 -- AddForeignKey
-ALTER TABLE "Party" ADD CONSTRAINT "Party_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_userFirebaseEmail_fkey" FOREIGN KEY ("userFirebaseEmail") REFERENCES "UserFirebase"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Party" ADD CONSTRAINT "Party_userFirebaseEmail_fkey" FOREIGN KEY ("userFirebaseEmail") REFERENCES "UserFirebase"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Party" ADD CONSTRAINT "Party_shabuShopTableId_fkey" FOREIGN KEY ("shabuShopTableId") REFERENCES "ShabuShopTable"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -111,7 +130,7 @@ ALTER TABLE "Party" ADD CONSTRAINT "Party_shabuShopTableId_fkey" FOREIGN KEY ("s
 ALTER TABLE "PartyMember" ADD CONSTRAINT "PartyMember_partyId_fkey" FOREIGN KEY ("partyId") REFERENCES "Party"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PartyMember" ADD CONSTRAINT "PartyMember_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PartyMember" ADD CONSTRAINT "PartyMember_userFirebaseEmail_fkey" FOREIGN KEY ("userFirebaseEmail") REFERENCES "UserFirebase"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ShabuShopBranch" ADD CONSTRAINT "ShabuShopBranch_shabuShopId_fkey" FOREIGN KEY ("shabuShopId") REFERENCES "ShabuShop"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

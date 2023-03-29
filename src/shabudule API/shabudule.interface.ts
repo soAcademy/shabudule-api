@@ -52,7 +52,7 @@ export const createShabuShopBranchShabuduleCodec = t.type({
   openTime: t.number,
   closeTime: t.number,
   latitude: t.number,
-  longtitude: t.number,
+  longitude: t.number,
 });
 
 export interface ICreateShabuShopBranchShabudule
@@ -132,7 +132,7 @@ export const updateShabuShopBranchShabuduleCodec = t.type({
   openTime: t.number,
   closeTime: t.number,
   latitude: t.number,
-  longtitude: t.number,
+  longitude: t.number,
 });
 
 export interface IUpdateShabuShopBranchShabuduleCodec
@@ -226,3 +226,132 @@ export const getUserProfileShabuduleCodec = t.type({
 
 export interface IGetUserProfileShabudule
   extends t.TypeOf<typeof getUserProfileShabuduleCodec> {}
+
+// AUTHENTICATION
+export const getUserProfileAuthShabuduleCodec = t.type({
+  idToken: t.string,
+});
+
+export interface IGetUserProfileAuthShabudule
+  extends t.TypeOf<typeof getUserProfileAuthShabuduleCodec> {}
+
+export const createUserAuthShabuduleCodec = t.type({
+  idToken: t.string,
+});
+
+export interface ICreateUserAuthShabudule
+  extends t.TypeOf<typeof createUserAuthShabuduleCodec> {}
+
+export const createUserProfileAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  name: t.string,
+  profileImage: optional(t.string),
+  coverImage: optional(t.string),
+  tel: optional(t.string),
+  bio: optional(t.string),
+});
+
+export interface ICreateUserProfileAuthShabudule
+  extends t.TypeOf<typeof createUserProfileAuthShabuduleCodec> {}
+
+export const createPartyAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  name: t.string,
+  shabuShopTableId: t.number,
+  startDateTime: t.string,
+  endDateTime: t.string,
+  partyDetail: optional(t.string),
+  type: t.string,
+});
+
+export interface ICreatePartyAuthShabudule
+  extends t.TypeOf<typeof createPartyAuthShabuduleCodec> {}
+
+export const addPartyMemberAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  partyId: t.number,
+  status: optional(t.string),
+});
+
+export interface IAddPartyMemberAuthShabudule
+  extends t.TypeOf<typeof addPartyMemberAuthShabuduleCodec> {}
+
+export const updatePartyMemberStatusAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  partyMemberId: t.number,
+  status: t.string,
+});
+
+export interface IUpdatePartyMemberStatusAuthShabudule
+  extends t.TypeOf<typeof updatePartyMemberStatusAuthShabuduleCodec> {}
+
+export const updateUserNameAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  name: t.string,
+});
+
+export interface IUpdateUserNameAuthShabudule
+  extends t.TypeOf<typeof updateUserNameAuthShabuduleCodec> {}
+
+export const updateUserProfileImageAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  profileImage: t.string,
+});
+
+export interface IUpdateUserProfileImageAuthShabudule
+  extends t.TypeOf<typeof updateUserProfileImageAuthShabuduleCodec> {}
+
+export const updateUserCoverImageAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  coverImage: t.string,
+});
+
+export interface IUpdateUserCoverImageAuthShabudule
+  extends t.TypeOf<typeof updateUserCoverImageAuthShabuduleCodec> {}
+
+export const updateUserTelAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  tel: t.string,
+});
+
+export interface IUpdateUserTelAuthShabudule
+  extends t.TypeOf<typeof updateUserTelAuthShabuduleCodec> {}
+
+export const updateUserBioAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  bio: t.string,
+});
+
+export interface IUpdateUserBioAuthShabudule
+  extends t.TypeOf<typeof updateUserBioAuthShabuduleCodec> {}
+
+export const updatePartyAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  partyId: t.number,
+  partyDetail: t.string,
+});
+
+export interface IUpdatePartyAuthShabudule
+  extends t.TypeOf<typeof updatePartyAuthShabuduleCodec> {}
+
+export const getMyPartyAuthShabuduleCodec = t.type({
+  idToken: t.string,
+});
+
+export interface IGetMyPartyAuthShabudule
+  extends t.TypeOf<typeof getMyPartyAuthShabuduleCodec> {}
+
+export const getMyJoinedPartyAuthShabuduleCodec = t.type({
+  idToken: t.string,
+});
+
+export interface IGetMyJoinedPartyAuthShabudule
+  extends t.TypeOf<typeof getMyJoinedPartyAuthShabuduleCodec> {}
+
+export const updatePartyStatusAuthShabuduleCodec = t.type({
+  idToken: t.string,
+  partyId: t.number,
+});
+
+export interface IUpdatePartyStatusAuthShabudule
+  extends t.TypeOf<typeof updatePartyStatusAuthShabuduleCodec> {}
