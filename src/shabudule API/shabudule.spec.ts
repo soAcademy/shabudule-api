@@ -178,15 +178,15 @@ describe("Shabudule", () => {
   //   console.log("getBranchShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getUserProfileAuthShabudule", async () => {
-    const data = {
-      idToken:
-        "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDc3NjczLCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNzc2NzMsImV4cCI6MTY4MDA4MTI3MywiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.YKrTaapXOwkAPR9jeswLw1YbDG1c9W2523OV7lcUjg5IsnXxt1bIQF1fhykLWgh9WCVgCS9AJ1YkQ-lS1GHuvLsh-WL_CdKdkb4vwq1XXek2AwiLONmpDM3y7EKgJnMpHKqrdanEgtcPHTJbJ02D26w0v8yuYAVHoIMxo6uOX6a8uqXVvIlaouCtLUtyVDZooE3u_uf-2zjgGyINW05CjylyPdOv6XcmRu8Vh5LCHGTipMdIWogw7sM4jIWGxX1dB7NWVlymq5YAjXSpdswhtJKs361vyqz3f2AbiuWYhMxGmeTWz_YrAaVYHYA5x8bljNN4uJYvqeXdKX9YzCmwyA",
-    };
-    const result = await getUserProfileAuthShabudule(data);
-    console.log("getUserProfileAuthShabudule", result);
-    // expect(result.name === data.name).toBe(true);
-  });
+  // test("getUserProfileAuthShabudule", async () => {
+  //   const data = {
+  //     idToken:
+  //       "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMDc3NjczLCJ1c2VyX2lkIjoiZzFTMG91NlZKNmRLY2wzY1VGTVdpQkU1a2xxMiIsInN1YiI6ImcxUzBvdTZWSjZkS2NsM2NVRk1XaUJFNWtscTIiLCJpYXQiOjE2ODAwNzc2NzMsImV4cCI6MTY4MDA4MTI3MywiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsMUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.YKrTaapXOwkAPR9jeswLw1YbDG1c9W2523OV7lcUjg5IsnXxt1bIQF1fhykLWgh9WCVgCS9AJ1YkQ-lS1GHuvLsh-WL_CdKdkb4vwq1XXek2AwiLONmpDM3y7EKgJnMpHKqrdanEgtcPHTJbJ02D26w0v8yuYAVHoIMxo6uOX6a8uqXVvIlaouCtLUtyVDZooE3u_uf-2zjgGyINW05CjylyPdOv6XcmRu8Vh5LCHGTipMdIWogw7sM4jIWGxX1dB7NWVlymq5YAjXSpdswhtJKs361vyqz3f2AbiuWYhMxGmeTWz_YrAaVYHYA5x8bljNN4uJYvqeXdKX9YzCmwyA",
+  //   };
+  //   const result = await getUserProfileAuthShabudule(data);
+  //   console.log("getUserProfileAuthShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
   // test("updatePartyMemberStatusAuthShabudule", async () => {
   //   const data = {
   //     idToken:

@@ -214,7 +214,7 @@ export const createPromotionShabudule = (args: ICreatePromotionShabudule) =>
 export const updatePartyMemberStatusAuthShabudule = (
   args: IUpdatePartyMemberStatusAuthShabudule
 ) => {
-  admin
+  return admin
     .auth()
     .verifyIdToken(args.idToken)
     .then((decodedToken: any) => {
@@ -255,7 +255,7 @@ export const updateUserNameAuthShabudule = (
 export const updateUserProfileImageAuthShabudule = (
   args: IUpdateUserProfileImageAuthShabudule
 ) => {
-  admin
+  return admin
     .auth()
     .verifyIdToken(args.idToken)
     .then((decodedToken: any) => {
@@ -495,7 +495,7 @@ export const getMyJoinedPartyAuthShabudule = async (
 export const updatePartyStatusAuthShabudule = (
   args: IUpdatePartyStatusAuthShabudule
 ) => {
-  admin
+  return admin
     .auth()
     .verifyIdToken(args.idToken)
     .then((decodedToken: any) => {
