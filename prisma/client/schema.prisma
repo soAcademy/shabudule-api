@@ -9,47 +9,57 @@ generator client {
   output        = "../prisma/client"
 }
 
-model User {
+model UserFirebase {
   id           Int           @id @default(autoincrement())
-  name         String
   email        String        @unique
-  profileImage String?
-  coverImage   String?
-  tel          String?
-  bio          String?
+  uid          String        @unique
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+  user         User?
   parties      Party[]
   partyMembers PartyMember[]
 }
 
+model User {
+  id                Int          @id @default(autoincrement())
+  name              String
+  email             UserFirebase @relation(fields: [userFirebaseEmail], references: [email])
+  userFirebaseEmail String       @unique
+  profileImage      String?
+  coverImage        String?
+  tel               String?
+  bio               String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+}
+
 model Party {
-  id               Int            @id @default(autoincrement())
-  name             String
-  createByUserId   User           @relation(fields: [userId], references: [id])
-  userId           Int
-  table            ShabuShopTable @relation(fields: [shabuShopTableId], references: [id])
-  shabuShopTableId Int
-  startDateTime    DateTime
-  endDateTime      DateTime
-  partyDetail      String?
-  active           Boolean        @default(true)
-  type             String
-  isFull           Boolean        @default(false)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  partyMembers     PartyMember[]
+  id                        Int            @id @default(autoincrement())
+  name                      String
+  createByUserFirebaseEmail UserFirebase   @relation(fields: [userFirebaseEmail], references: [email])
+  userFirebaseEmail         String
+  table                     ShabuShopTable @relation(fields: [shabuShopTableId], references: [id])
+  shabuShopTableId          Int
+  startDateTime             DateTime
+  endDateTime               DateTime
+  partyDetail               String?
+  active                    Boolean        @default(true)
+  type                      String
+  isFull                    Boolean        @default(false)
+  createdAt                 DateTime       @default(now())
+  updatedAt                 DateTime       @updatedAt
+  partyMembers              PartyMember[]
 }
 
 model PartyMember {
-  id        Int      @id @default(autoincrement())
-  party     Party    @relation(fields: [partyId], references: [id])
-  partyId   Int
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  status    String   @default("request")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                Int          @id @default(autoincrement())
+  party             Party        @relation(fields: [partyId], references: [id])
+  partyId           Int
+  userFirebase      UserFirebase @relation(fields: [userFirebaseEmail], references: [email])
+  userFirebaseEmail String
+  status            String       @default("request")
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 }
 
 model ShabuShop {
@@ -73,7 +83,7 @@ model ShabuShopBranch {
   openTime        Int
   closeTime       Int
   latitude        Float
-  longtitude      Float
+  longitude       Float
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   shabuShopTables ShabuShopTable[]

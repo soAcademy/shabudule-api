@@ -92,7 +92,7 @@ function makeEnum(x) { return x; }
 exports.Prisma.PartyMemberScalarFieldEnum = makeEnum({
   id: 'id',
   partyId: 'partyId',
-  userId: 'userId',
+  userFirebaseEmail: 'userFirebaseEmail',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -101,7 +101,7 @@ exports.Prisma.PartyMemberScalarFieldEnum = makeEnum({
 exports.Prisma.PartyScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
-  userId: 'userId',
+  userFirebaseEmail: 'userFirebaseEmail',
   shabuShopTableId: 'shabuShopTableId',
   startDateTime: 'startDateTime',
   endDateTime: 'endDateTime',
@@ -136,7 +136,7 @@ exports.Prisma.ShabuShopBranchScalarFieldEnum = makeEnum({
   openTime: 'openTime',
   closeTime: 'closeTime',
   latitude: 'latitude',
-  longtitude: 'longtitude',
+  longitude: 'longitude',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 });
@@ -169,10 +169,18 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserFirebaseScalarFieldEnum = makeEnum({
+  id: 'id',
+  email: 'email',
+  uid: 'uid',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+});
+
 exports.Prisma.UserScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
-  email: 'email',
+  userFirebaseEmail: 'userFirebaseEmail',
   profileImage: 'profileImage',
   coverImage: 'coverImage',
   tel: 'tel',
@@ -183,6 +191,7 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
 
 
 exports.Prisma.ModelName = makeEnum({
+  UserFirebase: 'UserFirebase',
   User: 'User',
   Party: 'Party',
   PartyMember: 'PartyMember',

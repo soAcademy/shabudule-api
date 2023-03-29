@@ -11,13 +11,25 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
 
 
 /**
+ * Model UserFirebase
+ * 
+ */
+export type UserFirebase = {
+  id: number
+  email: string
+  uid: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
  * Model User
  * 
  */
 export type User = {
   id: number
   name: string
-  email: string
+  userFirebaseEmail: string
   profileImage: string | null
   coverImage: string | null
   tel: string | null
@@ -33,7 +45,7 @@ export type User = {
 export type Party = {
   id: number
   name: string
-  userId: number
+  userFirebaseEmail: string
   shabuShopTableId: number
   startDateTime: Date
   endDateTime: Date
@@ -52,7 +64,7 @@ export type Party = {
 export type PartyMember = {
   id: number
   partyId: number
-  userId: number
+  userFirebaseEmail: string
   status: string
   createdAt: Date
   updatedAt: Date
@@ -84,7 +96,7 @@ export type ShabuShopBranch = {
   openTime: number
   closeTime: number
   latitude: number
-  longtitude: number
+  longitude: number
   createdAt: Date
   updatedAt: Date
 }
@@ -121,8 +133,8 @@ export type PromotionByShop = {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more UserFirebases
+ * const userFirebases = await prisma.userFirebase.findMany()
  * ```
  *
  * 
@@ -142,8 +154,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more UserFirebases
+   * const userFirebases = await prisma.userFirebase.findMany()
    * ```
    *
    * 
@@ -232,6 +244,16 @@ export class PrismaClient<
   $transaction<R>(fn: (prisma: Omit<this, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use">) => Promise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): Promise<R>
 
       /**
+   * `prisma.userFirebase`: Exposes CRUD operations for the **UserFirebase** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserFirebases
+    * const userFirebases = await prisma.userFirebase.findMany()
+    * ```
+    */
+  get userFirebase(): Prisma.UserFirebaseDelegate<GlobalReject>;
+
+  /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
@@ -769,6 +791,7 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    UserFirebase: 'UserFirebase',
     User: 'User',
     Party: 'Party',
     PartyMember: 'PartyMember',
@@ -937,32 +960,32 @@ export namespace Prisma {
 
 
   /**
-   * Count Type UserCountOutputType
+   * Count Type UserFirebaseCountOutputType
    */
 
 
-  export type UserCountOutputType = {
+  export type UserFirebaseCountOutputType = {
     parties: number
     partyMembers: number
   }
 
-  export type UserCountOutputTypeSelect = {
+  export type UserFirebaseCountOutputTypeSelect = {
     parties?: boolean
     partyMembers?: boolean
   }
 
-  export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
+  export type UserFirebaseCountOutputTypeGetPayload<S extends boolean | null | undefined | UserFirebaseCountOutputTypeArgs> =
     S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? UserCountOutputType :
+    S extends true ? UserFirebaseCountOutputType :
     S extends undefined ? never :
-    S extends { include: any } & (UserCountOutputTypeArgs)
-    ? UserCountOutputType 
-    : S extends { select: any } & (UserCountOutputTypeArgs)
+    S extends { include: any } & (UserFirebaseCountOutputTypeArgs)
+    ? UserFirebaseCountOutputType 
+    : S extends { select: any } & (UserFirebaseCountOutputTypeArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-    P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
+    P extends keyof UserFirebaseCountOutputType ? UserFirebaseCountOutputType[P] : never
   } 
-      : UserCountOutputType
+      : UserFirebaseCountOutputType
 
 
 
@@ -970,13 +993,13 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * UserCountOutputType without action
+   * UserFirebaseCountOutputType without action
    */
-  export type UserCountOutputTypeArgs = {
+  export type UserFirebaseCountOutputTypeArgs = {
     /**
-     * Select specific fields to fetch from the UserCountOutputType
+     * Select specific fields to fetch from the UserFirebaseCountOutputType
      */
-    select?: UserCountOutputTypeSelect | null
+    select?: UserFirebaseCountOutputTypeSelect | null
   }
 
 
@@ -1160,6 +1183,1029 @@ export namespace Prisma {
    */
 
   /**
+   * Model UserFirebase
+   */
+
+
+  export type AggregateUserFirebase = {
+    _count: UserFirebaseCountAggregateOutputType | null
+    _avg: UserFirebaseAvgAggregateOutputType | null
+    _sum: UserFirebaseSumAggregateOutputType | null
+    _min: UserFirebaseMinAggregateOutputType | null
+    _max: UserFirebaseMaxAggregateOutputType | null
+  }
+
+  export type UserFirebaseAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type UserFirebaseSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type UserFirebaseMinAggregateOutputType = {
+    id: number | null
+    email: string | null
+    uid: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserFirebaseMaxAggregateOutputType = {
+    id: number | null
+    email: string | null
+    uid: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserFirebaseCountAggregateOutputType = {
+    id: number
+    email: number
+    uid: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserFirebaseAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type UserFirebaseSumAggregateInputType = {
+    id?: true
+  }
+
+  export type UserFirebaseMinAggregateInputType = {
+    id?: true
+    email?: true
+    uid?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserFirebaseMaxAggregateInputType = {
+    id?: true
+    email?: true
+    uid?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserFirebaseCountAggregateInputType = {
+    id?: true
+    email?: true
+    uid?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserFirebaseAggregateArgs = {
+    /**
+     * Filter which UserFirebase to aggregate.
+     */
+    where?: UserFirebaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFirebases to fetch.
+     */
+    orderBy?: Enumerable<UserFirebaseOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserFirebaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFirebases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFirebases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserFirebases
+    **/
+    _count?: true | UserFirebaseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserFirebaseAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserFirebaseSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserFirebaseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserFirebaseMaxAggregateInputType
+  }
+
+  export type GetUserFirebaseAggregateType<T extends UserFirebaseAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserFirebase]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserFirebase[P]>
+      : GetScalarType<T[P], AggregateUserFirebase[P]>
+  }
+
+
+
+
+  export type UserFirebaseGroupByArgs = {
+    where?: UserFirebaseWhereInput
+    orderBy?: Enumerable<UserFirebaseOrderByWithAggregationInput>
+    by: UserFirebaseScalarFieldEnum[]
+    having?: UserFirebaseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserFirebaseCountAggregateInputType | true
+    _avg?: UserFirebaseAvgAggregateInputType
+    _sum?: UserFirebaseSumAggregateInputType
+    _min?: UserFirebaseMinAggregateInputType
+    _max?: UserFirebaseMaxAggregateInputType
+  }
+
+
+  export type UserFirebaseGroupByOutputType = {
+    id: number
+    email: string
+    uid: string
+    createdAt: Date
+    updatedAt: Date
+    _count: UserFirebaseCountAggregateOutputType | null
+    _avg: UserFirebaseAvgAggregateOutputType | null
+    _sum: UserFirebaseSumAggregateOutputType | null
+    _min: UserFirebaseMinAggregateOutputType | null
+    _max: UserFirebaseMaxAggregateOutputType | null
+  }
+
+  type GetUserFirebaseGroupByPayload<T extends UserFirebaseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<UserFirebaseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserFirebaseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserFirebaseGroupByOutputType[P]>
+            : GetScalarType<T[P], UserFirebaseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserFirebaseSelect = {
+    id?: boolean
+    email?: boolean
+    uid?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserArgs
+    parties?: boolean | UserFirebase$partiesArgs
+    partyMembers?: boolean | UserFirebase$partyMembersArgs
+    _count?: boolean | UserFirebaseCountOutputTypeArgs
+  }
+
+
+  export type UserFirebaseInclude = {
+    user?: boolean | UserArgs
+    parties?: boolean | UserFirebase$partiesArgs
+    partyMembers?: boolean | UserFirebase$partyMembersArgs
+    _count?: boolean | UserFirebaseCountOutputTypeArgs
+  }
+
+  export type UserFirebaseGetPayload<S extends boolean | null | undefined | UserFirebaseArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? UserFirebase :
+    S extends undefined ? never :
+    S extends { include: any } & (UserFirebaseArgs | UserFirebaseFindManyArgs)
+    ? UserFirebase  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<S['include'][P]> | null :
+        P extends 'parties' ? Array < PartyGetPayload<S['include'][P]>>  :
+        P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['include'][P]>>  :
+        P extends '_count' ? UserFirebaseCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (UserFirebaseArgs | UserFirebaseFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<S['select'][P]> | null :
+        P extends 'parties' ? Array < PartyGetPayload<S['select'][P]>>  :
+        P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['select'][P]>>  :
+        P extends '_count' ? UserFirebaseCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof UserFirebase ? UserFirebase[P] : never
+  } 
+      : UserFirebase
+
+
+  type UserFirebaseCountArgs = 
+    Omit<UserFirebaseFindManyArgs, 'select' | 'include'> & {
+      select?: UserFirebaseCountAggregateInputType | true
+    }
+
+  export interface UserFirebaseDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one UserFirebase that matches the filter.
+     * @param {UserFirebaseFindUniqueArgs} args - Arguments to find a UserFirebase
+     * @example
+     * // Get one UserFirebase
+     * const userFirebase = await prisma.userFirebase.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends UserFirebaseFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, UserFirebaseFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'UserFirebase'> extends True ? Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>> : Prisma__UserFirebaseClient<UserFirebaseGetPayload<T> | null, null>
+
+    /**
+     * Find one UserFirebase that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {UserFirebaseFindUniqueOrThrowArgs} args - Arguments to find a UserFirebase
+     * @example
+     * // Get one UserFirebase
+     * const userFirebase = await prisma.userFirebase.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends UserFirebaseFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, UserFirebaseFindUniqueOrThrowArgs>
+    ): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>>
+
+    /**
+     * Find the first UserFirebase that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseFindFirstArgs} args - Arguments to find a UserFirebase
+     * @example
+     * // Get one UserFirebase
+     * const userFirebase = await prisma.userFirebase.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends UserFirebaseFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, UserFirebaseFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'UserFirebase'> extends True ? Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>> : Prisma__UserFirebaseClient<UserFirebaseGetPayload<T> | null, null>
+
+    /**
+     * Find the first UserFirebase that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseFindFirstOrThrowArgs} args - Arguments to find a UserFirebase
+     * @example
+     * // Get one UserFirebase
+     * const userFirebase = await prisma.userFirebase.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends UserFirebaseFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, UserFirebaseFindFirstOrThrowArgs>
+    ): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>>
+
+    /**
+     * Find zero or more UserFirebases that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserFirebases
+     * const userFirebases = await prisma.userFirebase.findMany()
+     * 
+     * // Get first 10 UserFirebases
+     * const userFirebases = await prisma.userFirebase.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userFirebaseWithIdOnly = await prisma.userFirebase.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends UserFirebaseFindManyArgs>(
+      args?: SelectSubset<T, UserFirebaseFindManyArgs>
+    ): Prisma.PrismaPromise<Array<UserFirebaseGetPayload<T>>>
+
+    /**
+     * Create a UserFirebase.
+     * @param {UserFirebaseCreateArgs} args - Arguments to create a UserFirebase.
+     * @example
+     * // Create one UserFirebase
+     * const UserFirebase = await prisma.userFirebase.create({
+     *   data: {
+     *     // ... data to create a UserFirebase
+     *   }
+     * })
+     * 
+    **/
+    create<T extends UserFirebaseCreateArgs>(
+      args: SelectSubset<T, UserFirebaseCreateArgs>
+    ): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>>
+
+    /**
+     * Create many UserFirebases.
+     *     @param {UserFirebaseCreateManyArgs} args - Arguments to create many UserFirebases.
+     *     @example
+     *     // Create many UserFirebases
+     *     const userFirebase = await prisma.userFirebase.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends UserFirebaseCreateManyArgs>(
+      args?: SelectSubset<T, UserFirebaseCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a UserFirebase.
+     * @param {UserFirebaseDeleteArgs} args - Arguments to delete one UserFirebase.
+     * @example
+     * // Delete one UserFirebase
+     * const UserFirebase = await prisma.userFirebase.delete({
+     *   where: {
+     *     // ... filter to delete one UserFirebase
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends UserFirebaseDeleteArgs>(
+      args: SelectSubset<T, UserFirebaseDeleteArgs>
+    ): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>>
+
+    /**
+     * Update one UserFirebase.
+     * @param {UserFirebaseUpdateArgs} args - Arguments to update one UserFirebase.
+     * @example
+     * // Update one UserFirebase
+     * const userFirebase = await prisma.userFirebase.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends UserFirebaseUpdateArgs>(
+      args: SelectSubset<T, UserFirebaseUpdateArgs>
+    ): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>>
+
+    /**
+     * Delete zero or more UserFirebases.
+     * @param {UserFirebaseDeleteManyArgs} args - Arguments to filter UserFirebases to delete.
+     * @example
+     * // Delete a few UserFirebases
+     * const { count } = await prisma.userFirebase.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends UserFirebaseDeleteManyArgs>(
+      args?: SelectSubset<T, UserFirebaseDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserFirebases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserFirebases
+     * const userFirebase = await prisma.userFirebase.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends UserFirebaseUpdateManyArgs>(
+      args: SelectSubset<T, UserFirebaseUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one UserFirebase.
+     * @param {UserFirebaseUpsertArgs} args - Arguments to update or create a UserFirebase.
+     * @example
+     * // Update or create a UserFirebase
+     * const userFirebase = await prisma.userFirebase.upsert({
+     *   create: {
+     *     // ... data to create a UserFirebase
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserFirebase we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends UserFirebaseUpsertArgs>(
+      args: SelectSubset<T, UserFirebaseUpsertArgs>
+    ): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T>>
+
+    /**
+     * Count the number of UserFirebases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseCountArgs} args - Arguments to filter UserFirebases to count.
+     * @example
+     * // Count the number of UserFirebases
+     * const count = await prisma.userFirebase.count({
+     *   where: {
+     *     // ... the filter for the UserFirebases we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserFirebaseCountArgs>(
+      args?: Subset<T, UserFirebaseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserFirebaseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserFirebase.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserFirebaseAggregateArgs>(args: Subset<T, UserFirebaseAggregateArgs>): Prisma.PrismaPromise<GetUserFirebaseAggregateType<T>>
+
+    /**
+     * Group by UserFirebase.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserFirebaseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserFirebaseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserFirebaseGroupByArgs['orderBy'] }
+        : { orderBy?: UserFirebaseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserFirebaseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserFirebaseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserFirebase.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__UserFirebaseClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+
+    parties<T extends UserFirebase$partiesArgs= {}>(args?: Subset<T, UserFirebase$partiesArgs>): Prisma.PrismaPromise<Array<PartyGetPayload<T>>| Null>;
+
+    partyMembers<T extends UserFirebase$partyMembersArgs= {}>(args?: Subset<T, UserFirebase$partyMembersArgs>): Prisma.PrismaPromise<Array<PartyMemberGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserFirebase base type for findUnique actions
+   */
+  export type UserFirebaseFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * Filter, which UserFirebase to fetch.
+     */
+    where: UserFirebaseWhereUniqueInput
+  }
+
+  /**
+   * UserFirebase findUnique
+   */
+  export interface UserFirebaseFindUniqueArgs extends UserFirebaseFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserFirebase findUniqueOrThrow
+   */
+  export type UserFirebaseFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * Filter, which UserFirebase to fetch.
+     */
+    where: UserFirebaseWhereUniqueInput
+  }
+
+
+  /**
+   * UserFirebase base type for findFirst actions
+   */
+  export type UserFirebaseFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * Filter, which UserFirebase to fetch.
+     */
+    where?: UserFirebaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFirebases to fetch.
+     */
+    orderBy?: Enumerable<UserFirebaseOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserFirebases.
+     */
+    cursor?: UserFirebaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFirebases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFirebases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserFirebases.
+     */
+    distinct?: Enumerable<UserFirebaseScalarFieldEnum>
+  }
+
+  /**
+   * UserFirebase findFirst
+   */
+  export interface UserFirebaseFindFirstArgs extends UserFirebaseFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * UserFirebase findFirstOrThrow
+   */
+  export type UserFirebaseFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * Filter, which UserFirebase to fetch.
+     */
+    where?: UserFirebaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFirebases to fetch.
+     */
+    orderBy?: Enumerable<UserFirebaseOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserFirebases.
+     */
+    cursor?: UserFirebaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFirebases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFirebases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserFirebases.
+     */
+    distinct?: Enumerable<UserFirebaseScalarFieldEnum>
+  }
+
+
+  /**
+   * UserFirebase findMany
+   */
+  export type UserFirebaseFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * Filter, which UserFirebases to fetch.
+     */
+    where?: UserFirebaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserFirebases to fetch.
+     */
+    orderBy?: Enumerable<UserFirebaseOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserFirebases.
+     */
+    cursor?: UserFirebaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserFirebases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserFirebases.
+     */
+    skip?: number
+    distinct?: Enumerable<UserFirebaseScalarFieldEnum>
+  }
+
+
+  /**
+   * UserFirebase create
+   */
+  export type UserFirebaseCreateArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * The data needed to create a UserFirebase.
+     */
+    data: XOR<UserFirebaseCreateInput, UserFirebaseUncheckedCreateInput>
+  }
+
+
+  /**
+   * UserFirebase createMany
+   */
+  export type UserFirebaseCreateManyArgs = {
+    /**
+     * The data used to create many UserFirebases.
+     */
+    data: Enumerable<UserFirebaseCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * UserFirebase update
+   */
+  export type UserFirebaseUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * The data needed to update a UserFirebase.
+     */
+    data: XOR<UserFirebaseUpdateInput, UserFirebaseUncheckedUpdateInput>
+    /**
+     * Choose, which UserFirebase to update.
+     */
+    where: UserFirebaseWhereUniqueInput
+  }
+
+
+  /**
+   * UserFirebase updateMany
+   */
+  export type UserFirebaseUpdateManyArgs = {
+    /**
+     * The data used to update UserFirebases.
+     */
+    data: XOR<UserFirebaseUpdateManyMutationInput, UserFirebaseUncheckedUpdateManyInput>
+    /**
+     * Filter which UserFirebases to update
+     */
+    where?: UserFirebaseWhereInput
+  }
+
+
+  /**
+   * UserFirebase upsert
+   */
+  export type UserFirebaseUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * The filter to search for the UserFirebase to update in case it exists.
+     */
+    where: UserFirebaseWhereUniqueInput
+    /**
+     * In case the UserFirebase found by the `where` argument doesn't exist, create a new UserFirebase with this data.
+     */
+    create: XOR<UserFirebaseCreateInput, UserFirebaseUncheckedCreateInput>
+    /**
+     * In case the UserFirebase was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserFirebaseUpdateInput, UserFirebaseUncheckedUpdateInput>
+  }
+
+
+  /**
+   * UserFirebase delete
+   */
+  export type UserFirebaseDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+    /**
+     * Filter which UserFirebase to delete.
+     */
+    where: UserFirebaseWhereUniqueInput
+  }
+
+
+  /**
+   * UserFirebase deleteMany
+   */
+  export type UserFirebaseDeleteManyArgs = {
+    /**
+     * Filter which UserFirebases to delete
+     */
+    where?: UserFirebaseWhereInput
+  }
+
+
+  /**
+   * UserFirebase.parties
+   */
+  export type UserFirebase$partiesArgs = {
+    /**
+     * Select specific fields to fetch from the Party
+     */
+    select?: PartySelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PartyInclude | null
+    where?: PartyWhereInput
+    orderBy?: Enumerable<PartyOrderByWithRelationInput>
+    cursor?: PartyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PartyScalarFieldEnum>
+  }
+
+
+  /**
+   * UserFirebase.partyMembers
+   */
+  export type UserFirebase$partyMembersArgs = {
+    /**
+     * Select specific fields to fetch from the PartyMember
+     */
+    select?: PartyMemberSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PartyMemberInclude | null
+    where?: PartyMemberWhereInput
+    orderBy?: Enumerable<PartyMemberOrderByWithRelationInput>
+    cursor?: PartyMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<PartyMemberScalarFieldEnum>
+  }
+
+
+  /**
+   * UserFirebase without action
+   */
+  export type UserFirebaseArgs = {
+    /**
+     * Select specific fields to fetch from the UserFirebase
+     */
+    select?: UserFirebaseSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: UserFirebaseInclude | null
+  }
+
+
+
+  /**
    * Model User
    */
 
@@ -1183,7 +2229,7 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: number | null
     name: string | null
-    email: string | null
+    userFirebaseEmail: string | null
     profileImage: string | null
     coverImage: string | null
     tel: string | null
@@ -1195,7 +2241,7 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: number | null
     name: string | null
-    email: string | null
+    userFirebaseEmail: string | null
     profileImage: string | null
     coverImage: string | null
     tel: string | null
@@ -1207,7 +2253,7 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     name: number
-    email: number
+    userFirebaseEmail: number
     profileImage: number
     coverImage: number
     tel: number
@@ -1229,7 +2275,7 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
-    email?: true
+    userFirebaseEmail?: true
     profileImage?: true
     coverImage?: true
     tel?: true
@@ -1241,7 +2287,7 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
-    email?: true
+    userFirebaseEmail?: true
     profileImage?: true
     coverImage?: true
     tel?: true
@@ -1253,7 +2299,7 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
-    email?: true
+    userFirebaseEmail?: true
     profileImage?: true
     coverImage?: true
     tel?: true
@@ -1353,7 +2399,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: number
     name: string
-    email: string
+    userFirebaseEmail: string
     profileImage: string | null
     coverImage: string | null
     tel: string | null
@@ -1384,23 +2430,19 @@ export namespace Prisma {
   export type UserSelect = {
     id?: boolean
     name?: boolean
-    email?: boolean
+    userFirebaseEmail?: boolean
     profileImage?: boolean
     coverImage?: boolean
     tel?: boolean
     bio?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    parties?: boolean | User$partiesArgs
-    partyMembers?: boolean | User$partyMembersArgs
-    _count?: boolean | UserCountOutputTypeArgs
+    email?: boolean | UserFirebaseArgs
   }
 
 
   export type UserInclude = {
-    parties?: boolean | User$partiesArgs
-    partyMembers?: boolean | User$partyMembersArgs
-    _count?: boolean | UserCountOutputTypeArgs
+    email?: boolean | UserFirebaseArgs
   }
 
   export type UserGetPayload<S extends boolean | null | undefined | UserArgs> =
@@ -1410,16 +2452,12 @@ export namespace Prisma {
     S extends { include: any } & (UserArgs | UserFindManyArgs)
     ? User  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'parties' ? Array < PartyGetPayload<S['include'][P]>>  :
-        P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['include'][P]>>  :
-        P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
+        P extends 'email' ? UserFirebaseGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'parties' ? Array < PartyGetPayload<S['select'][P]>>  :
-        P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['select'][P]>>  :
-        P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
+        P extends 'email' ? UserFirebaseGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
 
@@ -1791,9 +2829,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    parties<T extends User$partiesArgs= {}>(args?: Subset<T, User$partiesArgs>): Prisma.PrismaPromise<Array<PartyGetPayload<T>>| Null>;
-
-    partyMembers<T extends User$partyMembersArgs= {}>(args?: Subset<T, User$partyMembersArgs>): Prisma.PrismaPromise<Array<PartyMemberGetPayload<T>>| Null>;
+    email<T extends UserFirebaseArgs= {}>(args?: Subset<T, UserFirebaseArgs>): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -2151,48 +3187,6 @@ export namespace Prisma {
 
 
   /**
-   * User.parties
-   */
-  export type User$partiesArgs = {
-    /**
-     * Select specific fields to fetch from the Party
-     */
-    select?: PartySelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PartyInclude | null
-    where?: PartyWhereInput
-    orderBy?: Enumerable<PartyOrderByWithRelationInput>
-    cursor?: PartyWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<PartyScalarFieldEnum>
-  }
-
-
-  /**
-   * User.partyMembers
-   */
-  export type User$partyMembersArgs = {
-    /**
-     * Select specific fields to fetch from the PartyMember
-     */
-    select?: PartyMemberSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PartyMemberInclude | null
-    where?: PartyMemberWhereInput
-    orderBy?: Enumerable<PartyMemberOrderByWithRelationInput>
-    cursor?: PartyMemberWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<PartyMemberScalarFieldEnum>
-  }
-
-
-  /**
    * User without action
    */
   export type UserArgs = {
@@ -2223,20 +3217,18 @@ export namespace Prisma {
 
   export type PartyAvgAggregateOutputType = {
     id: number | null
-    userId: number | null
     shabuShopTableId: number | null
   }
 
   export type PartySumAggregateOutputType = {
     id: number | null
-    userId: number | null
     shabuShopTableId: number | null
   }
 
   export type PartyMinAggregateOutputType = {
     id: number | null
     name: string | null
-    userId: number | null
+    userFirebaseEmail: string | null
     shabuShopTableId: number | null
     startDateTime: Date | null
     endDateTime: Date | null
@@ -2251,7 +3243,7 @@ export namespace Prisma {
   export type PartyMaxAggregateOutputType = {
     id: number | null
     name: string | null
-    userId: number | null
+    userFirebaseEmail: string | null
     shabuShopTableId: number | null
     startDateTime: Date | null
     endDateTime: Date | null
@@ -2266,7 +3258,7 @@ export namespace Prisma {
   export type PartyCountAggregateOutputType = {
     id: number
     name: number
-    userId: number
+    userFirebaseEmail: number
     shabuShopTableId: number
     startDateTime: number
     endDateTime: number
@@ -2282,20 +3274,18 @@ export namespace Prisma {
 
   export type PartyAvgAggregateInputType = {
     id?: true
-    userId?: true
     shabuShopTableId?: true
   }
 
   export type PartySumAggregateInputType = {
     id?: true
-    userId?: true
     shabuShopTableId?: true
   }
 
   export type PartyMinAggregateInputType = {
     id?: true
     name?: true
-    userId?: true
+    userFirebaseEmail?: true
     shabuShopTableId?: true
     startDateTime?: true
     endDateTime?: true
@@ -2310,7 +3300,7 @@ export namespace Prisma {
   export type PartyMaxAggregateInputType = {
     id?: true
     name?: true
-    userId?: true
+    userFirebaseEmail?: true
     shabuShopTableId?: true
     startDateTime?: true
     endDateTime?: true
@@ -2325,7 +3315,7 @@ export namespace Prisma {
   export type PartyCountAggregateInputType = {
     id?: true
     name?: true
-    userId?: true
+    userFirebaseEmail?: true
     shabuShopTableId?: true
     startDateTime?: true
     endDateTime?: true
@@ -2428,7 +3418,7 @@ export namespace Prisma {
   export type PartyGroupByOutputType = {
     id: number
     name: string
-    userId: number
+    userFirebaseEmail: string
     shabuShopTableId: number
     startDateTime: Date
     endDateTime: Date
@@ -2462,7 +3452,7 @@ export namespace Prisma {
   export type PartySelect = {
     id?: boolean
     name?: boolean
-    userId?: boolean
+    userFirebaseEmail?: boolean
     shabuShopTableId?: boolean
     startDateTime?: boolean
     endDateTime?: boolean
@@ -2472,7 +3462,7 @@ export namespace Prisma {
     isFull?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    createByUserId?: boolean | UserArgs
+    createByUserFirebaseEmail?: boolean | UserFirebaseArgs
     table?: boolean | ShabuShopTableArgs
     partyMembers?: boolean | Party$partyMembersArgs
     _count?: boolean | PartyCountOutputTypeArgs
@@ -2480,7 +3470,7 @@ export namespace Prisma {
 
 
   export type PartyInclude = {
-    createByUserId?: boolean | UserArgs
+    createByUserFirebaseEmail?: boolean | UserFirebaseArgs
     table?: boolean | ShabuShopTableArgs
     partyMembers?: boolean | Party$partyMembersArgs
     _count?: boolean | PartyCountOutputTypeArgs
@@ -2493,7 +3483,7 @@ export namespace Prisma {
     S extends { include: any } & (PartyArgs | PartyFindManyArgs)
     ? Party  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'createByUserId' ? UserGetPayload<S['include'][P]> :
+        P extends 'createByUserFirebaseEmail' ? UserFirebaseGetPayload<S['include'][P]> :
         P extends 'table' ? ShabuShopTableGetPayload<S['include'][P]> :
         P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['include'][P]>>  :
         P extends '_count' ? PartyCountOutputTypeGetPayload<S['include'][P]> :  never
@@ -2501,7 +3491,7 @@ export namespace Prisma {
     : S extends { select: any } & (PartyArgs | PartyFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'createByUserId' ? UserGetPayload<S['select'][P]> :
+        P extends 'createByUserFirebaseEmail' ? UserFirebaseGetPayload<S['select'][P]> :
         P extends 'table' ? ShabuShopTableGetPayload<S['select'][P]> :
         P extends 'partyMembers' ? Array < PartyMemberGetPayload<S['select'][P]>>  :
         P extends '_count' ? PartyCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Party ? Party[P] : never
@@ -2876,7 +3866,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    createByUserId<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+    createByUserFirebaseEmail<T extends UserFirebaseArgs= {}>(args?: Subset<T, UserFirebaseArgs>): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T> | Null>;
 
     table<T extends ShabuShopTableArgs= {}>(args?: Subset<T, ShabuShopTableArgs>): Prisma__ShabuShopTableClient<ShabuShopTableGetPayload<T> | Null>;
 
@@ -3290,19 +4280,17 @@ export namespace Prisma {
   export type PartyMemberAvgAggregateOutputType = {
     id: number | null
     partyId: number | null
-    userId: number | null
   }
 
   export type PartyMemberSumAggregateOutputType = {
     id: number | null
     partyId: number | null
-    userId: number | null
   }
 
   export type PartyMemberMinAggregateOutputType = {
     id: number | null
     partyId: number | null
-    userId: number | null
+    userFirebaseEmail: string | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3311,7 +4299,7 @@ export namespace Prisma {
   export type PartyMemberMaxAggregateOutputType = {
     id: number | null
     partyId: number | null
-    userId: number | null
+    userFirebaseEmail: string | null
     status: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3320,7 +4308,7 @@ export namespace Prisma {
   export type PartyMemberCountAggregateOutputType = {
     id: number
     partyId: number
-    userId: number
+    userFirebaseEmail: number
     status: number
     createdAt: number
     updatedAt: number
@@ -3331,19 +4319,17 @@ export namespace Prisma {
   export type PartyMemberAvgAggregateInputType = {
     id?: true
     partyId?: true
-    userId?: true
   }
 
   export type PartyMemberSumAggregateInputType = {
     id?: true
     partyId?: true
-    userId?: true
   }
 
   export type PartyMemberMinAggregateInputType = {
     id?: true
     partyId?: true
-    userId?: true
+    userFirebaseEmail?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3352,7 +4338,7 @@ export namespace Prisma {
   export type PartyMemberMaxAggregateInputType = {
     id?: true
     partyId?: true
-    userId?: true
+    userFirebaseEmail?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3361,7 +4347,7 @@ export namespace Prisma {
   export type PartyMemberCountAggregateInputType = {
     id?: true
     partyId?: true
-    userId?: true
+    userFirebaseEmail?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -3458,7 +4444,7 @@ export namespace Prisma {
   export type PartyMemberGroupByOutputType = {
     id: number
     partyId: number
-    userId: number
+    userFirebaseEmail: string
     status: string
     createdAt: Date
     updatedAt: Date
@@ -3486,18 +4472,18 @@ export namespace Prisma {
   export type PartyMemberSelect = {
     id?: boolean
     partyId?: boolean
-    userId?: boolean
+    userFirebaseEmail?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     party?: boolean | PartyArgs
-    user?: boolean | UserArgs
+    userFirebase?: boolean | UserFirebaseArgs
   }
 
 
   export type PartyMemberInclude = {
     party?: boolean | PartyArgs
-    user?: boolean | UserArgs
+    userFirebase?: boolean | UserFirebaseArgs
   }
 
   export type PartyMemberGetPayload<S extends boolean | null | undefined | PartyMemberArgs> =
@@ -3508,13 +4494,13 @@ export namespace Prisma {
     ? PartyMember  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'party' ? PartyGetPayload<S['include'][P]> :
-        P extends 'user' ? UserGetPayload<S['include'][P]> :  never
+        P extends 'userFirebase' ? UserFirebaseGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (PartyMemberArgs | PartyMemberFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'party' ? PartyGetPayload<S['select'][P]> :
-        P extends 'user' ? UserGetPayload<S['select'][P]> :  P extends keyof PartyMember ? PartyMember[P] : never
+        P extends 'userFirebase' ? UserFirebaseGetPayload<S['select'][P]> :  P extends keyof PartyMember ? PartyMember[P] : never
   } 
       : PartyMember
 
@@ -3888,7 +4874,7 @@ export namespace Prisma {
 
     party<T extends PartyArgs= {}>(args?: Subset<T, PartyArgs>): Prisma__PartyClient<PartyGetPayload<T> | Null>;
 
-    user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
+    userFirebase<T extends UserFirebaseArgs= {}>(args?: Subset<T, UserFirebaseArgs>): Prisma__UserFirebaseClient<UserFirebaseGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -5297,7 +6283,7 @@ export namespace Prisma {
     openTime: number | null
     closeTime: number | null
     latitude: number | null
-    longtitude: number | null
+    longitude: number | null
   }
 
   export type ShabuShopBranchSumAggregateOutputType = {
@@ -5306,7 +6292,7 @@ export namespace Prisma {
     openTime: number | null
     closeTime: number | null
     latitude: number | null
-    longtitude: number | null
+    longitude: number | null
   }
 
   export type ShabuShopBranchMinAggregateOutputType = {
@@ -5319,7 +6305,7 @@ export namespace Prisma {
     openTime: number | null
     closeTime: number | null
     latitude: number | null
-    longtitude: number | null
+    longitude: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5334,7 +6320,7 @@ export namespace Prisma {
     openTime: number | null
     closeTime: number | null
     latitude: number | null
-    longtitude: number | null
+    longitude: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5349,7 +6335,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5362,7 +6348,7 @@ export namespace Prisma {
     openTime?: true
     closeTime?: true
     latitude?: true
-    longtitude?: true
+    longitude?: true
   }
 
   export type ShabuShopBranchSumAggregateInputType = {
@@ -5371,7 +6357,7 @@ export namespace Prisma {
     openTime?: true
     closeTime?: true
     latitude?: true
-    longtitude?: true
+    longitude?: true
   }
 
   export type ShabuShopBranchMinAggregateInputType = {
@@ -5384,7 +6370,7 @@ export namespace Prisma {
     openTime?: true
     closeTime?: true
     latitude?: true
-    longtitude?: true
+    longitude?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5399,7 +6385,7 @@ export namespace Prisma {
     openTime?: true
     closeTime?: true
     latitude?: true
-    longtitude?: true
+    longitude?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5414,7 +6400,7 @@ export namespace Prisma {
     openTime?: true
     closeTime?: true
     latitude?: true
-    longtitude?: true
+    longitude?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5517,7 +6503,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt: Date
     updatedAt: Date
     _count: ShabuShopBranchCountAggregateOutputType | null
@@ -5551,7 +6537,7 @@ export namespace Prisma {
     openTime?: boolean
     closeTime?: boolean
     latitude?: boolean
-    longtitude?: boolean
+    longitude?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     shabuShop?: boolean | ShabuShopArgs
@@ -8333,7 +9319,7 @@ export namespace Prisma {
   export const PartyMemberScalarFieldEnum: {
     id: 'id',
     partyId: 'partyId',
-    userId: 'userId',
+    userFirebaseEmail: 'userFirebaseEmail',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -8345,7 +9331,7 @@ export namespace Prisma {
   export const PartyScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    userId: 'userId',
+    userFirebaseEmail: 'userFirebaseEmail',
     shabuShopTableId: 'shabuShopTableId',
     startDateTime: 'startDateTime',
     endDateTime: 'endDateTime',
@@ -8389,7 +9375,7 @@ export namespace Prisma {
     openTime: 'openTime',
     closeTime: 'closeTime',
     latitude: 'latitude',
-    longtitude: 'longtitude',
+    longitude: 'longitude',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8437,10 +9423,21 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const UserFirebaseScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    uid: 'uid',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserFirebaseScalarFieldEnum = (typeof UserFirebaseScalarFieldEnum)[keyof typeof UserFirebaseScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    email: 'email',
+    userFirebaseEmail: 'userFirebaseEmail',
     profileImage: 'profileImage',
     coverImage: 'coverImage',
     tel: 'tel',
@@ -8457,46 +9454,99 @@ export namespace Prisma {
    */
 
 
+  export type UserFirebaseWhereInput = {
+    AND?: Enumerable<UserFirebaseWhereInput>
+    OR?: Enumerable<UserFirebaseWhereInput>
+    NOT?: Enumerable<UserFirebaseWhereInput>
+    id?: IntFilter | number
+    email?: StringFilter | string
+    uid?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput> | null
+    parties?: PartyListRelationFilter
+    partyMembers?: PartyMemberListRelationFilter
+  }
+
+  export type UserFirebaseOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    uid?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    parties?: PartyOrderByRelationAggregateInput
+    partyMembers?: PartyMemberOrderByRelationAggregateInput
+  }
+
+  export type UserFirebaseWhereUniqueInput = {
+    id?: number
+    email?: string
+    uid?: string
+  }
+
+  export type UserFirebaseOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    uid?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserFirebaseCountOrderByAggregateInput
+    _avg?: UserFirebaseAvgOrderByAggregateInput
+    _max?: UserFirebaseMaxOrderByAggregateInput
+    _min?: UserFirebaseMinOrderByAggregateInput
+    _sum?: UserFirebaseSumOrderByAggregateInput
+  }
+
+  export type UserFirebaseScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<UserFirebaseScalarWhereWithAggregatesInput>
+    OR?: Enumerable<UserFirebaseScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<UserFirebaseScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    email?: StringWithAggregatesFilter | string
+    uid?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
   export type UserWhereInput = {
     AND?: Enumerable<UserWhereInput>
     OR?: Enumerable<UserWhereInput>
     NOT?: Enumerable<UserWhereInput>
     id?: IntFilter | number
     name?: StringFilter | string
-    email?: StringFilter | string
+    userFirebaseEmail?: StringFilter | string
     profileImage?: StringNullableFilter | string | null
     coverImage?: StringNullableFilter | string | null
     tel?: StringNullableFilter | string | null
     bio?: StringNullableFilter | string | null
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    parties?: PartyListRelationFilter
-    partyMembers?: PartyMemberListRelationFilter
+    email?: XOR<UserFirebaseRelationFilter, UserFirebaseWhereInput>
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
+    userFirebaseEmail?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
     bio?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    parties?: PartyOrderByRelationAggregateInput
-    partyMembers?: PartyMemberOrderByRelationAggregateInput
+    email?: UserFirebaseOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = {
     id?: number
-    email?: string
+    userFirebaseEmail?: string
   }
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    email?: SortOrder
+    userFirebaseEmail?: SortOrder
     profileImage?: SortOrder
     coverImage?: SortOrder
     tel?: SortOrder
@@ -8516,7 +9566,7 @@ export namespace Prisma {
     NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     name?: StringWithAggregatesFilter | string
-    email?: StringWithAggregatesFilter | string
+    userFirebaseEmail?: StringWithAggregatesFilter | string
     profileImage?: StringNullableWithAggregatesFilter | string | null
     coverImage?: StringNullableWithAggregatesFilter | string | null
     tel?: StringNullableWithAggregatesFilter | string | null
@@ -8531,7 +9581,7 @@ export namespace Prisma {
     NOT?: Enumerable<PartyWhereInput>
     id?: IntFilter | number
     name?: StringFilter | string
-    userId?: IntFilter | number
+    userFirebaseEmail?: StringFilter | string
     shabuShopTableId?: IntFilter | number
     startDateTime?: DateTimeFilter | Date | string
     endDateTime?: DateTimeFilter | Date | string
@@ -8541,7 +9591,7 @@ export namespace Prisma {
     isFull?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    createByUserId?: XOR<UserRelationFilter, UserWhereInput>
+    createByUserFirebaseEmail?: XOR<UserFirebaseRelationFilter, UserFirebaseWhereInput>
     table?: XOR<ShabuShopTableRelationFilter, ShabuShopTableWhereInput>
     partyMembers?: PartyMemberListRelationFilter
   }
@@ -8549,7 +9599,7 @@ export namespace Prisma {
   export type PartyOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     shabuShopTableId?: SortOrder
     startDateTime?: SortOrder
     endDateTime?: SortOrder
@@ -8559,7 +9609,7 @@ export namespace Prisma {
     isFull?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    createByUserId?: UserOrderByWithRelationInput
+    createByUserFirebaseEmail?: UserFirebaseOrderByWithRelationInput
     table?: ShabuShopTableOrderByWithRelationInput
     partyMembers?: PartyMemberOrderByRelationAggregateInput
   }
@@ -8571,7 +9621,7 @@ export namespace Prisma {
   export type PartyOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     shabuShopTableId?: SortOrder
     startDateTime?: SortOrder
     endDateTime?: SortOrder
@@ -8594,7 +9644,7 @@ export namespace Prisma {
     NOT?: Enumerable<PartyScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     name?: StringWithAggregatesFilter | string
-    userId?: IntWithAggregatesFilter | number
+    userFirebaseEmail?: StringWithAggregatesFilter | string
     shabuShopTableId?: IntWithAggregatesFilter | number
     startDateTime?: DateTimeWithAggregatesFilter | Date | string
     endDateTime?: DateTimeWithAggregatesFilter | Date | string
@@ -8612,23 +9662,23 @@ export namespace Prisma {
     NOT?: Enumerable<PartyMemberWhereInput>
     id?: IntFilter | number
     partyId?: IntFilter | number
-    userId?: IntFilter | number
+    userFirebaseEmail?: StringFilter | string
     status?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     party?: XOR<PartyRelationFilter, PartyWhereInput>
-    user?: XOR<UserRelationFilter, UserWhereInput>
+    userFirebase?: XOR<UserFirebaseRelationFilter, UserFirebaseWhereInput>
   }
 
   export type PartyMemberOrderByWithRelationInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     party?: PartyOrderByWithRelationInput
-    user?: UserOrderByWithRelationInput
+    userFirebase?: UserFirebaseOrderByWithRelationInput
   }
 
   export type PartyMemberWhereUniqueInput = {
@@ -8638,7 +9688,7 @@ export namespace Prisma {
   export type PartyMemberOrderByWithAggregationInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8655,7 +9705,7 @@ export namespace Prisma {
     NOT?: Enumerable<PartyMemberScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     partyId?: IntWithAggregatesFilter | number
-    userId?: IntWithAggregatesFilter | number
+    userFirebaseEmail?: StringWithAggregatesFilter | string
     status?: StringWithAggregatesFilter | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
@@ -8726,7 +9776,7 @@ export namespace Prisma {
     openTime?: IntFilter | number
     closeTime?: IntFilter | number
     latitude?: FloatFilter | number
-    longtitude?: FloatFilter | number
+    longitude?: FloatFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     shabuShop?: XOR<ShabuShopRelationFilter, ShabuShopWhereInput>
@@ -8743,7 +9793,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     shabuShop?: ShabuShopOrderByWithRelationInput
@@ -8764,7 +9814,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ShabuShopBranchCountOrderByAggregateInput
@@ -8787,7 +9837,7 @@ export namespace Prisma {
     openTime?: IntWithAggregatesFilter | number
     closeTime?: IntWithAggregatesFilter | number
     latitude?: FloatWithAggregatesFilter | number
-    longtitude?: FloatWithAggregatesFilter | number
+    longitude?: FloatWithAggregatesFilter | number
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -8892,64 +9942,121 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
+  export type UserFirebaseCreateInput = {
+    email: string
+    uid: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutEmailInput
+    parties?: PartyCreateNestedManyWithoutCreateByUserFirebaseEmailInput
+    partyMembers?: PartyMemberCreateNestedManyWithoutUserFirebaseInput
+  }
+
+  export type UserFirebaseUncheckedCreateInput = {
+    id?: number
+    email: string
+    uid: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserUncheckedCreateNestedOneWithoutEmailInput
+    parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserFirebaseEmailInput
+    partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserFirebaseInput
+  }
+
+  export type UserFirebaseUpdateInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    uid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutEmailNestedInput
+    parties?: PartyUpdateManyWithoutCreateByUserFirebaseEmailNestedInput
+    partyMembers?: PartyMemberUpdateManyWithoutUserFirebaseNestedInput
+  }
+
+  export type UserFirebaseUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    uid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUncheckedUpdateOneWithoutEmailNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutCreateByUserFirebaseEmailNestedInput
+    partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserFirebaseNestedInput
+  }
+
+  export type UserFirebaseCreateManyInput = {
+    id?: number
+    email: string
+    uid: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserFirebaseUpdateManyMutationInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    uid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserFirebaseUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    uid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateInput = {
     name: string
-    email: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    parties?: PartyCreateNestedManyWithoutCreateByUserIdInput
-    partyMembers?: PartyMemberCreateNestedManyWithoutUserInput
+    email: UserFirebaseCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: number
     name: string
-    email: string
+    userFirebaseEmail: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
     bio?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserIdInput
-    partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parties?: PartyUpdateManyWithoutCreateByUserIdNestedInput
-    partyMembers?: PartyMemberUpdateManyWithoutUserNestedInput
+    email?: UserFirebaseUpdateOneRequiredWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parties?: PartyUncheckedUpdateManyWithoutCreateByUserIdNestedInput
-    partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: number
     name: string
-    email: string
+    userFirebaseEmail: string
     profileImage?: string | null
     coverImage?: string | null
     tel?: string | null
@@ -8960,7 +10067,6 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8972,7 +10078,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     profileImage?: NullableStringFieldUpdateOperationsInput | string | null
     coverImage?: NullableStringFieldUpdateOperationsInput | string | null
     tel?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8991,7 +10097,7 @@ export namespace Prisma {
     isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    createByUserId: UserCreateNestedOneWithoutPartiesInput
+    createByUserFirebaseEmail: UserFirebaseCreateNestedOneWithoutPartiesInput
     table: ShabuShopTableCreateNestedOneWithoutPartiesInput
     partyMembers?: PartyMemberCreateNestedManyWithoutPartyInput
   }
@@ -8999,7 +10105,7 @@ export namespace Prisma {
   export type PartyUncheckedCreateInput = {
     id?: number
     name: string
-    userId: number
+    userFirebaseEmail: string
     shabuShopTableId: number
     startDateTime: Date | string
     endDateTime: Date | string
@@ -9022,7 +10128,7 @@ export namespace Prisma {
     isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createByUserId?: UserUpdateOneRequiredWithoutPartiesNestedInput
+    createByUserFirebaseEmail?: UserFirebaseUpdateOneRequiredWithoutPartiesNestedInput
     table?: ShabuShopTableUpdateOneRequiredWithoutPartiesNestedInput
     partyMembers?: PartyMemberUpdateManyWithoutPartyNestedInput
   }
@@ -9030,7 +10136,7 @@ export namespace Prisma {
   export type PartyUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     shabuShopTableId?: IntFieldUpdateOperationsInput | number
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9046,7 +10152,7 @@ export namespace Prisma {
   export type PartyCreateManyInput = {
     id?: number
     name: string
-    userId: number
+    userFirebaseEmail: string
     shabuShopTableId: number
     startDateTime: Date | string
     endDateTime: Date | string
@@ -9073,7 +10179,7 @@ export namespace Prisma {
   export type PartyUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     shabuShopTableId?: IntFieldUpdateOperationsInput | number
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9090,13 +10196,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     party: PartyCreateNestedOneWithoutPartyMembersInput
-    user: UserCreateNestedOneWithoutPartyMembersInput
+    userFirebase: UserFirebaseCreateNestedOneWithoutPartyMembersInput
   }
 
   export type PartyMemberUncheckedCreateInput = {
     id?: number
     partyId: number
-    userId: number
+    userFirebaseEmail: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9107,13 +10213,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     party?: PartyUpdateOneRequiredWithoutPartyMembersNestedInput
-    user?: UserUpdateOneRequiredWithoutPartyMembersNestedInput
+    userFirebase?: UserFirebaseUpdateOneRequiredWithoutPartyMembersNestedInput
   }
 
   export type PartyMemberUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     partyId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9122,7 +10228,7 @@ export namespace Prisma {
   export type PartyMemberCreateManyInput = {
     id?: number
     partyId: number
-    userId: number
+    userFirebaseEmail: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9137,7 +10243,7 @@ export namespace Prisma {
   export type PartyMemberUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     partyId?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9212,7 +10318,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShop: ShabuShopCreateNestedOneWithoutShabuShopBranchsInput
@@ -9229,7 +10335,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShopTables?: ShabuShopTableUncheckedCreateNestedManyWithoutBranchInput
@@ -9243,7 +10349,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShop?: ShabuShopUpdateOneRequiredWithoutShabuShopBranchsNestedInput
@@ -9260,7 +10366,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShopTables?: ShabuShopTableUncheckedUpdateManyWithoutBranchNestedInput
@@ -9276,7 +10382,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9289,7 +10395,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9304,7 +10410,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9443,21 +10549,6 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
-  export type StringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    mode?: QueryMode
-    not?: NestedStringNullableFilter | string | null
-  }
-
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -9467,6 +10558,11 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type PartyListRelationFilter = {
@@ -9489,47 +10585,35 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type UserCountOrderByAggregateInput = {
+  export type UserFirebaseCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
-    profileImage?: SortOrder
-    coverImage?: SortOrder
-    tel?: SortOrder
-    bio?: SortOrder
+    uid?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserAvgOrderByAggregateInput = {
+  export type UserFirebaseAvgOrderByAggregateInput = {
     id?: SortOrder
   }
 
-  export type UserMaxOrderByAggregateInput = {
+  export type UserFirebaseMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
-    profileImage?: SortOrder
-    coverImage?: SortOrder
-    tel?: SortOrder
-    bio?: SortOrder
+    uid?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserMinOrderByAggregateInput = {
+  export type UserFirebaseMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     email?: SortOrder
-    profileImage?: SortOrder
-    coverImage?: SortOrder
-    tel?: SortOrder
-    bio?: SortOrder
+    uid?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type UserSumOrderByAggregateInput = {
+  export type UserFirebaseSumOrderByAggregateInput = {
     id?: SortOrder
   }
 
@@ -9567,6 +10651,84 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type UserFirebaseRelationFilter = {
+    is?: UserFirebaseWhereInput
+    isNot?: UserFirebaseWhereInput
+  }
+
+  export type UserCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userFirebaseEmail?: SortOrder
+    profileImage?: SortOrder
+    coverImage?: SortOrder
+    tel?: SortOrder
+    bio?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type UserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userFirebaseEmail?: SortOrder
+    profileImage?: SortOrder
+    coverImage?: SortOrder
+    tel?: SortOrder
+    bio?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    userFirebaseEmail?: SortOrder
+    profileImage?: SortOrder
+    coverImage?: SortOrder
+    tel?: SortOrder
+    bio?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type StringNullableWithAggregatesFilter = {
     equals?: string | null
     in?: Enumerable<string> | null
@@ -9585,28 +10747,9 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
   export type BoolFilter = {
     equals?: boolean
     not?: NestedBoolFilter | boolean
-  }
-
-  export type UserRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
   }
 
   export type ShabuShopTableRelationFilter = {
@@ -9617,7 +10760,7 @@ export namespace Prisma {
   export type PartyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     shabuShopTableId?: SortOrder
     startDateTime?: SortOrder
     endDateTime?: SortOrder
@@ -9631,14 +10774,13 @@ export namespace Prisma {
 
   export type PartyAvgOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     shabuShopTableId?: SortOrder
   }
 
   export type PartyMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     shabuShopTableId?: SortOrder
     startDateTime?: SortOrder
     endDateTime?: SortOrder
@@ -9653,7 +10795,7 @@ export namespace Prisma {
   export type PartyMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     shabuShopTableId?: SortOrder
     startDateTime?: SortOrder
     endDateTime?: SortOrder
@@ -9667,7 +10809,6 @@ export namespace Prisma {
 
   export type PartySumOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     shabuShopTableId?: SortOrder
   }
 
@@ -9687,7 +10828,7 @@ export namespace Prisma {
   export type PartyMemberCountOrderByAggregateInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9696,13 +10837,12 @@ export namespace Prisma {
   export type PartyMemberAvgOrderByAggregateInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
   }
 
   export type PartyMemberMaxOrderByAggregateInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9711,7 +10851,7 @@ export namespace Prisma {
   export type PartyMemberMinOrderByAggregateInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
+    userFirebaseEmail?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9720,7 +10860,6 @@ export namespace Prisma {
   export type PartyMemberSumOrderByAggregateInput = {
     id?: SortOrder
     partyId?: SortOrder
-    userId?: SortOrder
   }
 
   export type ShabuShopBranchListRelationFilter = {
@@ -9811,7 +10950,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9822,7 +10961,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type ShabuShopBranchMaxOrderByAggregateInput = {
@@ -9835,7 +10974,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9850,7 +10989,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9861,7 +11000,7 @@ export namespace Prisma {
     openTime?: SortOrder
     closeTime?: SortOrder
     latitude?: SortOrder
-    longtitude?: SortOrder
+    longitude?: SortOrder
   }
 
   export type FloatWithAggregatesFilter = {
@@ -9955,31 +11094,43 @@ export namespace Prisma {
     shabuShopId?: SortOrder
   }
 
-  export type PartyCreateNestedManyWithoutCreateByUserIdInput = {
-    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserIdInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserIdInput>>
-    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserIdInput>
-    createMany?: PartyCreateManyCreateByUserIdInputEnvelope
+  export type UserCreateNestedOneWithoutEmailInput = {
+    create?: XOR<UserCreateWithoutEmailInput, UserUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PartyCreateNestedManyWithoutCreateByUserFirebaseEmailInput = {
+    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserFirebaseEmailInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput>>
+    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserFirebaseEmailInput>
+    createMany?: PartyCreateManyCreateByUserFirebaseEmailInputEnvelope
     connect?: Enumerable<PartyWhereUniqueInput>
   }
 
-  export type PartyMemberCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<PartyMemberCreateWithoutUserInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserInput>
-    createMany?: PartyMemberCreateManyUserInputEnvelope
+  export type PartyMemberCreateNestedManyWithoutUserFirebaseInput = {
+    create?: XOR<Enumerable<PartyMemberCreateWithoutUserFirebaseInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserFirebaseInput>>
+    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserFirebaseInput>
+    createMany?: PartyMemberCreateManyUserFirebaseInputEnvelope
     connect?: Enumerable<PartyMemberWhereUniqueInput>
   }
 
-  export type PartyUncheckedCreateNestedManyWithoutCreateByUserIdInput = {
-    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserIdInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserIdInput>>
-    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserIdInput>
-    createMany?: PartyCreateManyCreateByUserIdInputEnvelope
+  export type UserUncheckedCreateNestedOneWithoutEmailInput = {
+    create?: XOR<UserCreateWithoutEmailInput, UserUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PartyUncheckedCreateNestedManyWithoutCreateByUserFirebaseEmailInput = {
+    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserFirebaseEmailInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput>>
+    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserFirebaseEmailInput>
+    createMany?: PartyCreateManyCreateByUserFirebaseEmailInputEnvelope
     connect?: Enumerable<PartyWhereUniqueInput>
   }
 
-  export type PartyMemberUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<Enumerable<PartyMemberCreateWithoutUserInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserInput>
-    createMany?: PartyMemberCreateManyUserInputEnvelope
+  export type PartyMemberUncheckedCreateNestedManyWithoutUserFirebaseInput = {
+    create?: XOR<Enumerable<PartyMemberCreateWithoutUserFirebaseInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserFirebaseInput>>
+    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserFirebaseInput>
+    createMany?: PartyMemberCreateManyUserFirebaseInputEnvelope
     connect?: Enumerable<PartyMemberWhereUniqueInput>
   }
 
@@ -9987,39 +11138,45 @@ export namespace Prisma {
     set?: string
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type PartyUpdateManyWithoutCreateByUserIdNestedInput = {
-    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserIdInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserIdInput>>
-    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserIdInput>
-    upsert?: Enumerable<PartyUpsertWithWhereUniqueWithoutCreateByUserIdInput>
-    createMany?: PartyCreateManyCreateByUserIdInputEnvelope
+  export type UserUpdateOneWithoutEmailNestedInput = {
+    create?: XOR<UserCreateWithoutEmailInput, UserUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailInput
+    upsert?: UserUpsertWithoutEmailInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutEmailInput, UserUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type PartyUpdateManyWithoutCreateByUserFirebaseEmailNestedInput = {
+    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserFirebaseEmailInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput>>
+    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserFirebaseEmailInput>
+    upsert?: Enumerable<PartyUpsertWithWhereUniqueWithoutCreateByUserFirebaseEmailInput>
+    createMany?: PartyCreateManyCreateByUserFirebaseEmailInputEnvelope
     set?: Enumerable<PartyWhereUniqueInput>
     disconnect?: Enumerable<PartyWhereUniqueInput>
     delete?: Enumerable<PartyWhereUniqueInput>
     connect?: Enumerable<PartyWhereUniqueInput>
-    update?: Enumerable<PartyUpdateWithWhereUniqueWithoutCreateByUserIdInput>
-    updateMany?: Enumerable<PartyUpdateManyWithWhereWithoutCreateByUserIdInput>
+    update?: Enumerable<PartyUpdateWithWhereUniqueWithoutCreateByUserFirebaseEmailInput>
+    updateMany?: Enumerable<PartyUpdateManyWithWhereWithoutCreateByUserFirebaseEmailInput>
     deleteMany?: Enumerable<PartyScalarWhereInput>
   }
 
-  export type PartyMemberUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<PartyMemberCreateWithoutUserInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<PartyMemberUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: PartyMemberCreateManyUserInputEnvelope
+  export type PartyMemberUpdateManyWithoutUserFirebaseNestedInput = {
+    create?: XOR<Enumerable<PartyMemberCreateWithoutUserFirebaseInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserFirebaseInput>>
+    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserFirebaseInput>
+    upsert?: Enumerable<PartyMemberUpsertWithWhereUniqueWithoutUserFirebaseInput>
+    createMany?: PartyMemberCreateManyUserFirebaseInputEnvelope
     set?: Enumerable<PartyMemberWhereUniqueInput>
     disconnect?: Enumerable<PartyMemberWhereUniqueInput>
     delete?: Enumerable<PartyMemberWhereUniqueInput>
     connect?: Enumerable<PartyMemberWhereUniqueInput>
-    update?: Enumerable<PartyMemberUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<PartyMemberUpdateManyWithWhereWithoutUserInput>
+    update?: Enumerable<PartyMemberUpdateWithWhereUniqueWithoutUserFirebaseInput>
+    updateMany?: Enumerable<PartyMemberUpdateManyWithWhereWithoutUserFirebaseInput>
     deleteMany?: Enumerable<PartyMemberScalarWhereInput>
   }
 
@@ -10031,38 +11188,66 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type PartyUncheckedUpdateManyWithoutCreateByUserIdNestedInput = {
-    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserIdInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserIdInput>>
-    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserIdInput>
-    upsert?: Enumerable<PartyUpsertWithWhereUniqueWithoutCreateByUserIdInput>
-    createMany?: PartyCreateManyCreateByUserIdInputEnvelope
+  export type UserUncheckedUpdateOneWithoutEmailNestedInput = {
+    create?: XOR<UserCreateWithoutEmailInput, UserUncheckedCreateWithoutEmailInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailInput
+    upsert?: UserUpsertWithoutEmailInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutEmailInput, UserUncheckedUpdateWithoutEmailInput>
+  }
+
+  export type PartyUncheckedUpdateManyWithoutCreateByUserFirebaseEmailNestedInput = {
+    create?: XOR<Enumerable<PartyCreateWithoutCreateByUserFirebaseEmailInput>, Enumerable<PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput>>
+    connectOrCreate?: Enumerable<PartyCreateOrConnectWithoutCreateByUserFirebaseEmailInput>
+    upsert?: Enumerable<PartyUpsertWithWhereUniqueWithoutCreateByUserFirebaseEmailInput>
+    createMany?: PartyCreateManyCreateByUserFirebaseEmailInputEnvelope
     set?: Enumerable<PartyWhereUniqueInput>
     disconnect?: Enumerable<PartyWhereUniqueInput>
     delete?: Enumerable<PartyWhereUniqueInput>
     connect?: Enumerable<PartyWhereUniqueInput>
-    update?: Enumerable<PartyUpdateWithWhereUniqueWithoutCreateByUserIdInput>
-    updateMany?: Enumerable<PartyUpdateManyWithWhereWithoutCreateByUserIdInput>
+    update?: Enumerable<PartyUpdateWithWhereUniqueWithoutCreateByUserFirebaseEmailInput>
+    updateMany?: Enumerable<PartyUpdateManyWithWhereWithoutCreateByUserFirebaseEmailInput>
     deleteMany?: Enumerable<PartyScalarWhereInput>
   }
 
-  export type PartyMemberUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<Enumerable<PartyMemberCreateWithoutUserInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserInput>>
-    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserInput>
-    upsert?: Enumerable<PartyMemberUpsertWithWhereUniqueWithoutUserInput>
-    createMany?: PartyMemberCreateManyUserInputEnvelope
+  export type PartyMemberUncheckedUpdateManyWithoutUserFirebaseNestedInput = {
+    create?: XOR<Enumerable<PartyMemberCreateWithoutUserFirebaseInput>, Enumerable<PartyMemberUncheckedCreateWithoutUserFirebaseInput>>
+    connectOrCreate?: Enumerable<PartyMemberCreateOrConnectWithoutUserFirebaseInput>
+    upsert?: Enumerable<PartyMemberUpsertWithWhereUniqueWithoutUserFirebaseInput>
+    createMany?: PartyMemberCreateManyUserFirebaseInputEnvelope
     set?: Enumerable<PartyMemberWhereUniqueInput>
     disconnect?: Enumerable<PartyMemberWhereUniqueInput>
     delete?: Enumerable<PartyMemberWhereUniqueInput>
     connect?: Enumerable<PartyMemberWhereUniqueInput>
-    update?: Enumerable<PartyMemberUpdateWithWhereUniqueWithoutUserInput>
-    updateMany?: Enumerable<PartyMemberUpdateManyWithWhereWithoutUserInput>
+    update?: Enumerable<PartyMemberUpdateWithWhereUniqueWithoutUserFirebaseInput>
+    updateMany?: Enumerable<PartyMemberUpdateManyWithWhereWithoutUserFirebaseInput>
     deleteMany?: Enumerable<PartyMemberScalarWhereInput>
   }
 
-  export type UserCreateNestedOneWithoutPartiesInput = {
-    create?: XOR<UserCreateWithoutPartiesInput, UserUncheckedCreateWithoutPartiesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPartiesInput
-    connect?: UserWhereUniqueInput
+  export type UserFirebaseCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserFirebaseCreateWithoutUserInput, UserFirebaseUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserFirebaseCreateOrConnectWithoutUserInput
+    connect?: UserFirebaseWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type UserFirebaseUpdateOneRequiredWithoutUserNestedInput = {
+    create?: XOR<UserFirebaseCreateWithoutUserInput, UserFirebaseUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserFirebaseCreateOrConnectWithoutUserInput
+    upsert?: UserFirebaseUpsertWithoutUserInput
+    connect?: UserFirebaseWhereUniqueInput
+    update?: XOR<UserFirebaseUpdateWithoutUserInput, UserFirebaseUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserFirebaseCreateNestedOneWithoutPartiesInput = {
+    create?: XOR<UserFirebaseCreateWithoutPartiesInput, UserFirebaseUncheckedCreateWithoutPartiesInput>
+    connectOrCreate?: UserFirebaseCreateOrConnectWithoutPartiesInput
+    connect?: UserFirebaseWhereUniqueInput
   }
 
   export type ShabuShopTableCreateNestedOneWithoutPartiesInput = {
@@ -10089,12 +11274,12 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type UserUpdateOneRequiredWithoutPartiesNestedInput = {
-    create?: XOR<UserCreateWithoutPartiesInput, UserUncheckedCreateWithoutPartiesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPartiesInput
-    upsert?: UserUpsertWithoutPartiesInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutPartiesInput, UserUncheckedUpdateWithoutPartiesInput>
+  export type UserFirebaseUpdateOneRequiredWithoutPartiesNestedInput = {
+    create?: XOR<UserFirebaseCreateWithoutPartiesInput, UserFirebaseUncheckedCreateWithoutPartiesInput>
+    connectOrCreate?: UserFirebaseCreateOrConnectWithoutPartiesInput
+    upsert?: UserFirebaseUpsertWithoutPartiesInput
+    connect?: UserFirebaseWhereUniqueInput
+    update?: XOR<UserFirebaseUpdateWithoutPartiesInput, UserFirebaseUncheckedUpdateWithoutPartiesInput>
   }
 
   export type ShabuShopTableUpdateOneRequiredWithoutPartiesNestedInput = {
@@ -10139,10 +11324,10 @@ export namespace Prisma {
     connect?: PartyWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutPartyMembersInput = {
-    create?: XOR<UserCreateWithoutPartyMembersInput, UserUncheckedCreateWithoutPartyMembersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPartyMembersInput
-    connect?: UserWhereUniqueInput
+  export type UserFirebaseCreateNestedOneWithoutPartyMembersInput = {
+    create?: XOR<UserFirebaseCreateWithoutPartyMembersInput, UserFirebaseUncheckedCreateWithoutPartyMembersInput>
+    connectOrCreate?: UserFirebaseCreateOrConnectWithoutPartyMembersInput
+    connect?: UserFirebaseWhereUniqueInput
   }
 
   export type PartyUpdateOneRequiredWithoutPartyMembersNestedInput = {
@@ -10153,12 +11338,12 @@ export namespace Prisma {
     update?: XOR<PartyUpdateWithoutPartyMembersInput, PartyUncheckedUpdateWithoutPartyMembersInput>
   }
 
-  export type UserUpdateOneRequiredWithoutPartyMembersNestedInput = {
-    create?: XOR<UserCreateWithoutPartyMembersInput, UserUncheckedCreateWithoutPartyMembersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPartyMembersInput
-    upsert?: UserUpsertWithoutPartyMembersInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutPartyMembersInput, UserUncheckedUpdateWithoutPartyMembersInput>
+  export type UserFirebaseUpdateOneRequiredWithoutPartyMembersNestedInput = {
+    create?: XOR<UserFirebaseCreateWithoutPartyMembersInput, UserFirebaseUncheckedCreateWithoutPartyMembersInput>
+    connectOrCreate?: UserFirebaseCreateOrConnectWithoutPartyMembersInput
+    upsert?: UserFirebaseUpsertWithoutPartyMembersInput
+    connect?: UserFirebaseWhereUniqueInput
+    update?: XOR<UserFirebaseUpdateWithoutPartyMembersInput, UserFirebaseUncheckedUpdateWithoutPartyMembersInput>
   }
 
   export type ShabuShopBranchCreateNestedManyWithoutShabuShopInput = {
@@ -10404,20 +11589,6 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
-  export type NestedStringNullableFilter = {
-    equals?: string | null
-    in?: Enumerable<string> | null
-    notIn?: Enumerable<string> | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringNullableFilter | string | null
-  }
-
   export type NestedDateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -10473,6 +11644,34 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter = {
     equals?: string | null
     in?: Enumerable<string> | null
@@ -10499,20 +11698,6 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedIntNullableFilter | number | null
-  }
-
-  export type NestedDateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
   }
 
   export type NestedBoolFilter = {
@@ -10544,7 +11729,33 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
-  export type PartyCreateWithoutCreateByUserIdInput = {
+  export type UserCreateWithoutEmailInput = {
+    name: string
+    profileImage?: string | null
+    coverImage?: string | null
+    tel?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserUncheckedCreateWithoutEmailInput = {
+    id?: number
+    name: string
+    profileImage?: string | null
+    coverImage?: string | null
+    tel?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutEmailInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEmailInput, UserUncheckedCreateWithoutEmailInput>
+  }
+
+  export type PartyCreateWithoutCreateByUserFirebaseEmailInput = {
     name: string
     startDateTime: Date | string
     endDateTime: Date | string
@@ -10558,7 +11769,7 @@ export namespace Prisma {
     partyMembers?: PartyMemberCreateNestedManyWithoutPartyInput
   }
 
-  export type PartyUncheckedCreateWithoutCreateByUserIdInput = {
+  export type PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput = {
     id?: number
     name: string
     shabuShopTableId: number
@@ -10573,24 +11784,24 @@ export namespace Prisma {
     partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutPartyInput
   }
 
-  export type PartyCreateOrConnectWithoutCreateByUserIdInput = {
+  export type PartyCreateOrConnectWithoutCreateByUserFirebaseEmailInput = {
     where: PartyWhereUniqueInput
-    create: XOR<PartyCreateWithoutCreateByUserIdInput, PartyUncheckedCreateWithoutCreateByUserIdInput>
+    create: XOR<PartyCreateWithoutCreateByUserFirebaseEmailInput, PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput>
   }
 
-  export type PartyCreateManyCreateByUserIdInputEnvelope = {
-    data: Enumerable<PartyCreateManyCreateByUserIdInput>
+  export type PartyCreateManyCreateByUserFirebaseEmailInputEnvelope = {
+    data: Enumerable<PartyCreateManyCreateByUserFirebaseEmailInput>
     skipDuplicates?: boolean
   }
 
-  export type PartyMemberCreateWithoutUserInput = {
+  export type PartyMemberCreateWithoutUserFirebaseInput = {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
     party: PartyCreateNestedOneWithoutPartyMembersInput
   }
 
-  export type PartyMemberUncheckedCreateWithoutUserInput = {
+  export type PartyMemberUncheckedCreateWithoutUserFirebaseInput = {
     id?: number
     partyId: number
     status?: string
@@ -10598,28 +11809,54 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type PartyMemberCreateOrConnectWithoutUserInput = {
+  export type PartyMemberCreateOrConnectWithoutUserFirebaseInput = {
     where: PartyMemberWhereUniqueInput
-    create: XOR<PartyMemberCreateWithoutUserInput, PartyMemberUncheckedCreateWithoutUserInput>
+    create: XOR<PartyMemberCreateWithoutUserFirebaseInput, PartyMemberUncheckedCreateWithoutUserFirebaseInput>
   }
 
-  export type PartyMemberCreateManyUserInputEnvelope = {
-    data: Enumerable<PartyMemberCreateManyUserInput>
+  export type PartyMemberCreateManyUserFirebaseInputEnvelope = {
+    data: Enumerable<PartyMemberCreateManyUserFirebaseInput>
     skipDuplicates?: boolean
   }
 
-  export type PartyUpsertWithWhereUniqueWithoutCreateByUserIdInput = {
-    where: PartyWhereUniqueInput
-    update: XOR<PartyUpdateWithoutCreateByUserIdInput, PartyUncheckedUpdateWithoutCreateByUserIdInput>
-    create: XOR<PartyCreateWithoutCreateByUserIdInput, PartyUncheckedCreateWithoutCreateByUserIdInput>
+  export type UserUpsertWithoutEmailInput = {
+    update: XOR<UserUpdateWithoutEmailInput, UserUncheckedUpdateWithoutEmailInput>
+    create: XOR<UserCreateWithoutEmailInput, UserUncheckedCreateWithoutEmailInput>
   }
 
-  export type PartyUpdateWithWhereUniqueWithoutCreateByUserIdInput = {
-    where: PartyWhereUniqueInput
-    data: XOR<PartyUpdateWithoutCreateByUserIdInput, PartyUncheckedUpdateWithoutCreateByUserIdInput>
+  export type UserUpdateWithoutEmailInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    tel?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PartyUpdateManyWithWhereWithoutCreateByUserIdInput = {
+  export type UserUncheckedUpdateWithoutEmailInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    tel?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartyUpsertWithWhereUniqueWithoutCreateByUserFirebaseEmailInput = {
+    where: PartyWhereUniqueInput
+    update: XOR<PartyUpdateWithoutCreateByUserFirebaseEmailInput, PartyUncheckedUpdateWithoutCreateByUserFirebaseEmailInput>
+    create: XOR<PartyCreateWithoutCreateByUserFirebaseEmailInput, PartyUncheckedCreateWithoutCreateByUserFirebaseEmailInput>
+  }
+
+  export type PartyUpdateWithWhereUniqueWithoutCreateByUserFirebaseEmailInput = {
+    where: PartyWhereUniqueInput
+    data: XOR<PartyUpdateWithoutCreateByUserFirebaseEmailInput, PartyUncheckedUpdateWithoutCreateByUserFirebaseEmailInput>
+  }
+
+  export type PartyUpdateManyWithWhereWithoutCreateByUserFirebaseEmailInput = {
     where: PartyScalarWhereInput
     data: XOR<PartyUpdateManyMutationInput, PartyUncheckedUpdateManyWithoutPartiesInput>
   }
@@ -10630,7 +11867,7 @@ export namespace Prisma {
     NOT?: Enumerable<PartyScalarWhereInput>
     id?: IntFilter | number
     name?: StringFilter | string
-    userId?: IntFilter | number
+    userFirebaseEmail?: StringFilter | string
     shabuShopTableId?: IntFilter | number
     startDateTime?: DateTimeFilter | Date | string
     endDateTime?: DateTimeFilter | Date | string
@@ -10642,18 +11879,18 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter | Date | string
   }
 
-  export type PartyMemberUpsertWithWhereUniqueWithoutUserInput = {
+  export type PartyMemberUpsertWithWhereUniqueWithoutUserFirebaseInput = {
     where: PartyMemberWhereUniqueInput
-    update: XOR<PartyMemberUpdateWithoutUserInput, PartyMemberUncheckedUpdateWithoutUserInput>
-    create: XOR<PartyMemberCreateWithoutUserInput, PartyMemberUncheckedCreateWithoutUserInput>
+    update: XOR<PartyMemberUpdateWithoutUserFirebaseInput, PartyMemberUncheckedUpdateWithoutUserFirebaseInput>
+    create: XOR<PartyMemberCreateWithoutUserFirebaseInput, PartyMemberUncheckedCreateWithoutUserFirebaseInput>
   }
 
-  export type PartyMemberUpdateWithWhereUniqueWithoutUserInput = {
+  export type PartyMemberUpdateWithWhereUniqueWithoutUserFirebaseInput = {
     where: PartyMemberWhereUniqueInput
-    data: XOR<PartyMemberUpdateWithoutUserInput, PartyMemberUncheckedUpdateWithoutUserInput>
+    data: XOR<PartyMemberUpdateWithoutUserFirebaseInput, PartyMemberUncheckedUpdateWithoutUserFirebaseInput>
   }
 
-  export type PartyMemberUpdateManyWithWhereWithoutUserInput = {
+  export type PartyMemberUpdateManyWithWhereWithoutUserFirebaseInput = {
     where: PartyMemberScalarWhereInput
     data: XOR<PartyMemberUpdateManyMutationInput, PartyMemberUncheckedUpdateManyWithoutPartyMembersInput>
   }
@@ -10664,40 +11901,82 @@ export namespace Prisma {
     NOT?: Enumerable<PartyMemberScalarWhereInput>
     id?: IntFilter | number
     partyId?: IntFilter | number
-    userId?: IntFilter | number
+    userFirebaseEmail?: StringFilter | string
     status?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
 
-  export type UserCreateWithoutPartiesInput = {
-    name: string
+  export type UserFirebaseCreateWithoutUserInput = {
     email: string
-    profileImage?: string | null
-    coverImage?: string | null
-    tel?: string | null
-    bio?: string | null
+    uid: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    partyMembers?: PartyMemberCreateNestedManyWithoutUserInput
+    parties?: PartyCreateNestedManyWithoutCreateByUserFirebaseEmailInput
+    partyMembers?: PartyMemberCreateNestedManyWithoutUserFirebaseInput
   }
 
-  export type UserUncheckedCreateWithoutPartiesInput = {
+  export type UserFirebaseUncheckedCreateWithoutUserInput = {
     id?: number
-    name: string
     email: string
-    profileImage?: string | null
-    coverImage?: string | null
-    tel?: string | null
-    bio?: string | null
+    uid: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserInput
+    parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserFirebaseEmailInput
+    partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserFirebaseInput
   }
 
-  export type UserCreateOrConnectWithoutPartiesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPartiesInput, UserUncheckedCreateWithoutPartiesInput>
+  export type UserFirebaseCreateOrConnectWithoutUserInput = {
+    where: UserFirebaseWhereUniqueInput
+    create: XOR<UserFirebaseCreateWithoutUserInput, UserFirebaseUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserFirebaseUpsertWithoutUserInput = {
+    update: XOR<UserFirebaseUpdateWithoutUserInput, UserFirebaseUncheckedUpdateWithoutUserInput>
+    create: XOR<UserFirebaseCreateWithoutUserInput, UserFirebaseUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserFirebaseUpdateWithoutUserInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    uid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parties?: PartyUpdateManyWithoutCreateByUserFirebaseEmailNestedInput
+    partyMembers?: PartyMemberUpdateManyWithoutUserFirebaseNestedInput
+  }
+
+  export type UserFirebaseUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    uid?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parties?: PartyUncheckedUpdateManyWithoutCreateByUserFirebaseEmailNestedInput
+    partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserFirebaseNestedInput
+  }
+
+  export type UserFirebaseCreateWithoutPartiesInput = {
+    email: string
+    uid: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutEmailInput
+    partyMembers?: PartyMemberCreateNestedManyWithoutUserFirebaseInput
+  }
+
+  export type UserFirebaseUncheckedCreateWithoutPartiesInput = {
+    id?: number
+    email: string
+    uid: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserUncheckedCreateNestedOneWithoutEmailInput
+    partyMembers?: PartyMemberUncheckedCreateNestedManyWithoutUserFirebaseInput
+  }
+
+  export type UserFirebaseCreateOrConnectWithoutPartiesInput = {
+    where: UserFirebaseWhereUniqueInput
+    create: XOR<UserFirebaseCreateWithoutPartiesInput, UserFirebaseUncheckedCreateWithoutPartiesInput>
   }
 
   export type ShabuShopTableCreateWithoutPartiesInput = {
@@ -10724,12 +12003,12 @@ export namespace Prisma {
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutPartyMembersInput
+    userFirebase: UserFirebaseCreateNestedOneWithoutPartyMembersInput
   }
 
   export type PartyMemberUncheckedCreateWithoutPartyInput = {
     id?: number
-    userId: number
+    userFirebaseEmail: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10745,34 +12024,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutPartiesInput = {
-    update: XOR<UserUpdateWithoutPartiesInput, UserUncheckedUpdateWithoutPartiesInput>
-    create: XOR<UserCreateWithoutPartiesInput, UserUncheckedCreateWithoutPartiesInput>
+  export type UserFirebaseUpsertWithoutPartiesInput = {
+    update: XOR<UserFirebaseUpdateWithoutPartiesInput, UserFirebaseUncheckedUpdateWithoutPartiesInput>
+    create: XOR<UserFirebaseCreateWithoutPartiesInput, UserFirebaseUncheckedCreateWithoutPartiesInput>
   }
 
-  export type UserUpdateWithoutPartiesInput = {
-    name?: StringFieldUpdateOperationsInput | string
+  export type UserFirebaseUpdateWithoutPartiesInput = {
     email?: StringFieldUpdateOperationsInput | string
-    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    tel?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    uid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    partyMembers?: PartyMemberUpdateManyWithoutUserNestedInput
+    user?: UserUpdateOneWithoutEmailNestedInput
+    partyMembers?: PartyMemberUpdateManyWithoutUserFirebaseNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutPartiesInput = {
+  export type UserFirebaseUncheckedUpdateWithoutPartiesInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    tel?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    uid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserNestedInput
+    user?: UserUncheckedUpdateOneWithoutEmailNestedInput
+    partyMembers?: PartyMemberUncheckedUpdateManyWithoutUserFirebaseNestedInput
   }
 
   export type ShabuShopTableUpsertWithoutPartiesInput = {
@@ -10821,14 +12094,14 @@ export namespace Prisma {
     isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    createByUserId: UserCreateNestedOneWithoutPartiesInput
+    createByUserFirebaseEmail: UserFirebaseCreateNestedOneWithoutPartiesInput
     table: ShabuShopTableCreateNestedOneWithoutPartiesInput
   }
 
   export type PartyUncheckedCreateWithoutPartyMembersInput = {
     id?: number
     name: string
-    userId: number
+    userFirebaseEmail: string
     shabuShopTableId: number
     startDateTime: Date | string
     endDateTime: Date | string
@@ -10845,34 +12118,28 @@ export namespace Prisma {
     create: XOR<PartyCreateWithoutPartyMembersInput, PartyUncheckedCreateWithoutPartyMembersInput>
   }
 
-  export type UserCreateWithoutPartyMembersInput = {
-    name: string
+  export type UserFirebaseCreateWithoutPartyMembersInput = {
     email: string
-    profileImage?: string | null
-    coverImage?: string | null
-    tel?: string | null
-    bio?: string | null
+    uid: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    parties?: PartyCreateNestedManyWithoutCreateByUserIdInput
+    user?: UserCreateNestedOneWithoutEmailInput
+    parties?: PartyCreateNestedManyWithoutCreateByUserFirebaseEmailInput
   }
 
-  export type UserUncheckedCreateWithoutPartyMembersInput = {
+  export type UserFirebaseUncheckedCreateWithoutPartyMembersInput = {
     id?: number
-    name: string
     email: string
-    profileImage?: string | null
-    coverImage?: string | null
-    tel?: string | null
-    bio?: string | null
+    uid: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserIdInput
+    user?: UserUncheckedCreateNestedOneWithoutEmailInput
+    parties?: PartyUncheckedCreateNestedManyWithoutCreateByUserFirebaseEmailInput
   }
 
-  export type UserCreateOrConnectWithoutPartyMembersInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPartyMembersInput, UserUncheckedCreateWithoutPartyMembersInput>
+  export type UserFirebaseCreateOrConnectWithoutPartyMembersInput = {
+    where: UserFirebaseWhereUniqueInput
+    create: XOR<UserFirebaseCreateWithoutPartyMembersInput, UserFirebaseUncheckedCreateWithoutPartyMembersInput>
   }
 
   export type PartyUpsertWithoutPartyMembersInput = {
@@ -10890,14 +12157,14 @@ export namespace Prisma {
     isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createByUserId?: UserUpdateOneRequiredWithoutPartiesNestedInput
+    createByUserFirebaseEmail?: UserFirebaseUpdateOneRequiredWithoutPartiesNestedInput
     table?: ShabuShopTableUpdateOneRequiredWithoutPartiesNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutPartyMembersInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     shabuShopTableId?: IntFieldUpdateOperationsInput | number
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10909,34 +12176,28 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserUpsertWithoutPartyMembersInput = {
-    update: XOR<UserUpdateWithoutPartyMembersInput, UserUncheckedUpdateWithoutPartyMembersInput>
-    create: XOR<UserCreateWithoutPartyMembersInput, UserUncheckedCreateWithoutPartyMembersInput>
+  export type UserFirebaseUpsertWithoutPartyMembersInput = {
+    update: XOR<UserFirebaseUpdateWithoutPartyMembersInput, UserFirebaseUncheckedUpdateWithoutPartyMembersInput>
+    create: XOR<UserFirebaseCreateWithoutPartyMembersInput, UserFirebaseUncheckedCreateWithoutPartyMembersInput>
   }
 
-  export type UserUpdateWithoutPartyMembersInput = {
-    name?: StringFieldUpdateOperationsInput | string
+  export type UserFirebaseUpdateWithoutPartyMembersInput = {
     email?: StringFieldUpdateOperationsInput | string
-    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    tel?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    uid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parties?: PartyUpdateManyWithoutCreateByUserIdNestedInput
+    user?: UserUpdateOneWithoutEmailNestedInput
+    parties?: PartyUpdateManyWithoutCreateByUserFirebaseEmailNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutPartyMembersInput = {
+  export type UserFirebaseUncheckedUpdateWithoutPartyMembersInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    profileImage?: NullableStringFieldUpdateOperationsInput | string | null
-    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
-    tel?: NullableStringFieldUpdateOperationsInput | string | null
-    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    uid?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    parties?: PartyUncheckedUpdateManyWithoutCreateByUserIdNestedInput
+    user?: UserUncheckedUpdateOneWithoutEmailNestedInput
+    parties?: PartyUncheckedUpdateManyWithoutCreateByUserFirebaseEmailNestedInput
   }
 
   export type ShabuShopBranchCreateWithoutShabuShopInput = {
@@ -10947,7 +12208,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShopTables?: ShabuShopTableCreateNestedManyWithoutBranchInput
@@ -10962,7 +12223,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShopTables?: ShabuShopTableUncheckedCreateNestedManyWithoutBranchInput
@@ -11030,7 +12291,7 @@ export namespace Prisma {
     openTime?: IntFilter | number
     closeTime?: IntFilter | number
     latitude?: FloatFilter | number
-    longtitude?: FloatFilter | number
+    longitude?: FloatFilter | number
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -11166,7 +12427,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
     shabuShop: ShabuShopCreateNestedOneWithoutShabuShopBranchsInput
@@ -11182,7 +12443,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11202,14 +12463,14 @@ export namespace Prisma {
     isFull?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    createByUserId: UserCreateNestedOneWithoutPartiesInput
+    createByUserFirebaseEmail: UserFirebaseCreateNestedOneWithoutPartiesInput
     partyMembers?: PartyMemberCreateNestedManyWithoutPartyInput
   }
 
   export type PartyUncheckedCreateWithoutTableInput = {
     id?: number
     name: string
-    userId: number
+    userFirebaseEmail: string
     startDateTime: Date | string
     endDateTime: Date | string
     partyDetail?: string | null
@@ -11244,7 +12505,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShop?: ShabuShopUpdateOneRequiredWithoutShabuShopBranchsNestedInput
@@ -11260,7 +12521,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11325,7 +12586,7 @@ export namespace Prisma {
     shabuShopBranchs?: ShabuShopBranchUncheckedUpdateManyWithoutShabuShopNestedInput
   }
 
-  export type PartyCreateManyCreateByUserIdInput = {
+  export type PartyCreateManyCreateByUserFirebaseEmailInput = {
     id?: number
     name: string
     shabuShopTableId: number
@@ -11339,7 +12600,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type PartyMemberCreateManyUserInput = {
+  export type PartyMemberCreateManyUserFirebaseInput = {
     id?: number
     partyId: number
     status?: string
@@ -11347,7 +12608,7 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type PartyUpdateWithoutCreateByUserIdInput = {
+  export type PartyUpdateWithoutCreateByUserFirebaseEmailInput = {
     name?: StringFieldUpdateOperationsInput | string
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11361,7 +12622,7 @@ export namespace Prisma {
     partyMembers?: PartyMemberUpdateManyWithoutPartyNestedInput
   }
 
-  export type PartyUncheckedUpdateWithoutCreateByUserIdInput = {
+  export type PartyUncheckedUpdateWithoutCreateByUserFirebaseEmailInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     shabuShopTableId?: IntFieldUpdateOperationsInput | number
@@ -11390,14 +12651,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PartyMemberUpdateWithoutUserInput = {
+  export type PartyMemberUpdateWithoutUserFirebaseInput = {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     party?: PartyUpdateOneRequiredWithoutPartyMembersNestedInput
   }
 
-  export type PartyMemberUncheckedUpdateWithoutUserInput = {
+  export type PartyMemberUncheckedUpdateWithoutUserFirebaseInput = {
     id?: IntFieldUpdateOperationsInput | number
     partyId?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
@@ -11415,7 +12676,7 @@ export namespace Prisma {
 
   export type PartyMemberCreateManyPartyInput = {
     id?: number
-    userId: number
+    userFirebaseEmail: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11425,12 +12686,12 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPartyMembersNestedInput
+    userFirebase?: UserFirebaseUpdateOneRequiredWithoutPartyMembersNestedInput
   }
 
   export type PartyMemberUncheckedUpdateWithoutPartyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11445,7 +12706,7 @@ export namespace Prisma {
     openTime: number
     closeTime: number
     latitude: number
-    longtitude: number
+    longitude: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11465,7 +12726,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShopTables?: ShabuShopTableUpdateManyWithoutBranchNestedInput
@@ -11480,7 +12741,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     shabuShopTables?: ShabuShopTableUncheckedUpdateManyWithoutBranchNestedInput
@@ -11495,7 +12756,7 @@ export namespace Prisma {
     openTime?: IntFieldUpdateOperationsInput | number
     closeTime?: IntFieldUpdateOperationsInput | number
     latitude?: FloatFieldUpdateOperationsInput | number
-    longtitude?: FloatFieldUpdateOperationsInput | number
+    longitude?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11552,7 +12813,7 @@ export namespace Prisma {
   export type PartyCreateManyTableInput = {
     id?: number
     name: string
-    userId: number
+    userFirebaseEmail: string
     startDateTime: Date | string
     endDateTime: Date | string
     partyDetail?: string | null
@@ -11573,14 +12834,14 @@ export namespace Prisma {
     isFull?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createByUserId?: UserUpdateOneRequiredWithoutPartiesNestedInput
+    createByUserFirebaseEmail?: UserFirebaseUpdateOneRequiredWithoutPartiesNestedInput
     partyMembers?: PartyMemberUpdateManyWithoutPartyNestedInput
   }
 
   export type PartyUncheckedUpdateWithoutTableInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
+    userFirebaseEmail?: StringFieldUpdateOperationsInput | string
     startDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
     partyDetail?: NullableStringFieldUpdateOperationsInput | string | null
