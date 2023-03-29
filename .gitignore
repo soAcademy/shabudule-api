@@ -3,3 +3,5 @@ postgres-data
 .env
 yarn-error.log
 serviceAccountKey.json
+(spare)shabuduleBeforeAuth.resolver.ts
+(spare)shabuduleBeforeAuth.spec.ts
