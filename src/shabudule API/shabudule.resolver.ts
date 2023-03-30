@@ -413,7 +413,7 @@ export const getPartyShabudule = async () => {
     include: {
       createByUserFirebaseEmail: true,
       table: { include: { branch: { include: { shabuShop: true } } } },
-      partyMembers: { include: { userFirebase: true } },
+      partyMembers: { include: { userFirebase: { include: { user: true } } } },
     },
     orderBy: {
       startDateTime: "asc",
@@ -444,7 +444,9 @@ export const getMyPartyAuthShabudule = async (
         include: {
           createByUserFirebaseEmail: true,
           table: { include: { branch: { include: { shabuShop: true } } } },
-          partyMembers: { include: { userFirebase: true } },
+          partyMembers: {
+            include: { userFirebase: { include: { user: true } } },
+          },
         },
         orderBy: {
           startDateTime: "asc",
@@ -479,7 +481,9 @@ export const getMyJoinedPartyAuthShabudule = async (
         include: {
           createByUserFirebaseEmail: true,
           table: { include: { branch: { include: { shabuShop: true } } } },
-          partyMembers: { include: { userFirebase: true } },
+          partyMembers: {
+            include: { userFirebase: { include: { user: true } } },
+          },
         },
         orderBy: {
           startDateTime: "asc",
