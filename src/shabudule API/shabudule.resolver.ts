@@ -687,24 +687,61 @@ export const getAvailableSlotsShabudule = async (
   return result;
 };
 
-// export const getMyBookedTimeAuthShabudule = (
-//   args: IGetMyBookedTimeAuthShabudule
-// ) => {
-//   return admin
-//     .auth()
-//     .verifyIdToken(args.idToken)
-//     .then((decodedToken: any) => {
-//       const uid: string = decodedToken.uid;
-//       const email: string = decodedToken.email;
+export const getMyBookedTimeAuthShabudule = async (
+  args: IGetMyBookedTimeAuthShabudule
+) => {
+  return admin
+    .auth()
+    .verifyIdToken(args.idToken)
+    .then(async (decodedToken: any) => {
+      const uid: string = decodedToken.uid;
+      const email: string = decodedToken.email;
 
-//       const parties = prisma.userFirebase.findMany({
-//         where: { email: email },
-//         include: { partyMembers: { include: { party: true } } },
-//       });
+      const inputDate = new Date(args.date);
+      console.log("inputDate", inputDate);
 
-//       console.log("parties", parties);
-//     })
-//     .catch((e: any) => {
-//       console.error(e);
-//     });
-// };
+      const startOfDay = new Date(
+        inputDate.getFullYear(),
+        inputDate.getMonth(),
+        inputDate.getDate(),
+        0,
+        0,
+        0
+      );
+      const endOfDay = new Date(
+        inputDate.getFullYear(),
+        inputDate.getMonth(),
+        inputDate.getDate(),
+        23,
+        59,
+        59
+      );
+      console.log("startOfDay", startOfDay);
+      console.log("endOfDay", endOfDay);
+
+      const parties = await prisma.partyMember.findMany({
+        where: {
+          userFirebaseEmail: email,
+          status: { not: "decline" },
+          party: {
+            AND: [
+              { startDateTime: { lte: endOfDay } },
+              { endDateTime: { gte: startOfDay } },
+              { active: true },
+            ],
+          },
+        },
+        include: { party: true },
+      });
+
+      console.log("parties", parties);
+
+      const alreadyBookStartTime = parties?.map((r) => {
+        return Number(r.party.startDateTime.toISOString().substr(11, 2));
+      });
+      return [...new Set(alreadyBookStartTime)];
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
+};
