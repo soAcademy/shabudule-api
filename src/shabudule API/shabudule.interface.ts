@@ -355,3 +355,10 @@ export const updatePartyStatusAuthShabuduleCodec = t.type({
 
 export interface IUpdatePartyStatusAuthShabudule
   extends t.TypeOf<typeof updatePartyStatusAuthShabuduleCodec> {}
+
+export const getMyBookedTimeAuthShabuduleCodec = t.type({
+  idToken: t.string,
+});
+
+export interface IGetMyBookedTimeAuthShabudule
+  extends t.TypeOf<typeof getMyBookedTimeAuthShabuduleCodec> {}

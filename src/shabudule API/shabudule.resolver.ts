@@ -15,6 +15,7 @@ import {
   IDeletePromotionShabudule,
   IGetAvailableSlotsShabudule,
   IGetBranchShabudule,
+  IGetMyBookedTimeAuthShabudule,
   IGetMyJoinedPartyAuthShabudule,
   IGetMyPartyAuthShabudule,
   IGetUserProfileAuthShabudule,
@@ -580,47 +581,70 @@ export const getAvailableSlotsShabudule = async (
   console.log("startOfDay", startOfDay);
   console.log("endOfDay", endOfDay);
 
-  const partyOnDate = await prisma.shabuShopBranch.findMany({
+  const bookedPartyOnDate = await prisma.shabuShopTable.findMany({
     where: {
-      id: args.branchId,
-      shabuShopTables: {
+      shabuShopBranchId: args.branchId,
+      parties: {
         some: {
-          parties: {
-            some: {
-              AND: [
-                { startDateTime: { lte: endOfDay } },
-                { endDateTime: { gte: startOfDay } },
-              ],
-            },
-          },
+          AND: [
+            { startDateTime: { lte: endOfDay } },
+            { endDateTime: { gte: startOfDay } },
+          ],
         },
       },
     },
     include: {
-      shabuShopTables: {
-        include: {
-          parties: {
-            where: {
-              AND: [
-                { startDateTime: { lte: endOfDay } },
-                { endDateTime: { gte: startOfDay } },
-              ],
-            },
-          },
+      parties: {
+        where: {
+          AND: [
+            { startDateTime: { lte: endOfDay } },
+            { endDateTime: { gte: startOfDay } },
+          ],
         },
       },
     },
   });
 
-  const openTime: any = partyOnDate[0]?.openTime;
-  const closeTime: any = partyOnDate[0]?.closeTime;
-  const shabuShopTables = partyOnDate[0]?.shabuShopTables;
+  const notBookedPartyOnDate = await prisma.shabuShopTable.findMany({
+    where: {
+      shabuShopBranchId: args.branchId,
+      NOT: {
+        parties: {
+          some: {
+            AND: [
+              { startDateTime: { lte: endOfDay } },
+              { endDateTime: { gte: startOfDay } },
+            ],
+          },
+        },
+      },
+    },
+    include: {
+      parties: {
+        where: {
+          AND: [
+            { startDateTime: { lte: endOfDay } },
+            { endDateTime: { gte: startOfDay } },
+          ],
+        },
+      },
+    },
+  });
+
+  const branchDetail = await prisma.shabuShopBranch.findMany({
+    where: { id: args.branchId },
+  });
+
+  const openTime: any = branchDetail[0]?.openTime;
+  const closeTime: any = branchDetail[0]?.closeTime;
+  // const shabuShopTables = partyOnDate[0]?.shabuShopTables;
   console.log("openTime", openTime);
   console.log("closeTime", closeTime);
-  console.log("shabuShopTables", JSON.stringify(shabuShopTables));
-  console.log("partyOnDate", JSON.stringify(partyOnDate));
+  // console.log("shabuShopTables", JSON.stringify(shabuShopTables));
+  console.log("bookedPartyOnDate", JSON.stringify(bookedPartyOnDate));
+  console.log("notNookedPartyOnDate", JSON.stringify(notBookedPartyOnDate));
 
-  const availableSlotEachDesk = shabuShopTables?.map((r) => {
+  const availableSlotBookedDesk = bookedPartyOnDate?.map((r) => {
     const alreadyBookStartTime = r.parties.map((i) =>
       Number(i.startDateTime.toISOString().substr(11, 2))
     );
@@ -643,5 +667,44 @@ export const getAvailableSlotsShabudule = async (
       availableSlot: filteredAvailableSlot,
     };
   });
-  return availableSlotEachDesk;
+
+  const availableSlotNotBookedDesk = notBookedPartyOnDate?.map((r) => {
+    const arr: number[] = [];
+    for (let i: any = openTime; i <= closeTime; i++) {
+      arr.push(i);
+    }
+    console.log("arr", arr);
+
+    return {
+      tableId: r.id,
+      seatPerDesk: r.seatPerDesk,
+      availableSlot: arr,
+    };
+  });
+
+  const result = [...availableSlotBookedDesk, ...availableSlotNotBookedDesk];
+  console.log("result", result);
+  return result;
 };
+
+// export const getMyBookedTimeAuthShabudule = (
+//   args: IGetMyBookedTimeAuthShabudule
+// ) => {
+//   return admin
+//     .auth()
+//     .verifyIdToken(args.idToken)
+//     .then((decodedToken: any) => {
+//       const uid: string = decodedToken.uid;
+//       const email: string = decodedToken.email;
+
+//       const parties = prisma.userFirebase.findMany({
+//         where: { email: email },
+//         include: { partyMembers: { include: { party: true } } },
+//       });
+
+//       console.log("parties", parties);
+//     })
+//     .catch((e: any) => {
+//       console.error(e);
+//     });
+// };
