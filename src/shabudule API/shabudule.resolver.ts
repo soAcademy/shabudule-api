@@ -561,28 +561,64 @@ export const getAvailableSlotsShabudule = async (
   const inputDate = new Date(args.date);
   console.log("inputDate", inputDate);
 
-  const result1 = await prisma.shabuShopBranch.findMany({
+  const startOfDay = new Date(
+    inputDate.getFullYear(),
+    inputDate.getMonth(),
+    inputDate.getDate(),
+    0,
+    0,
+    0
+  );
+  const endOfDay = new Date(
+    inputDate.getFullYear(),
+    inputDate.getMonth(),
+    inputDate.getDate(),
+    23,
+    59,
+    59
+  );
+  console.log("startOfDay", startOfDay);
+  console.log("endOfDay", endOfDay);
+
+  const partyOnDate = await prisma.shabuShopBranch.findMany({
     where: {
       id: args.branchId,
       shabuShopTables: {
-        every: {
+        some: {
           parties: {
-            every: {
-              // startDateTime: { lte: inputDate },
+            some: {
+              AND: [
+                { startDateTime: { lte: endOfDay } },
+                { endDateTime: { gte: startOfDay } },
+              ],
             },
           },
         },
       },
     },
-    include: { shabuShopTables: { include: { parties: true } } },
+    include: {
+      shabuShopTables: {
+        include: {
+          parties: {
+            where: {
+              AND: [
+                { startDateTime: { lte: endOfDay } },
+                { endDateTime: { gte: startOfDay } },
+              ],
+            },
+          },
+        },
+      },
+    },
   });
-  const openTime: any = result1[0]?.openTime;
-  const closeTime: any = result1[0]?.closeTime;
-  const shabuShopTables = result1[0]?.shabuShopTables;
+
+  const openTime: any = partyOnDate[0]?.openTime;
+  const closeTime: any = partyOnDate[0]?.closeTime;
+  const shabuShopTables = partyOnDate[0]?.shabuShopTables;
   console.log("openTime", openTime);
   console.log("closeTime", closeTime);
   console.log("shabuShopTables", JSON.stringify(shabuShopTables));
-  console.log("result1", JSON.stringify(result1));
+  console.log("partyOnDate", JSON.stringify(partyOnDate));
 
   const availableSlotEachDesk = shabuShopTables?.map((r) => {
     const alreadyBookStartTime = r.parties.map((i) =>
@@ -609,7 +645,3 @@ export const getAvailableSlotsShabudule = async (
   });
   return availableSlotEachDesk;
 };
-
-// console.log("dayjs", dayjs());
-// console.log("dayjs", dayjs().format("DD/MM/YYYY"));
-// console.log("dayjs", dayjs(args.date).locale(localeDe).format());

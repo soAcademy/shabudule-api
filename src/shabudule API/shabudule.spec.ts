@@ -308,13 +308,13 @@ describe("Shabudule", () => {
   //   console.log("checkIsFullShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  // test("getAvailableSlotsShabudule", async () => {
-  //   const data = {
-  //     branchId: 2,
-  //     date: "2023-03-29T00:00:00",
-  //   };
-  //   const result = await getAvailableSlotsShabudule(data);
-  //   console.log("getAvailableSlotsShabudule", result);
-  //   // expect(result.name === data.name).toBe(true);
-  // });
+  test("getAvailableSlotsShabudule", async () => {
+    const data = {
+      branchId: 1,
+      date: "2023-04-01T12:59:59.999Z",
+    };
+    const result = await getAvailableSlotsShabudule(data);
+    console.log("getAvailableSlotsShabudule", result);
+    // expect(result.name === data.name).toBe(true);
+  });
 });
