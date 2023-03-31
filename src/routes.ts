@@ -11,6 +11,7 @@ import {
   deletePromotionShabuduleHandler,
   getAvailableSlotsShabuduleHandler,
   getBranchShabuduleHandler,
+  getMyBookedTimeAuthShabuduleHandler,
   getMyJoinedPartyAuthShabuduleHandler,
   getMyPartyAuthShabuduleHandler,
   getPartyShabuduleHandler,
@@ -175,5 +176,10 @@ export const AppRoutes = [
     path: "/function/getUserProfileAuthShabudule",
     method: "post",
     action: getUserProfileAuthShabuduleHandler,
+  },
+  {
+    path: "/function/getMyBookedTimeAuthShabudule",
+    method: "post",
+    action: getMyBookedTimeAuthShabuduleHandler,
   },
 ];

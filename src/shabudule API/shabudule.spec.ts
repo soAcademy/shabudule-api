@@ -11,6 +11,7 @@ import {
   deletePromotionShabudule,
   getAvailableSlotsShabudule,
   getBranchShabudule,
+  getMyBookedTimeAuthShabudule,
   getMyJoinedPartyAuthShabudule,
   getMyPartyAuthShabudule,
   getPartyShabudule,
@@ -308,13 +309,23 @@ describe("Shabudule", () => {
   //   console.log("checkIsFullShabudule", result);
   //   // expect(result.name === data.name).toBe(true);
   // });
-  test("getAvailableSlotsShabudule", async () => {
+  // test("getAvailableSlotsShabudule", async () => {
+  //   const data = {
+  //     branchId: 1,
+  //     date: "2023-04-03T12:59:59.999Z",
+  //   };
+  //   const result = await getAvailableSlotsShabudule(data);
+  //   console.log("getAvailableSlotsShabudule", result);
+  //   // expect(result.name === data.name).toBe(true);
+  // });
+  test("getMyBookedTimeAuthShabudule", async () => {
     const data = {
-      branchId: 1,
-      date: "2023-04-03T12:59:59.999Z",
+      idToken:
+        "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk3OWVkMTU1OTdhYjM1Zjc4MjljZTc0NDMwN2I3OTNiN2ViZWIyZjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hhYnVkdWxlIiwiYXVkIjoic2hhYnVkdWxlIiwiYXV0aF90aW1lIjoxNjgwMjY4MzM2LCJ1c2VyX2lkIjoiUWJOZ3VlTU1waWFHMmduQlF5YTF2Q29CeDQ1MiIsInN1YiI6IlFiTmd1ZU1NcGlhRzJnbkJReWExdkNvQng0NTIiLCJpYXQiOjE2ODAyNjgzMzYsImV4cCI6MTY4MDI3MTkzNiwiZW1haWwiOiJlbWFpbDNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImVtYWlsM0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.JnXiwzZIM45D6Lcx1nQP8_sciqzkenhaCJjcYeTQCu4YlofCmLYdiexRukF50IzIblXcfDqxg8Pe1sMoCLMXj0JURt8X2_6d-yy3KLR276EAiRgDeY1Jkgf4eCJRzOl_grf4qNrSbpkoJJ4CpLHaCq6aiZl5xDEq_y_OHREBqGaJZB5Nu3o2trpeWLHRCspt1SmM_AvuAn2x9D7xM_4D04Vr0b8SWEMw6g6DbRNzmw6XDJwphaa4p9-e4DQdw5tdPCIZUxWmoT4EieCbO4PGxcEfF7PX8V8rzAJAK-HsiH_QWz-ClYviKAsK60GeseOjhqbIjrO7e7CgL_nrBumX7Q",
+      date: "2023-04-24T12:59:59.999Z",
     };
-    const result = await getAvailableSlotsShabudule(data);
-    console.log("getAvailableSlotsShabudule", result);
+    const result = await getMyBookedTimeAuthShabudule(data);
+    console.log("getMyBookedTimeAuthShabudule", JSON.stringify(result));
     // expect(result.name === data.name).toBe(true);
   });
 });

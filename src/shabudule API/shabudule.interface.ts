@@ -358,6 +358,7 @@ export interface IUpdatePartyStatusAuthShabudule
 
 export const getMyBookedTimeAuthShabuduleCodec = t.type({
   idToken: t.string,
+  date: t.string,
 });
 
 export interface IGetMyBookedTimeAuthShabudule

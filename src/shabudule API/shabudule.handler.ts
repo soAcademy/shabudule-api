@@ -12,6 +12,7 @@ import {
   deletePromotionShabuduleCodec,
   getAvailableSlotsShabuduleCodec,
   getBranchShabuduleCodec,
+  getMyBookedTimeAuthShabuduleCodec,
   getMyJoinedPartyAuthShabuduleCodec,
   getMyPartyAuthShabuduleCodec,
   getUserProfileAuthShabuduleCodec,
@@ -40,6 +41,7 @@ import {
   deletePromotionShabudule,
   getAvailableSlotsShabudule,
   getBranchShabudule,
+  getMyBookedTimeAuthShabudule,
   getMyJoinedPartyAuthShabudule,
   getMyPartyAuthShabudule,
   getPartyShabudule,
@@ -545,6 +547,24 @@ export const getUserProfileAuthShabuduleHandler = async (
   if (getUserProfileAuthShabuduleCodec.decode(args)._tag === "Right") {
     try {
       const result = await getUserProfileAuthShabudule(args);
+      res.status(200).json(result);
+    } catch (e) {
+      res.status(500).json({ error: String(e) });
+    }
+  } else {
+    res.status(500).json({ error: "Error invalid codec" });
+  }
+};
+
+export const getMyBookedTimeAuthShabuduleHandler = async (
+  req: Request,
+  res: Response
+) => {
+  const args = req?.body;
+
+  if (getMyBookedTimeAuthShabuduleCodec.decode(args)._tag === "Right") {
+    try {
+      const result = await getMyBookedTimeAuthShabudule(args);
       res.status(200).json(result);
     } catch (e) {
       res.status(500).json({ error: String(e) });
