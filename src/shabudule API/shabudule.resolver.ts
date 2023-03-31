@@ -412,7 +412,7 @@ export const getPartyShabudule = async () => {
       type: "public",
     },
     include: {
-      createByUserFirebaseEmail: true,
+      createByUserFirebaseEmail: { include: { user: true } },
       table: { include: { branch: { include: { shabuShop: true } } } },
       partyMembers: { include: { userFirebase: { include: { user: true } } } },
     },
@@ -443,7 +443,7 @@ export const getMyPartyAuthShabudule = async (
           },
         },
         include: {
-          createByUserFirebaseEmail: true,
+          createByUserFirebaseEmail: { include: { user: true } },
           table: { include: { branch: { include: { shabuShop: true } } } },
           partyMembers: {
             include: { userFirebase: { include: { user: true } } },
@@ -480,7 +480,7 @@ export const getMyJoinedPartyAuthShabudule = async (
           NOT: { userFirebaseEmail: email },
         },
         include: {
-          createByUserFirebaseEmail: true,
+          createByUserFirebaseEmail: { include: { user: true } },
           table: { include: { branch: { include: { shabuShop: true } } } },
           partyMembers: {
             include: { userFirebase: { include: { user: true } } },
