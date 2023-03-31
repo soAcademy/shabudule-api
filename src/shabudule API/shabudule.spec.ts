@@ -311,7 +311,7 @@ describe("Shabudule", () => {
   test("getAvailableSlotsShabudule", async () => {
     const data = {
       branchId: 1,
-      date: "2023-04-01T12:59:59.999Z",
+      date: "2023-04-03T12:59:59.999Z",
     };
     const result = await getAvailableSlotsShabudule(data);
     console.log("getAvailableSlotsShabudule", result);
