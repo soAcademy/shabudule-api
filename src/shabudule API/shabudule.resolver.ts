@@ -405,6 +405,7 @@ export const getPartyShabudule = async () => {
   console.log(currentTime);
   const activeParties = await prisma.party.findMany({
     where: {
+      active: true,
       startDateTime: {
         gt: currentTime,
       },
@@ -435,7 +436,6 @@ export const getMyPartyAuthShabudule = async (
       const activeParties = prisma.party.findMany({
         where: {
           userFirebaseEmail: email,
-          active: true,
           startDateTime: {
             gt: currentTime,
           },
